@@ -257,6 +257,24 @@ Page 0: White text (invisible on white background)
   Color: White (RGB(255, 255, 255))
 ```
 
+## pdf_to_jpg.py
+
+Rasterize every page of one or more PDFs to JPEG files using [PyMuPDF](https://pypi.org/project/PyMuPDF/). Output names are `<original_stem>_<page_number>.jpg` (one-based page index).
+
+From the repository root:
+
+```bash
+uv run python/pdf_to_jpg.py -i ./my_pdfs -o ./jpg_out
+```
+
+Convert explicit files only:
+
+```bash
+uv run python/pdf_to_jpg.py ./report.pdf ./slides.pdf -o ./jpg_out
+```
+
+Use `--zoom` to change render scale (default `4`, sharper but larger files) and `--quality` for JPEG quality 1–100 (default `95`). Run `uv run python/pdf_to_jpg.py --help` for all options.
+
 ## gguf_inspect.py
 
 Inspect a GGUF file (a format used by [llama.cpp](https://github.com/ggml-org/llama.cpp)) and print out the key/value pairs. No dependencies.
