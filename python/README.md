@@ -326,6 +326,20 @@ uv run https://tools.simonwillison.net/python/http_check.py \
   https://simonw.github.io/ollama-models-atom-feed/atom.xml
 ```
 
+## update_git_repos.py
+
+Recursively find Git work trees under a directory. **Every `git` invocation is printed** as ` $ cd <repo> && git ...` before it runs. Direct subdirectories of the root **without** a `.git` folder get a `Note: not a Git repository` line; paths with `.git` that fail `git rev-parse --is-inside-work-tree` are skipped with a short note.
+
+For each repo: record the current branch (or detached SHA). If dirty, **`git stash push -u`**, then **`git fetch`**, check out the target branch (default **`master`**), **`git pull --rebase`**. If a stash entry was created, **switch back to the original branch/SHA** (skipped if already there) and **`git stash pop`**. The same restore runs after **fetch/checkout/pull failures** so your stash is not left on the wrong branch without instructions.
+
+```bash
+uv run python/update_git_repos.py ~/code
+uv run python/update_git_repos.py ~/code --branch main
+uv run python/update_git_repos.py ~/code --remote origin --dry-run
+```
+
+With **`--dry-run`**, mutating commands are only printed; read-only `git` (e.g. `status`, `symbolic-ref`) still runs so the script can inspect the worktree.
+
 ## whitespace_cleaner.py
 
 Replace any lines that are entirely whitespace with blank lines in specified files or folders:
