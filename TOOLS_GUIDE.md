@@ -1,869 +1,143 @@
-# Tools Repository Structure Guide for Building sloccount.html
+# qlyan-tools：新增工具指南
 
-## Repository Overview
-
-**Location**: `/home/user/tools/`  
-**Type**: Static HTML/JavaScript web tools (200+ tools)  
-**Hosting**: GitHub Pages (tools.simonwillison.net)  
-**Build**: Python scripts generate docs and indices  
-**Testing**: Playwright + pytest for automated testing  
+本仓库由 [simonw/tools](https://github.com/simonw/tools) 复制而来，主体是**根目录下的静态 HTML/JS 小工具**，辅以 **`python/` 目录下的可执行脚本**（配合 `uv run`）。下面说明仓库如何组织，以及**如何根据你已有的一段代码**落地成「可被站点收录 / 可被他人复用」的工具。
 
 ---
 
-## 1. Repository Structure
+## 1. 先选工具形态
 
-```
-/home/user/tools/
-├── *.html                    # Individual tool files
-├── *.docs.md                 # Documentation/descriptions for each tool
-├── tests/
-│   ├── test_*.py            # Pytest test files
-│   ├── ocr-test-text.png    # Test fixtures
-│   └── three_page_pdf.pdf
-├── .github/workflows/
-│   ├── test.yml             # Runs pytest/playwright
-│   ├── pages.yml            # Deploys to GitHub Pages
-│   └── claude.yml
-├── build_index.py           # Generates index.html from README.md
-├── build_colophon.py        # Generates colophon page with commit info
-├── gather_links.py          # Collects tool metadata
-├── README.md                # Main listing of all tools
-├── build.sh                 # Build script
-├── pyproject.toml           # Python project config and dependencies
-└── .gitignore
-```
+| 形态 | 放哪里 | 适用场景 | 站点元数据（`tools.json`） |
+|------|--------|----------|---------------------------|
+| **浏览器工具** | 仓库根目录 `your-slug.html` | 纯前端、WASM、调用浏览器 API、少量 CDN | **会**：`gather_links.py` 只扫描根目录 `*.html` |
+| **Python 脚本** | `python/your_script.py` | CLI、需要本机环境/密钥、批处理 | **不会**自动进 `tools.json`；需在 `python/README.md` 写说明与 `uv run` 示例 |
+| **个人脚本** | 例如 `self/` | 仅自用、不对外展示 | 不参与 `gather_links` / 首页列表 |
+
+**重要约束**：`gather_links.py` 使用 `Path.cwd().glob("*.html")`，**子目录里的 HTML 不会被写入 `tools.json`**。若要做「正式工具页」，请把 `*.html` 放在仓库根目录（与 `README.md` 同级）。
 
 ---
 
-## 2. Tool File Naming Convention
+## 2. 浏览器工具：文件与命名
 
-- **HTML file**: `{tool-name}.html` (e.g., `query-string-stripper.html`)
-- **Docs file**: `{tool-name}.docs.md` (e.g., `query-string-stripper.docs.md`)
-- **Docs format**: Brief description + auto-generated commit comment
+对 slug 为 `my-tool` 的页面，通常需要：
 
-### Example docs.md:
+1. **`my-tool.html`** — 单文件或可配合根目录已有 `*.js`（如 `footer.js` 由构建注入）。
+2. **`my-tool.docs.md`** — 一段简短说明；`gather_links.py` 会取**第一个非空段落**作为 `tools.json` 里的 `description`（遇到 `<!--` 会截断，因此可把 HTML 注释放在第一段之后）。
+3. **（可选）** 在 **`README.md`** 的合适分类下增加一行链接，格式与现有一致，例如：  
+   `- [My tool](https://你的域名/my-tool) 一句话说明`  
+   首页/索引由 `build_index.py` 等脚本基于 `README.md` 与 `tools.json` 生成，**分类列表主要靠你维护 README**。
+
+**命名建议**：slug 使用小写、连字符（与现有工具一致），`<title>` 与 `h1` 使用人类可读标题；`gather_links.py` 用 `<title>` 作为工具标题。
+
+**`*.docs.md` 示例**（第一段 = 摘要；第二行起可放生成注释）：
+
 ```markdown
-This utility removes the query string portion from URLs (everything after the question mark). 
-Enter a URL into the input field and the tool instantly displays the cleaned version without 
-query parameters. You can copy the stripped URL to your clipboard with the dedicated button 
-for easy use elsewhere.
+用一句话说明用户能做什么、输入输出是什么。
 
-<!-- Generated from commit: f7010753d1508f56a225c6cddf84e9cc78936ff4 -->
+<!-- Generated from commit: abcdef1234567890abcdef1234567890abcdef12 -->
 ```
+
+若设置环境变量 `GENERATE_LLM_DOCS=1` 并运行 `build.sh`，`write_docs.py` 可根据 HTML 用 `llm` 辅助生成/更新文档（需本机已配置相应 CLI）。
 
 ---
 
-## 3. Common HTML Structure Patterns
+## 3. 浏览器工具：HTML/JS 实现要点（对齐本仓库风格）
 
-### Basic Minimal Tool (query-string-stripper.html - 144 lines)
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Query String Stripper</title>
-    <style>
-        * { box-sizing: border-box; }
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        /* Mobile-friendly media query */
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            h1 { font-size: 24px; }
-        }
-    </style>
-</head>
-<body>
-    <h1>Query String Stripper</h1>
-    <p>Paste a URL to remove the query string (everything from ? onwards)</p>
-    
-    <label for="url-input">URL:</label>
-    <input type="text" id="url-input" placeholder="...">
-    
-    <div id="output-container">
-        <label for="stripped-url">Stripped URL:</label>
-        <input type="text" id="stripped-url" readonly>
-        <button id="copy-button">Copy to clipboard</button>
-    </div>
+参考任意现有根目录工具，常见约定包括：
 
-    <script>
-        // Event listeners and processing logic
-        const urlInput = document.getElementById('url-input');
-        urlInput.addEventListener('input', function() {
-            // Real-time processing
-        });
-    </script>
-</body>
-</html>
-```
+- **单页自包含**：`<!DOCTYPE html>`、`charset`、`viewport`、内联或页内 `<style>` / `<script>`。
+- **布局**：`* { box-sizing: border-box; }`，`body` 上 `max-width` + `margin: 0 auto` + `padding`，小屏用 `@media (max-width: 600px)` 等收紧间距。
+- **交互**：输入用 `input`/`change`，实时反馈；错误信息单独区域；复制按钮优先 `navigator.clipboard.writeText`，必要时 `execCommand('copy')` 兜底。
+- **外链库**：从 jsDelivr、cdnjs 等引入，**尽量固定版本**，避免静默升级破坏行为。
 
-**Key characteristics:**
-- Responsive `<meta name="viewport">`
-- Box-sizing border-box universally
-- Centered max-width layout (800px is common)
-- Real-time event listeners (`input`, `change`)
-- Show/hide sections with `.visible` class
-- Mobile media query at ~600px breakpoint
+无需为单个工具单独跑打包；发布侧通过 **`build.sh`** 做聚合步骤（见下文）。
 
 ---
 
-## 4. Common Mobile-Friendly UI Patterns
+## 4. 从「你提供的一段代码」生成新工具的推荐流程
 
-### Responsive Patterns Used:
-1. **Max-width centered containers** (600-1200px)
-2. **Flexbox layouts** for responsive grids
-3. **Media queries** for breakpoints (600px, 768px, 920px)
-4. **Padding adjustments** for mobile
-5. **Font size scaling** with `clamp()`
+下面假设你有一段**可运行的逻辑**（Python/JS/伪代码均可），希望变成**根目录浏览器工具**（最常见）。
 
-### Example from mask-visualizer.html:
-```css
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
+### 4.1 澄清需求（人机都可做）
 
-.row {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 18px;
-}
+- 输入是什么（粘贴、文件、URL、摄像头）？
+- 输出是什么（文本、下载文件、画布、表格）？
+- 是否必须联网或 API Key？若需要 Key，优先 **用户在本页粘贴** 或环境说明放在 `*.docs.md`，避免把密钥写进仓库。
 
-@media (min-width: 920px) {
-    .row {
-        grid-template-columns: 360px 1fr;
-    }
-}
-```
+### 4.2 选择实现栈
 
-### Example from pyodide-bar-chart.html (modern approach):
-```css
-h1 {
-    font-size: clamp(22px, 3.2vw, 34px);
-    letter-spacing: 0.2px;
-}
+- 纯字符串/结构化数据：原生 JS 即可。
+- 图像/PDF：仓库内已有大量用法可参考（如 PDF.js、Canvas、剪贴板）。
+- Python 算法且不想重写：考虑 **`python/` + uv** 或 Pyodide 类页面（工作量和体积更大）。
 
-.wrap {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 32px 16px 60px;
-}
-```
+### 4.3 落地文件
 
----
+1. 在仓库根目录新增 **`{slug}.html`**，保证 `<title>` 正确。
+2. 新增 **`{slug}.docs.md`**，写好第一段描述。
+3. 在 **`README.md`** 增加列表项（若希望出现在主页介绍里）。
+4. 若逻辑复杂或易回归，在 **`tests/test_*.py`** 里用 Playwright 做 1～2 个冒烟用例（见 `tests/conftest.py` 与现有测试）。
 
-## 5. Tool Architecture Patterns
-
-### Pattern 1: Simple Stateless Tools
-**Examples**: `query-string-stripper.html`, `escape-entities.html`
-- Input → Process → Output
-- Real-time event listeners
-- No external API calls
-- Minimal state management
-
-### Pattern 2: Tools with External Resources/APIs
-**Examples**: `jina-reader.html`, `ocr.html`
-
-```javascript
-// Load external library via CDN
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
-
-// Or ES module imports
-<script type="module">
-    import pdfjsDist from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.2.67/+esm';
-</script>
-
-// Fetch API calls
-fetch(`https://api.github.com/gists/${gistId}`)
-    .then(response => response.json())
-    .then(data => {
-        // Process data
-    })
-    .catch(err => showError(err.message));
-```
-
-### Pattern 3: Tools with WebAssembly
-**Examples**: `sqlite-wasm.html`, `micropython.html`, `ocr.html`
-
-#### sqlite-wasm.html pattern:
-```html
-<script src="https://cdn.jsdelivr.net/npm/@sqlite.org/sqlite-wasm@3.46.1-build4/sqlite-wasm/jswasm/sqlite3.mjs" 
-        type="module"></script>
-
-<script type="module">
-    import sqlite3InitModule from 'https://cdn.jsdelivr.net/npm/@sqlite.org/sqlite-wasm@3.46.1-build4/sqlite-wasm/jswasm/sqlite3.mjs';
-    
-    const initializeSQLite = async () => {
-        const sqlite3 = await sqlite3InitModule({
-            print: console.log,
-            printErr: console.error,
-        });
-        window.db = new sqlite3.oo1.DB();
-        // Initialize with CREATE TABLE and data
-    };
-    
-    window.executeQuery = () => {
-        const query = document.getElementById('query').value;
-        const results = window.db.selectObjects(query);
-        displayResults(results);
-    };
-</script>
-```
-
-#### micropython.html pattern:
-```html
-<script type="module">
-    import * as mpjs from 'https://cdn.jsdelivr.net/npm/@micropython/micropython-webassembly-pyscript@1.26.0/micropython.mjs';
-    
-    let mp;
-    let activeCapture = null;
-    
-    const mp = await mpjs.loadMicroPython({
-        linebuffer: true,
-        stdout: (text) => pushOutput('stdout', text),
-        stderr: (text) => pushOutput('stderr', text),
-    });
-    
-    async function runWithCapture(src) {
-        activeCapture = { stdout: '', stderr: '' };
-        await mp.runPythonAsync(src.endsWith('\n') ? src : `${src}\n`);
-        return activeCapture;
-    }
-</script>
-```
-
----
-
-## 6. Data Loading Patterns
-
-### Pattern 1: Load from URL Hash
-Used in `json-string-extractor.html`:
-```javascript
-// Load Gist from URL hash
-async function loadGistFromHash() {
-    const hash = window.location.hash;
-    const gistMatch = hash.match(/gist=([a-fA-F0-9]+)/i);
-    
-    if (gistMatch) {
-        const gistId = gistMatch[1];
-        const jsonContent = await loadGistJSON(gistId);
-        jsonInput.value = jsonContent;
-        processJSON();
-    }
-}
-
-loadGistFromHash();
-
-// Listen for hash changes
-window.addEventListener('hashchange', () => {
-    loadGistFromHash();
-});
-```
-
-### Pattern 2: File Input + Drag & Drop
-Used in `ocr.html`, `svg-render.html`:
-```javascript
-const dropzone = document.getElementById('dropzone');
-const fileInput = document.getElementById('fileInput');
-
-dropzone.addEventListener('click', () => fileInput.click());
-
-dropzone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropzone.classList.add('drag-over');
-});
-
-dropzone.addEventListener('dragleave', () => {
-    dropzone.classList.remove('drag-over');
-});
-
-dropzone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    handleFiles(files);
-});
-
-fileInput.addEventListener('change', (e) => {
-    handleFiles(e.target.files);
-});
-```
-
-### Pattern 3: Clipboard Interaction
-Used in `clipboard-viewer.html`:
-```javascript
-// Read from clipboard
-navigator.clipboard.read().then((items) => {
-    items.forEach((item) => {
-        // Process clipboard types
-    });
-});
-
-// Write to clipboard
-navigator.clipboard.writeText(text).then(() => {
-    button.textContent = 'Copied!';
-    setTimeout(() => {
-        button.textContent = 'Copy to clipboard';
-    }, 2000);
-});
-```
-
----
-
-## 7. UI Component Patterns
-
-### Copy to Clipboard Button
-Standardized across most tools:
-```javascript
-const copyButton = document.getElementById('copy-button');
-const textToCopy = document.getElementById('text-field');
-
-copyButton.addEventListener('click', () => {
-    navigator.clipboard.writeText(textToCopy.value).then(() => {
-        const originalText = copyButton.textContent;
-        copyButton.textContent = 'Copied!';
-        copyButton.classList.add('copied');
-        
-        setTimeout(() => {
-            copyButton.textContent = originalText;
-            copyButton.classList.remove('copied');
-        }, 2000);
-    }).catch(() => {
-        // Fallback for older browsers
-        textToCopy.select();
-        document.execCommand('copy');
-    });
-});
-```
-
-### Loading States
-```javascript
-// Show loading indicator
-button.disabled = true;
-button.textContent = 'Loading...';
-
-try {
-    const result = await fetchData();
-    displayResult(result);
-} finally {
-    button.disabled = false;
-    button.textContent = 'Original text';
-}
-```
-
-### Error Messages
-Pattern used in `json-string-extractor.html`:
-```html
-<div id="error" class="error"></div>
-
-<style>
-.error {
-    color: #e74c3c;
-    padding: 12px;
-    background: #fef5f5;
-    border-radius: 4px;
-    margin-top: 10px;
-    display: none;
-}
-</style>
-
-<script>
-function showError(message) {
-    errorDiv.textContent = message;
-    errorDiv.style.display = 'block';
-}
-
-function hideError() {
-    errorDiv.style.display = 'none';
-}
-</script>
-```
-
----
-
-## 8. Test Structure
-
-### Setup (tests/test_ocr.py)
-```python
-from http.client import HTTPConnection
-import pathlib
-from playwright.sync_api import Page, expect
-import pytest
-from subprocess import Popen, PIPE
-import time
-
-test_dir = pathlib.Path(__file__).parent.absolute()
-root = test_dir.parent.absolute()
-
-@pytest.fixture(scope="module")
-def static_server():
-    """Start a local HTTP server for testing"""
-    process = Popen(
-        ["python", "-m", "http.server", "8123", "--directory", root], 
-        stdout=PIPE
-    )
-    retries = 5
-    while retries > 0:
-        conn = HTTPConnection("127.0.0.1:8123")
-        try:
-            conn.request("HEAD", "/")
-            response = conn.getresponse()
-            if response is not None:
-                yield process
-                break
-        except ConnectionRefusedError:
-            time.sleep(1)
-            retries -= 1
-    
-    if not retries:
-        raise RuntimeError("Failed to start http server")
-    else:
-        process.terminate()
-        process.wait()
-```
-
-### Test Examples
-```python
-def test_initial_state(page: Page, static_server):
-    page.goto("http://127.0.0.1:8123/ocr.html")
-    expect(page.locator("h1")).to_have_text(
-        "OCR PDFs and images directly in your browser"
-    )
-    expect(page.locator("#dropzone")).to_have_text(
-        "Drag and drop a PDF, JPG, PNG, or GIF file here or click to select a file"
-    )
-
-def test_open_image(page: Page, static_server):
-    page.goto("http://127.0.0.1:8123/ocr.html")
-    file_input = page.locator("#fileInput")
-    file_input.set_input_files(str(test_dir / "ocr-test-text.png"))
-    expect(page.locator(".image-container img")).to_be_visible()
-    expect(page.locator(".textarea-alt")).to_have_value("OCR test text")
-```
-
-### Running Tests
-```bash
-# Install dependencies
-pip install -e .
-playwright install
-
-# Run all tests
-pytest
-
-# Run specific test
-pytest tests/test_ocr.py::test_initial_state
-
-# Run with verbose output
-pytest -v
-```
-
----
-
-## 9. External Library/CDN Loading Patterns
-
-### Popular CDNs Used:
-```html
-<!-- Marked (Markdown parser) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
-
-<!-- PDF.js (PDF rendering) -->
-<script type="module">
-    import pdfjsDist from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.2.67/+esm';
-</script>
-
-<!-- Tesseract.js (OCR) -->
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-
-<!-- CropperJS (Image cropping) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
-
-<!-- Pyodide (Python in browser) -->
-<script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
-
-<!-- SQLite WASM -->
-<script src="https://cdn.jsdelivr.net/npm/@sqlite.org/sqlite-wasm@3.46.1-build4/sqlite-wasm/jswasm/sqlite3.mjs" type="module"></script>
-
-<!-- MicroPython WASM -->
-<script type="module">
-    import * as mpjs from 'https://cdn.jsdelivr.net/npm/@micropython/micropython-webassembly-pyscript@1.26.0/micropython.mjs';
-</script>
-```
-
----
-
-## 10. Build and Deployment
-
-### GitHub Workflows (.github/workflows/test.yml)
-```yaml
-name: Test
-on:
-  push:
-  pull_request:
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.12"
-        cache: 'pip'
-        cache-dependency-path: 'pyproject.toml'
-    - name: Cache Playwright browsers
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/ms-playwright/
-        key: ${{ runner.os }}-browsers
-    - name: Install dependencies
-      run: |
-        pip install -e .
-        playwright install
-    - name: Run test
-      run: pytest
-```
-
-### Build Process (build.sh)
-```bash
-#!/bin/bash
-set -e
-
-# Ensure full git history for finding commit dates
-git fetch --unshallow
-
-# Install Python dependencies
-pip install --quiet markdown
-
-# Run Python build scripts
-python gather_links.py      # Collect tool metadata
-python build_colophon.py    # Generate colophon page
-python build_index.py       # Convert README.md to index.html
-```
-
----
-
-## 11. Template for sloccount.html
-
-Based on patterns above, here's a template structure:
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sloccount - Lines of Code Counter</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
-                         Helvetica, Arial, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-            background-color: #f5f5f5;
-        }
-        
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        h1 {
-            margin-top: 0;
-            font-size: 28px;
-            color: #333;
-        }
-        
-        textarea {
-            width: 100%;
-            min-height: 150px;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            resize: vertical;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #4a90e2;
-        }
-        
-        button {
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-        
-        button:hover {
-            background-color: #357abd;
-        }
-        
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        
-        .results {
-            margin-top: 30px;
-            display: none;
-        }
-        
-        .results.visible {
-            display: block;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .stat-item {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 4px;
-            border-left: 4px solid #4a90e2;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .error {
-            color: #e74c3c;
-            padding: 12px;
-            background: #fef5f5;
-            border-radius: 4px;
-            display: none;
-            margin-top: 10px;
-        }
-        
-        .error.visible {
-            display: block;
-        }
-        
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 15px;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 24px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Sloccount</h1>
-        <p>Count lines of code in multiple files or paste source code</p>
-        
-        <textarea id="codeInput" placeholder="Paste your source code here or drag & drop files..."></textarea>
-        
-        <button id="processButton">Count Lines</button>
-        
-        <div id="error" class="error"></div>
-        
-        <div id="results" class="results">
-            <h2>Results</h2>
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-label">Total Lines</div>
-                    <div class="stat-value" id="totalLines">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Code Lines</div>
-                    <div class="stat-value" id="codeLines">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Comment Lines</div>
-                    <div class="stat-value" id="commentLines">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Blank Lines</div>
-                    <div class="stat-value" id="blankLines">0</div>
-                </div>
-            </div>
-            
-            <h3>Breakdown by File</h3>
-            <div id="fileStats"></div>
-            
-            <button id="copyButton">Copy Results</button>
-        </div>
-    </div>
-    
-    <script>
-        const codeInput = document.getElementById('codeInput');
-        const processButton = document.getElementById('processButton');
-        const resultsDiv = document.getElementById('results');
-        const errorDiv = document.getElementById('error');
-        
-        function countLines(code) {
-            const lines = code.split('\n');
-            let totalLines = 0;
-            let codeLines = 0;
-            let commentLines = 0;
-            let blankLines = 0;
-            
-            for (const line of lines) {
-                const trimmed = line.trim();
-                totalLines++;
-                
-                if (!trimmed) {
-                    blankLines++;
-                } else if (trimmed.startsWith('//') || 
-                           trimmed.startsWith('#') || 
-                           trimmed.startsWith('*')) {
-                    commentLines++;
-                } else {
-                    codeLines++;
-                }
-            }
-            
-            return { totalLines, codeLines, commentLines, blankLines };
-        }
-        
-        function displayResults(stats) {
-            document.getElementById('totalLines').textContent = stats.totalLines;
-            document.getElementById('codeLines').textContent = stats.codeLines;
-            document.getElementById('commentLines').textContent = stats.commentLines;
-            document.getElementById('blankLines').textContent = stats.blankLines;
-            
-            resultsDiv.classList.add('visible');
-            errorDiv.classList.remove('visible');
-        }
-        
-        processButton.addEventListener('click', () => {
-            const code = codeInput.value.trim();
-            
-            if (!code) {
-                errorDiv.textContent = 'Please paste some code';
-                errorDiv.classList.add('visible');
-                resultsDiv.classList.remove('visible');
-                return;
-            }
-            
-            try {
-                const stats = countLines(code);
-                displayResults(stats);
-            } catch (error) {
-                errorDiv.textContent = `Error: ${error.message}`;
-                errorDiv.classList.add('visible');
-            }
-        });
-        
-        // Real-time processing
-        codeInput.addEventListener('input', () => {
-            if (codeInput.value.trim()) {
-                processButton.disabled = false;
-            } else {
-                processButton.disabled = true;
-            }
-        });
-    </script>
-</body>
-</html>
-```
-
----
-
-## 12. Key Files to Reference
-
-| File | Purpose |
-|------|---------|
-| `/home/user/tools/query-string-stripper.html` | Simple pattern (144 lines) |
-| `/home/user/tools/json-string-extractor.html` | Complex with external APIs (420 lines) |
-| `/home/user/tools/sqlite-wasm.html` | WebAssembly pattern |
-| `/home/user/tools/micropython.html` | Python in browser |
-| `/home/user/tools/ocr.html` | Tesseract.js + PDF.js pattern |
-| `/home/user/tools/mask-visualizer.html` | Canvas visualization |
-| `/home/user/tools/escape-entities.html` | Minimal simple tool |
-| `/home/user/tools/tests/test_ocr.py` | Test pattern |
-
----
-
-## 13. Development Checklist for sloccount.html
-
-- [ ] Create `sloccount.html` following basic tool template
-- [ ] Create `sloccount.docs.md` with brief description
-- [ ] Implement core functionality (line counting logic)
-- [ ] Add mobile-friendly responsive design
-- [ ] Add copy to clipboard functionality
-- [ ] Test with various code samples
-- [ ] Create `tests/test_sloccount.py` with Playwright tests
-- [ ] Verify responsive behavior on mobile devices
-- [ ] Test edge cases (empty input, special characters, etc.)
-- [ ] Add any external library CDN links if needed
-- [ ] Test in CI/CD pipeline (GitHub Actions)
-
----
-
-## 14. Useful Commands
+### 4.4 本地验证
 
 ```bash
-# Start local development server
-python -m http.server 8000
-
-# Test specific tool
-pytest tests/test_sloccount.py -v
-
-# Run all tests
-pytest
-
-# Install playwright browsers
-playwright install
+python -m http.server 8123 --directory .
+# 浏览器打开 http://127.0.0.1:8123/your-slug.html
 ```
+
+安装测试依赖后：`pip install -e . && playwright install && pytest`。
+
+### 4.5 构建与元数据（合并前）
+
+在仓库根执行 **`./build.sh`**（或其中你需要的步骤），典型包括：
+
+- `python gather_links.py` → 更新 `gathered_links.json`、`tools.json`
+- `build_colophon.py`、`build_dates.py`、`build_index.py`、`build_by_month.py` 等
+- 向已跟踪的根目录 `*.html`（除 `index.html`）注入带版本 query 的 **`footer.js`** 引用
+
+合并前确认 **`tools.json`** 中出现你的 slug，且 **`*.docs.md`** 第一段符合预期。
 
 ---
 
-## Summary
+## 5. `python/` 脚本工具（与浏览器工具分离）
 
-The tools repository follows a **lightweight, stateless HTML5 pattern** where:
-1. Each tool is a **single, self-contained HTML file**
-2. Tools are **mobile-responsive** with minimal CSS frameworks
-3. **Real-time processing** via JavaScript event listeners
-4. **External resources** loaded from CDNs (jsdelivr, cdnjs, etc.)
-5. **No build step** required for individual tools
-6. **Tests** use Playwright + pytest for automation
-7. **Documentation** auto-generated from git commits
+- 脚本放在 **`python/`**，在 **`python/README.md`** 中为每个脚本增加一节：**用途说明、`uv run` 完整示例、依赖说明**。
+- 许多脚本使用 **PEP 723** 内联元数据（`# /// script` / `requires-python` 等），便于 `uv run https://.../script.py` 拉取依赖。
+- 这些脚本**不会**被 `gather_links.py` 扫描进 `tools.json`；发现与分发主要靠 **`python/README.md`** 与你自己仓库的链接。
 
-For sloccount.html, follow the **query-string-stripper** or **escape-entities** pattern as a starting point for a simple, focused tool.
+若你提供的代码是 **PyMuPDF 批处理** 这类 CLI（例如 `self/pdf_to_jpg.py`），要进入「官方脚本」路径：把脚本移到 `python/`、补 CLI（`argparse`/`click`）、写清依赖与示例，并更新 `python/README.md`。
+
+---
+
+## 6. 测试与依赖
+
+- **`pyproject.toml`**：当前声明了 `pytest-playwright`、`pytest-unused-port` 等，用于浏览器页冒烟测试。
+- 新增测试时，保持与现有测试一致：本地起静态服务、`page.goto` 到对应 `*.html`，用 `expect` 断言关键 UI。
+
+---
+
+## 7. 关键脚本速查
+
+| 脚本 | 作用 |
+|------|------|
+| `gather_links.py` | 扫描根目录 `*.html`，结合 git 历史与 `*.docs.md` 生成 **`tools.json`** |
+| `build_index.py` | 由 `README.md` 等生成 **`index.html`** |
+| `build.sh` | 串联元数据、索引、footer 注入等 |
+| `write_docs.py` | 可选：基于 HTML 生成/更新 `*.docs.md`（需 `GENERATE_LLM_DOCS=1` 与 `llm`） |
+
+---
+
+## 8. 检查清单（浏览器新工具）
+
+- [ ] `slug.html` 在**仓库根目录**，`<title>` 已填。
+- [ ] `slug.docs.md` 首段为面向用户的说明（无标题、2～4 句为宜）。
+- [ ] 已跑 `gather_links.py` 或完整 `./build.sh`，`tools.json` 含新条目。
+- [ ] 若需要曝光：已更新 **`README.md`** 对应分类。
+- [ ] 关键路径已 **`pytest`** 或至少手动测过移动窄屏。
+- [ ] 无提交密钥；第三方 Key 由用户输入或环境变量提供。
+
+---
+
+## 9. 给后续 LLM 的简短系统提示（可粘贴）
+
+> 你在为 qlyan-tools 添加浏览器工具。请在仓库**根目录**创建 `{slug}.html` 与 `{slug}.docs.md`（docs 第一段为摘要）。HTML 需含 viewport，样式与现有工具一致（max-width 居中、box-sizing）。不要依赖构建步骤才能打开单文件。若需要收录与描述，说明运行 `gather_links.py` / `./build.sh` 更新 `tools.json`。需要首页展示时在 `README.md` 增加列表项。
+
+按上述步骤，就可以把「我提供的一段代码」稳定地变成与本仓库一致的新工具。
