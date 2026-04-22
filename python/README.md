@@ -275,6 +275,24 @@ uv run python/pdf_to_jpg.py ./report.pdf ./slides.pdf -o ./jpg_out
 
 Use `--zoom` to change render scale (default `4`, sharper but larger files) and `--quality` for JPEG quality 1–100 (default `95`). Run `uv run python/pdf_to_jpg.py --help` for all options.
 
+## query_word_in_db.py
+
+Scan a whitelist of MySQL tables and, for each **text-like** column, count rows where the column **contains** a given substring. Skips `id` / `*_id` columns and non-text types; appends one CSV row per column.
+
+Connection: `MYSQL_*` env vars or `--host` / `--user` / `--database` / `--password`. By default uses `ssl={"ca": None}` (Azure-style); add **`--no-ssl-ca-none`** for typical local MySQL if SSL errors occur.
+
+**`-f` paths are relative to your shell’s current working directory.** If you see “tables file not found”, create `tables.txt` there, `cd` to the folder that contains it, or use an absolute path (for example `-f /Users/you/project/tables.txt`).
+
+```bash
+uv run python/query_word_in_db.py \
+  --search 'needle' \
+  --host db.example.com --user app --database myapp \
+  --password "$MYSQL_PASSWORD" \
+  -f tables.txt
+```
+
+Use `-T table_name` (repeatable) instead of `-f`, or **`--all-tables`** to scan every base table (use with care).
+
 ## gguf_inspect.py
 
 Inspect a GGUF file (a format used by [llama.cpp](https://github.com/ggml-org/llama.cpp)) and print out the key/value pairs. No dependencies.
