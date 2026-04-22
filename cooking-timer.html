@@ -1,0 +1,2398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Cooking Timer</title>
+  <script src="lib/qrcode.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+      padding: 16px;
+      padding-bottom: 100px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    .setup-section {
+      background: #1e3a5f;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .setup-section h2 {
+      font-size: 1rem;
+      margin-bottom: 16px;
+      color: #00cec9;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+
+    .input-group input,
+    .input-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    .input-group textarea {
+      min-height: 120px;
+      resize: vertical;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.8rem;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+      outline: none;
+      border-color: #00cec9;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(0, 184, 148, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .btn-secondary:hover {
+      border-color: #fff;
+      box-shadow: none;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+    }
+
+    .or-divider {
+      text-align: center;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .or-divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .or-divider span {
+      background: #1e3a5f;
+      padding: 0 16px;
+      position: relative;
+      opacity: 0.6;
+    }
+
+    .example-section {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+
+    .example-section h3 {
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    .example-json {
+      background: #0d1b2a;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .example-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .example-actions button,
+    .example-actions a {
+      font-size: 0.8rem;
+      padding: 8px 16px;
+    }
+
+    .example-actions a {
+      display: inline-block;
+      text-decoration: none;
+      color: #fff;
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      transition: border-color 0.2s;
+    }
+
+    .example-actions a:hover {
+      border-color: #fff;
+    }
+
+    .saved-recipes {
+      margin-top: 24px;
+    }
+
+    .saved-recipes h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      margin-bottom: 12px;
+    }
+
+    .recipe-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .recipe-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .recipe-item:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .recipe-item-info {
+      flex: 1;
+    }
+
+    .recipe-item-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .recipe-item-date {
+      font-size: 0.75rem;
+      opacity: 0.6;
+    }
+
+    .recipe-item-source {
+      font-size: 0.7rem;
+      opacity: 0.5;
+      margin-top: 2px;
+    }
+
+    .recipe-item-delete {
+      background: transparent;
+      border: none;
+      color: #e94560;
+      cursor: pointer;
+      padding: 8px;
+      font-size: 1rem;
+      opacity: 0.6;
+    }
+
+    .recipe-item-delete:hover {
+      opacity: 1;
+    }
+
+    .recipe-item-checkbox {
+      width: 20px;
+      height: 20px;
+      margin-right: 12px;
+      accent-color: #00cec9;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .recipe-item.selected {
+      background: rgba(0, 206, 201, 0.15);
+      border: 1px solid rgba(0, 206, 201, 0.3);
+    }
+
+    .multi-cook-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .multi-cook-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+      color: #fff;
+      border: none;
+      padding: 14px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .multi-cook-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(155, 89, 182, 0.3);
+    }
+
+    .multi-cook-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .selection-count {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .recipe-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-top: 6px;
+    }
+
+    .multi-recipe-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .multi-recipe-badge {
+      background: rgba(155, 89, 182, 0.3);
+      border: 1px solid rgba(155, 89, 182, 0.5);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+    }
+
+    .start-section {
+      background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(233, 69, 96, 0.3);
+    }
+
+    .start-section.running {
+      background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+    }
+
+    .start-btn {
+      background: #fff;
+      color: #e94560;
+      border: none;
+      padding: 16px 48px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .start-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(255,255,255,0.3);
+    }
+
+    .start-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .elapsed-time {
+      font-size: 3rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 8px;
+    }
+
+    .elapsed-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .reset-btn {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.5);
+      color: #fff;
+      padding: 8px 24px;
+      border-radius: 20px;
+      margin-top: 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .timer-controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .serving-time-container {
+      margin-top: 16px;
+    }
+
+    .serving-time-btn {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.5);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .serving-time-btn:hover {
+      border-color: #fff;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .serving-time-input-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: rgba(0,0,0,0.2);
+      padding: 12px 16px;
+      border-radius: 12px;
+    }
+
+    .serving-time-input-wrapper label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .serving-time-input-wrapper input[type="time"] {
+      padding: 8px 12px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .serving-time-input-wrapper input[type="time"]:focus {
+      outline: none;
+      border-color: #fff;
+    }
+
+    .serving-time-set {
+      background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .serving-time-set:hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 10px rgba(0, 184, 148, 0.3);
+    }
+
+    .serving-time-cancel {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.4rem;
+      cursor: pointer;
+      opacity: 0.6;
+      padding: 4px 8px;
+    }
+
+    .serving-time-cancel:hover {
+      opacity: 1;
+    }
+
+    .elapsed-label.countdown {
+      color: #f39c12;
+    }
+
+    .current-step {
+      background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0, 184, 148, 0.3);
+    }
+
+    .current-step-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .current-step-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .current-step-detail {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      opacity: 0.95;
+    }
+
+    .current-step-category {
+      display: inline-block;
+      background: rgba(0,0,0,0.2);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      margin-top: 10px;
+    }
+
+    .next-steps {
+      background: #1e3a5f;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .next-steps h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      margin-bottom: 12px;
+    }
+
+    .next-step-item {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .next-step-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .next-step-info {
+      flex: 1;
+    }
+
+    .next-step-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .next-step-category-tag {
+      font-size: 0.7rem;
+      opacity: 0.6;
+    }
+
+    .next-step-countdown {
+      background: #e94560;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      font-variant-numeric: tabular-nums;
+      min-width: 70px;
+      text-align: center;
+    }
+
+    .next-step-countdown.soon {
+      background: #f39c12;
+      animation: pulse 1s infinite;
+    }
+
+    .next-step-countdown.now {
+      background: #00b894;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .timeline-section {
+      background: #1e3a5f;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .timeline-section h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      margin-bottom: 16px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    .timeline-item:last-child {
+      border-bottom: none;
+    }
+
+    .timeline-item.completed {
+      opacity: 0.4;
+    }
+
+    .timeline-item.active {
+      opacity: 1;
+    }
+
+    .timeline-item.active::before {
+      content: '';
+      position: absolute;
+      left: -16px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #00b894;
+      border-radius: 2px;
+    }
+
+    .timeline-time {
+      min-width: 55px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #00cec9;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timeline-content {
+      flex: 1;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .timeline-detail {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      line-height: 1.4;
+    }
+
+    .timeline-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-top: 6px;
+      background: #3498db;
+    }
+
+    .not-started {
+      text-align: center;
+      padding: 40px 20px;
+      opacity: 0.6;
+    }
+
+    .completed-section {
+      background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+      border-radius: 16px;
+      padding: 32px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .completed-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .recipe-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .recipe-header > div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .recipe-header .btn {
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    .recipe-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #00cec9;
+    }
+
+    .error-message {
+      background: rgba(233, 69, 96, 0.2);
+      border: 1px solid #e94560;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+    }
+
+    .transfer-btn {
+      background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .transfer-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
+    }
+
+    .qr-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .qr-modal {
+      background: #1e3a5f;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .qr-modal h2 {
+      margin-bottom: 8px;
+      color: #fff;
+      font-size: 1.3rem;
+    }
+
+    .qr-modal p {
+      margin-bottom: 20px;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .qr-modal canvas {
+      max-width: 100%;
+      border-radius: 8px;
+      background: #fff;
+      padding: 16px;
+    }
+
+    .qr-modal-close {
+      margin-top: 20px;
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .qr-modal-close:hover {
+      border-color: #fff;
+    }
+
+    .test-results {
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(233, 69, 96, 0.2);
+      border: 1px solid #e94560;
+      border-radius: 8px;
+    }
+
+    .test-results summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #e94560;
+    }
+
+    .test-results pre {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <!-- Setup Screen -->
+  <div id="setupScreen">
+    <h1>Cooking Timer</h1>
+
+    <div class="setup-section">
+      <h2>Load a Recipe</h2>
+
+      <div id="errorMessage" class="error-message hidden"></div>
+
+      <div class="input-group">
+        <label for="urlInput">Recipe JSON URL</label>
+        <input type="url" id="urlInput" placeholder="https://example.com/recipe.json">
+      </div>
+
+      <button class="btn" onclick="loadFromUrl()">Load from URL</button>
+
+      <div class="or-divider"><span>OR</span></div>
+
+      <div class="input-group">
+        <label for="jsonInput">Paste Recipe JSON</label>
+        <textarea id="jsonInput" placeholder='{"name": "My Recipe", "steps": [...]}'></textarea>
+      </div>
+
+      <button class="btn" onclick="loadFromJson()">Load Recipe</button>
+
+      <div class="example-section">
+        <h3>Example Recipe Format</h3>
+        <div class="example-json" id="exampleJson"></div>
+        <div class="example-actions">
+          <button class="btn btn-secondary" onclick="copyExample()">Copy Example</button>
+          <a id="claudeLink" href="#" target="_blank">Create one with Claude</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="savedRecipesSection" class="setup-section saved-recipes hidden">
+      <h3>Previous Recipes</h3>
+      <div class="recipe-list" id="recipeList"></div>
+      <div id="multiCookSection" class="multi-cook-section hidden">
+        <div class="selection-count" id="selectionCount">0 recipes selected</div>
+        <button class="multi-cook-btn" id="multiCookBtn" onclick="startMultiRecipeCook()" disabled>Cook these at the same time</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timer Screen -->
+  <div id="timerScreen" class="hidden">
+    <div class="recipe-header">
+      <h1 id="recipeName">Cooking Timer</h1>
+      <div>
+        <button class="transfer-btn" onclick="showTransferModal()">Transfer to Phone</button>
+        <button class="btn btn-secondary" onclick="chooseNewRecipe()">Choose Different Recipe</button>
+      </div>
+    </div>
+    <div id="multiRecipeHeader" class="multi-recipe-header hidden"></div>
+
+    <div class="start-section" id="startSection">
+      <button class="start-btn" id="startBtn" onclick="startCooking()">START COOKING</button>
+      <div class="serving-time-container" id="servingTimeContainer">
+        <button class="serving-time-btn" id="servingTimeBtn" onclick="showServingTimeInput()">Set Serving Time</button>
+        <div class="serving-time-input-wrapper hidden" id="servingTimeInputWrapper">
+          <label for="servingTimeInput">Serve at:</label>
+          <input type="time" id="servingTimeInput">
+          <button class="serving-time-set" onclick="onServingTimeSelected()">Set</button>
+          <button class="serving-time-cancel" onclick="hideServingTimeInput()">×</button>
+        </div>
+      </div>
+      <div class="hidden" id="timerDisplay">
+        <div class="elapsed-time" id="elapsedTime">00:00</div>
+        <div class="elapsed-label" id="elapsedLabel">Elapsed Time</div>
+        <div class="timer-controls">
+          <button class="reset-btn" onclick="resetTimer()">Reset Timer</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="completedSection" class="completed-section hidden">
+      <h2>All Done!</h2>
+      <p>Time to enjoy your meal!</p>
+    </div>
+
+    <div id="currentStepSection" class="current-step hidden">
+      <div class="current-step-label">Do This Now</div>
+      <div class="current-step-title" id="currentStepTitle"></div>
+      <div class="current-step-detail" id="currentStepDetail"></div>
+      <div class="current-step-category" id="currentStepCategory"></div>
+    </div>
+
+    <div id="nextStepsSection" class="next-steps hidden">
+      <h2>Coming Up Next</h2>
+      <div id="nextStepsList"></div>
+    </div>
+
+    <div class="timeline-section">
+      <h2>Full Timeline</h2>
+      <div id="timeline"></div>
+      <div class="not-started" id="notStartedMsg">
+        Press START to begin your cooking timer
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Transfer Modal -->
+  <div id="qrModalOverlay" class="qr-modal-overlay hidden" onclick="hideTransferModal(event)">
+    <div class="qr-modal" onclick="event.stopPropagation()">
+      <h2>Transfer to Phone</h2>
+      <p>Scan this QR code with your phone camera to continue cooking on your mobile device</p>
+      <canvas id="qrCanvas"></canvas>
+      <br>
+      <button class="qr-modal-close" onclick="hideTransferModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Test Results Container -->
+  <div id="testResultsContainer"></div>
+
+  <script>
+    const RECIPES_KEY = 'cookingTimerRecipes';
+    const ACTIVE_RECIPE_KEY = 'cookingTimerActiveRecipe';
+    const TIMER_STATE_KEY = 'cookingTimerState';
+
+    // Color palette for multi-recipe tags
+    const RECIPE_COLORS = [
+      '#9b59b6', '#e67e22', '#3498db', '#1abc9c', '#e74c3c', '#f39c12'
+    ];
+
+    // Track selected recipes for multi-cook
+    let selectedRecipeIds = new Set();
+
+    // Example recipe
+    const exampleRecipe = {
+      name: "Fresh Guacamole",
+      steps: [
+        { time: 0, title: "Gather Ingredients", detail: "You'll need: 3 ripe avocados, 1 lime, 1 tsp salt, 1/2 cup diced onion, 3 tbsp fresh cilantro, 2 roma tomatoes, 1 tsp minced garlic, 1 pinch cayenne pepper", category: "prep" },
+        { time: 60, title: "Prep the Avocados", detail: "Cut avocados in half. Remove pit. Scoop out flesh into a mixing bowl.", category: "prep" },
+        { time: 180, title: "Mash It Up", detail: "Using a fork, mash the avocado to your desired consistency - chunky or smooth, your choice!", category: "mixing" },
+        { time: 240, title: "Add Lime & Salt", detail: "Squeeze the juice of 1 lime over the mashed avocado. Add 1 tsp salt. Mix well.", category: "mixing" },
+        { time: 300, title: "Fold in the Good Stuff", detail: "Gently fold in the diced onion, cilantro, tomatoes, and minced garlic.", category: "mixing" },
+        { time: 420, title: "Season to Taste", detail: "Add cayenne pepper. Taste and adjust salt and lime as needed.", category: "finishing" },
+        { time: 480, title: "Ready to Serve!", detail: "Transfer to a serving bowl. Serve immediately with tortilla chips. Pro tip: place the pit in the bowl to help keep it fresh!", category: "serving" }
+      ]
+    };
+
+    let currentRecipe = null;
+    let currentRecipes = []; // For multi-recipe mode
+    let mergedSteps = []; // Combined steps from all recipes
+    let startTime = null;
+    let timerInterval = null;
+    let isMultiRecipeMode = false;
+
+    function init() {
+      // Set up example JSON display
+      document.getElementById('exampleJson').textContent = JSON.stringify(exampleRecipe, null, 2);
+
+      // Set up Claude link
+      const claudePrompt = `Here's an example cooking timer recipe format in JSON:
+
+${JSON.stringify(exampleRecipe, null, 2)}
+
+Output this format for the following recipe:`;
+
+      const encodedPrompt = encodeURIComponent(claudePrompt);
+      document.getElementById('claudeLink').href = `https://claude.ai/new?q=${encodedPrompt}`;
+
+      // Check for URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const recipeUrl = urlParams.get('url');
+      const recipeIds = urlParams.get('recipes'); // Multi-recipe IDs
+
+      if (recipeIds) {
+        // Multi-recipe mode from URL
+        loadMultiRecipesFromIds(recipeIds.split(','));
+        return;
+      }
+
+      if (recipeUrl) {
+        loadRecipeFromUrl(recipeUrl);
+        return;
+      }
+
+      // Check for active recipe in localStorage
+      const timerState = getTimerState();
+      if (timerState && timerState.recipes && timerState.recipes.length > 0) {
+        // Multi-recipe session
+        currentRecipes = timerState.recipes;
+        isMultiRecipeMode = timerState.recipes.length > 1;
+        mergedSteps = timerState.mergedSteps || [];
+        startTime = timerState.startTime;
+
+        if (isMultiRecipeMode) {
+          showMultiRecipeTimerScreen();
+        } else {
+          currentRecipe = currentRecipes[0];
+          showTimerScreen();
+        }
+
+        if (startTime) {
+          startTimer();
+        }
+        return;
+      } else if (timerState && timerState.recipe) {
+        // Legacy single-recipe session
+        currentRecipe = timerState.recipe;
+        currentRecipes = [timerState.recipe];
+        startTime = timerState.startTime;
+        showTimerScreen();
+        if (startTime) {
+          startTimer();
+        }
+        return;
+      }
+
+      // Show saved recipes
+      renderSavedRecipes();
+    }
+
+    function getTimerState() {
+      try {
+        const state = localStorage.getItem(TIMER_STATE_KEY);
+        return state ? JSON.parse(state) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveTimerState() {
+      const state = {
+        recipe: currentRecipe,
+        recipes: currentRecipes,
+        mergedSteps: mergedSteps,
+        startTime: startTime,
+        isMultiRecipeMode: isMultiRecipeMode
+      };
+      localStorage.setItem(TIMER_STATE_KEY, JSON.stringify(state));
+    }
+
+    function clearTimerState() {
+      localStorage.removeItem(TIMER_STATE_KEY);
+    }
+
+    function getSavedRecipes() {
+      try {
+        const recipes = localStorage.getItem(RECIPES_KEY);
+        return recipes ? JSON.parse(recipes) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveRecipeToHistory(recipe, source, url = null) {
+      const recipes = getSavedRecipes();
+
+      // Check if this recipe already exists (by name and source)
+      const existingIndex = recipes.findIndex(r =>
+        r.name === recipe.name && r.url === url
+      );
+
+      if (existingIndex >= 0) {
+        // Update existing
+        recipes[existingIndex].lastUsed = Date.now();
+      } else {
+        // Add new
+        recipes.unshift({
+          id: Date.now().toString(),
+          name: recipe.name,
+          source: source, // 'url' or 'json'
+          url: url,
+          recipe: source === 'json' ? recipe : null, // Only store full recipe for JSON-pasted ones
+          createdAt: Date.now(),
+          lastUsed: Date.now()
+        });
+      }
+
+      // Keep only last 20 recipes
+      const trimmed = recipes.slice(0, 20);
+      localStorage.setItem(RECIPES_KEY, JSON.stringify(trimmed));
+    }
+
+    function deleteRecipe(id) {
+      const recipes = getSavedRecipes();
+      const filtered = recipes.filter(r => r.id !== id);
+      localStorage.setItem(RECIPES_KEY, JSON.stringify(filtered));
+      renderSavedRecipes();
+    }
+
+    function renderSavedRecipes() {
+      const recipes = getSavedRecipes();
+      const section = document.getElementById('savedRecipesSection');
+      const list = document.getElementById('recipeList');
+      const multiCookSection = document.getElementById('multiCookSection');
+
+      if (recipes.length === 0) {
+        section.classList.add('hidden');
+        return;
+      }
+
+      section.classList.remove('hidden');
+
+      // Show multi-cook section if there are 2+ recipes
+      if (recipes.length >= 2) {
+        multiCookSection.classList.remove('hidden');
+      } else {
+        multiCookSection.classList.add('hidden');
+      }
+
+      list.innerHTML = recipes.map(r => {
+        const date = new Date(r.createdAt).toLocaleDateString();
+        const sourceLabel = r.source === 'url' ? `URL: ${r.url}` : 'Pasted JSON';
+        const isSelected = selectedRecipeIds.has(r.id);
+
+        return `
+          <div class="recipe-item ${isSelected ? 'selected' : ''}" data-recipe-id="${r.id}">
+            <input type="checkbox" class="recipe-item-checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleRecipeSelection('${r.id}')" />
+            <div class="recipe-item-info" onclick="loadSavedRecipe('${r.id}')">
+              <div class="recipe-item-name">${escapeHtml(r.name)}</div>
+              <div class="recipe-item-date">Added: ${date}</div>
+              <div class="recipe-item-source">${escapeHtml(sourceLabel)}</div>
+            </div>
+            <button class="recipe-item-delete" onclick="event.stopPropagation(); deleteRecipe('${r.id}')" title="Delete">×</button>
+          </div>
+        `;
+      }).join('');
+
+      updateMultiCookButton();
+    }
+
+    function toggleRecipeSelection(id) {
+      if (selectedRecipeIds.has(id)) {
+        selectedRecipeIds.delete(id);
+      } else {
+        selectedRecipeIds.add(id);
+      }
+
+      // Update UI for this item
+      const item = document.querySelector(`.recipe-item[data-recipe-id="${id}"]`);
+      if (item) {
+        item.classList.toggle('selected', selectedRecipeIds.has(id));
+        const checkbox = item.querySelector('.recipe-item-checkbox');
+        if (checkbox) checkbox.checked = selectedRecipeIds.has(id);
+      }
+
+      updateMultiCookButton();
+    }
+
+    function updateMultiCookButton() {
+      const count = selectedRecipeIds.size;
+      const btn = document.getElementById('multiCookBtn');
+      const countDisplay = document.getElementById('selectionCount');
+
+      countDisplay.textContent = count === 1 ? '1 recipe selected' : `${count} recipes selected`;
+      btn.disabled = count < 2;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function showError(message) {
+      const el = document.getElementById('errorMessage');
+      el.textContent = message;
+      el.classList.remove('hidden');
+    }
+
+    function hideError() {
+      document.getElementById('errorMessage').classList.add('hidden');
+    }
+
+    function loadFromUrl() {
+      const url = document.getElementById('urlInput').value.trim();
+      if (!url) {
+        showError('Please enter a URL');
+        return;
+      }
+
+      try {
+        new URL(url);
+      } catch (e) {
+        showError('Please enter a valid URL');
+        return;
+      }
+
+      // Redirect to URL with parameter
+      window.location.href = `?url=${encodeURIComponent(url)}`;
+    }
+
+    async function loadRecipeFromUrl(url) {
+      hideError();
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+        }
+
+        const recipe = await response.json();
+
+        if (!validateRecipe(recipe)) {
+          throw new Error('Invalid recipe format');
+        }
+
+        currentRecipe = recipe;
+        currentRecipes = [recipe];
+        isMultiRecipeMode = false;
+        saveRecipeToHistory(recipe, 'url', url);
+        saveTimerState();
+        showTimerScreen();
+
+      } catch (e) {
+        showError(`Failed to load recipe: ${e.message}`);
+        document.getElementById('setupScreen').classList.remove('hidden');
+        document.getElementById('timerScreen').classList.add('hidden');
+        renderSavedRecipes();
+      }
+    }
+
+    function loadFromJson() {
+      hideError();
+
+      const jsonText = document.getElementById('jsonInput').value.trim();
+      if (!jsonText) {
+        showError('Please paste recipe JSON');
+        return;
+      }
+
+      try {
+        const recipe = JSON.parse(jsonText);
+
+        if (!validateRecipe(recipe)) {
+          throw new Error('Invalid recipe format. Recipe must have "name" and "steps" array.');
+        }
+
+        currentRecipe = recipe;
+        currentRecipes = [recipe];
+        isMultiRecipeMode = false;
+        saveRecipeToHistory(recipe, 'json');
+        saveTimerState();
+        showTimerScreen();
+
+      } catch (e) {
+        showError(`Invalid JSON: ${e.message}`);
+      }
+    }
+
+    function validateRecipe(recipe) {
+      if (!recipe || typeof recipe !== 'object') return false;
+      if (!recipe.name || typeof recipe.name !== 'string') return false;
+      if (!Array.isArray(recipe.steps) || recipe.steps.length === 0) return false;
+
+      for (const step of recipe.steps) {
+        if (typeof step.time !== 'number') return false;
+        if (!step.title || typeof step.title !== 'string') return false;
+      }
+
+      return true;
+    }
+
+    // Multi-recipe functions
+    async function startMultiRecipeCook() {
+      const savedRecipes = getSavedRecipes();
+      const selectedIds = Array.from(selectedRecipeIds);
+      const recipesToLoad = [];
+      const urlsToFetch = [];
+
+      // Gather recipes to load
+      for (const id of selectedIds) {
+        const saved = savedRecipes.find(r => r.id === id);
+        if (!saved) continue;
+
+        if (saved.source === 'url' && saved.url) {
+          urlsToFetch.push({ id, url: saved.url, name: saved.name });
+        } else if (saved.recipe) {
+          recipesToLoad.push({ id, recipe: saved.recipe, name: saved.name });
+        }
+      }
+
+      // Fetch URL-based recipes
+      hideError();
+      for (const item of urlsToFetch) {
+        try {
+          const response = await fetch(item.url);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch ${item.name}`);
+          }
+          const recipe = await response.json();
+          if (validateRecipe(recipe)) {
+            recipesToLoad.push({ id: item.id, recipe, name: recipe.name });
+          }
+        } catch (e) {
+          showError(`Failed to load recipe "${item.name}": ${e.message}`);
+          return;
+        }
+      }
+
+      if (recipesToLoad.length < 2) {
+        showError('Need at least 2 valid recipes to cook together');
+        return;
+      }
+
+      // Set up multi-recipe mode
+      currentRecipes = recipesToLoad.map(r => r.recipe);
+      isMultiRecipeMode = true;
+      mergedSteps = mergeRecipeSteps(recipesToLoad);
+
+      // Update URL
+      const ids = recipesToLoad.map(r => r.id).join(',');
+      window.history.replaceState({}, '', `?recipes=${ids}`);
+
+      saveTimerState();
+      showMultiRecipeTimerScreen();
+    }
+
+    async function loadMultiRecipesFromIds(ids) {
+      const savedRecipes = getSavedRecipes();
+      const recipesToLoad = [];
+      const urlsToFetch = [];
+
+      for (const id of ids) {
+        const saved = savedRecipes.find(r => r.id === id);
+        if (!saved) continue;
+
+        if (saved.source === 'url' && saved.url) {
+          urlsToFetch.push({ id, url: saved.url, name: saved.name });
+        } else if (saved.recipe) {
+          recipesToLoad.push({ id, recipe: saved.recipe, name: saved.name });
+        }
+      }
+
+      // Fetch URL-based recipes
+      for (const item of urlsToFetch) {
+        try {
+          const response = await fetch(item.url);
+          if (!response.ok) throw new Error(`Failed to fetch`);
+          const recipe = await response.json();
+          if (validateRecipe(recipe)) {
+            recipesToLoad.push({ id: item.id, recipe, name: recipe.name });
+          }
+        } catch (e) {
+          showError(`Failed to load recipe "${item.name}"`);
+          document.getElementById('setupScreen').classList.remove('hidden');
+          renderSavedRecipes();
+          return;
+        }
+      }
+
+      if (recipesToLoad.length < 1) {
+        document.getElementById('setupScreen').classList.remove('hidden');
+        renderSavedRecipes();
+        return;
+      }
+
+      if (recipesToLoad.length === 1) {
+        // Single recipe mode
+        currentRecipe = recipesToLoad[0].recipe;
+        currentRecipes = [currentRecipe];
+        isMultiRecipeMode = false;
+        saveTimerState();
+        showTimerScreen();
+        return;
+      }
+
+      // Multi-recipe mode
+      currentRecipes = recipesToLoad.map(r => r.recipe);
+      isMultiRecipeMode = true;
+      mergedSteps = mergeRecipeSteps(recipesToLoad);
+      saveTimerState();
+      showMultiRecipeTimerScreen();
+    }
+
+    function mergeRecipeSteps(recipesToLoad) {
+      const allSteps = [];
+
+      recipesToLoad.forEach((item, recipeIndex) => {
+        const recipe = item.recipe;
+        const color = RECIPE_COLORS[recipeIndex % RECIPE_COLORS.length];
+
+        recipe.steps.forEach(step => {
+          allSteps.push({
+            ...step,
+            recipeName: recipe.name,
+            recipeIndex: recipeIndex,
+            recipeColor: color
+          });
+        });
+      });
+
+      // Sort by time
+      allSteps.sort((a, b) => a.time - b.time);
+
+      return allSteps;
+    }
+
+    function showMultiRecipeTimerScreen() {
+      document.getElementById('setupScreen').classList.add('hidden');
+      document.getElementById('timerScreen').classList.remove('hidden');
+      document.getElementById('recipeName').textContent = 'Multi-Recipe Cook';
+
+      // Show recipe badges
+      const headerEl = document.getElementById('multiRecipeHeader');
+      headerEl.classList.remove('hidden');
+      headerEl.innerHTML = currentRecipes.map((r, i) => {
+        const color = RECIPE_COLORS[i % RECIPE_COLORS.length];
+        return `<span class="multi-recipe-badge" style="border-color: ${color}; background: ${color}33;">${escapeHtml(r.name)}</span>`;
+      }).join('');
+
+      renderMultiRecipeTimeline();
+    }
+
+    function renderMultiRecipeTimeline(elapsed = null, currentIndex = -1) {
+      const steps = mergedSteps;
+      let html = '';
+
+      for (let i = 0; i < steps.length; i++) {
+        const step = steps[i];
+        let statusClass = '';
+        let timeDisplay = formatTime(step.time);
+
+        if (elapsed !== null) {
+          if (step.time < elapsed - 60) {
+            statusClass = 'completed';
+          } else if (i === currentIndex) {
+            statusClass = 'active';
+          }
+
+          // Calculate actual clock time
+          const stepDate = new Date(startTime + step.time * 1000);
+          timeDisplay = stepDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        const recipeTag = `<span class="timeline-tag" style="background: ${step.recipeColor}">${escapeHtml(step.recipeName)}</span>`;
+        const categoryTag = step.category
+          ? `<span class="timeline-tag" style="background: #3498db">${escapeHtml(step.category)}</span>`
+          : '';
+
+        html += `
+          <div class="timeline-item ${statusClass}">
+            <div class="timeline-time">${timeDisplay}</div>
+            <div class="timeline-content">
+              <div class="timeline-title">${escapeHtml(step.title)}</div>
+              <div class="timeline-detail">${escapeHtml(step.detail || '').replace(/\n/g, '<br>')}</div>
+              ${recipeTag}${categoryTag}
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById('timeline').innerHTML = html;
+    }
+
+    function loadSavedRecipe(id) {
+      const recipes = getSavedRecipes();
+      const saved = recipes.find(r => r.id === id);
+
+      if (!saved) {
+        showError('Recipe not found');
+        return;
+      }
+
+      if (saved.source === 'url' && saved.url) {
+        window.location.href = `?url=${encodeURIComponent(saved.url)}`;
+      } else if (saved.recipe) {
+        currentRecipe = saved.recipe;
+        currentRecipes = [saved.recipe];
+        isMultiRecipeMode = false;
+        saveTimerState();
+        showTimerScreen();
+      } else {
+        showError('Recipe data not available');
+      }
+    }
+
+    function showTimerScreen() {
+      document.getElementById('setupScreen').classList.add('hidden');
+      document.getElementById('timerScreen').classList.remove('hidden');
+      document.getElementById('recipeName').textContent = currentRecipe.name;
+      document.getElementById('multiRecipeHeader').classList.add('hidden');
+      renderTimeline();
+    }
+
+    function chooseNewRecipe() {
+      if (startTime && !confirm('This will stop the current timer. Continue?')) {
+        return;
+      }
+
+      clearTimerState();
+      clearInterval(timerInterval);
+      currentRecipe = null;
+      currentRecipes = [];
+      mergedSteps = [];
+      isMultiRecipeMode = false;
+      startTime = null;
+      selectedRecipeIds.clear();
+
+      // Clear URL parameter
+      window.history.replaceState({}, '', window.location.pathname);
+
+      document.getElementById('setupScreen').classList.remove('hidden');
+      document.getElementById('timerScreen').classList.add('hidden');
+
+      // Reset timer display
+      document.getElementById('startBtn').classList.remove('hidden');
+      document.getElementById('servingTimeContainer').classList.remove('hidden');
+      document.getElementById('servingTimeBtn').classList.remove('hidden');
+      document.getElementById('servingTimeInputWrapper').classList.add('hidden');
+      document.getElementById('timerDisplay').classList.add('hidden');
+      document.getElementById('startSection').classList.remove('running');
+      document.getElementById('currentStepSection').classList.add('hidden');
+      document.getElementById('nextStepsSection').classList.add('hidden');
+      document.getElementById('completedSection').classList.add('hidden');
+      document.getElementById('notStartedMsg').classList.remove('hidden');
+      document.getElementById('multiRecipeHeader').classList.add('hidden');
+
+      renderSavedRecipes();
+    }
+
+    function copyExample() {
+      navigator.clipboard.writeText(JSON.stringify(exampleRecipe, null, 2))
+        .then(() => {
+          const btn = event.target;
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = originalText, 1500);
+        })
+        .catch(err => {
+          showError('Failed to copy to clipboard');
+        });
+    }
+
+    function startCooking() {
+      startTime = Date.now();
+      saveTimerState();
+      startTimer();
+    }
+
+    function showServingTimeInput() {
+      document.getElementById('servingTimeBtn').classList.add('hidden');
+      document.getElementById('servingTimeInputWrapper').classList.remove('hidden');
+
+      // Set default value to a reasonable time (1 hour from now, rounded to nearest 5 min)
+      const now = new Date();
+      const steps = isMultiRecipeMode ? mergedSteps : currentRecipe.steps;
+      const lastStepTime = steps[steps.length - 1].time;
+      const suggestedServing = new Date(now.getTime() + lastStepTime * 1000 + 5 * 60 * 1000);
+
+      // Round to nearest 5 minutes
+      suggestedServing.setMinutes(Math.ceil(suggestedServing.getMinutes() / 5) * 5);
+      suggestedServing.setSeconds(0);
+
+      const hours = suggestedServing.getHours().toString().padStart(2, '0');
+      const mins = suggestedServing.getMinutes().toString().padStart(2, '0');
+      document.getElementById('servingTimeInput').value = `${hours}:${mins}`;
+    }
+
+    function hideServingTimeInput() {
+      document.getElementById('servingTimeBtn').classList.remove('hidden');
+      document.getElementById('servingTimeInputWrapper').classList.add('hidden');
+    }
+
+    function onServingTimeSelected() {
+      const timeInput = document.getElementById('servingTimeInput').value;
+      if (!timeInput) return;
+
+      const [hours, minutes] = timeInput.split(':').map(Number);
+      const steps = isMultiRecipeMode ? mergedSteps : currentRecipe.steps;
+      const lastStepTime = steps[steps.length - 1].time;
+
+      // Create the serving time for today
+      const now = new Date();
+      let servingTime = new Date(now);
+      servingTime.setHours(hours, minutes, 0, 0);
+
+      // If the serving time is in the past, assume it's for tomorrow
+      if (servingTime.getTime() < now.getTime()) {
+        servingTime.setDate(servingTime.getDate() + 1);
+      }
+
+      // Calculate the start time by subtracting the total cooking time
+      startTime = servingTime.getTime() - (lastStepTime * 1000);
+
+      saveTimerState();
+      startTimer();
+    }
+
+    function startTimer() {
+      document.getElementById('startBtn').classList.add('hidden');
+      document.getElementById('servingTimeContainer').classList.add('hidden');
+      document.getElementById('timerDisplay').classList.remove('hidden');
+      document.getElementById('startSection').classList.add('running');
+      document.getElementById('notStartedMsg').classList.add('hidden');
+
+      updateDisplay();
+      timerInterval = setInterval(updateDisplay, 1000);
+    }
+
+    function resetTimer() {
+      if (confirm('Are you sure you want to reset the timer?')) {
+        startTime = null;
+        clearInterval(timerInterval);
+        saveTimerState();
+
+        document.getElementById('startBtn').classList.remove('hidden');
+        document.getElementById('servingTimeContainer').classList.remove('hidden');
+        document.getElementById('servingTimeBtn').classList.remove('hidden');
+        document.getElementById('servingTimeInputWrapper').classList.add('hidden');
+        document.getElementById('timerDisplay').classList.add('hidden');
+        document.getElementById('startSection').classList.remove('running');
+        document.getElementById('currentStepSection').classList.add('hidden');
+        document.getElementById('nextStepsSection').classList.add('hidden');
+        document.getElementById('completedSection').classList.add('hidden');
+        document.getElementById('notStartedMsg').classList.remove('hidden');
+
+        if (isMultiRecipeMode) {
+          renderMultiRecipeTimeline();
+        } else {
+          renderTimeline();
+        }
+      }
+    }
+
+    function formatTime(seconds) {
+      const mins = Math.floor(Math.abs(seconds) / 60);
+      const secs = Math.abs(seconds) % 60;
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function formatTimeWithHours(seconds) {
+      if (seconds >= 3600) {
+        const hrs = Math.floor(seconds / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        return `${hrs}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+      return formatTime(seconds);
+    }
+
+    function updateDisplay() {
+      const steps = isMultiRecipeMode ? mergedSteps : currentRecipe.steps;
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const elapsedLabel = document.getElementById('elapsedLabel');
+
+      // Handle negative elapsed time (waiting to start based on serving time)
+      if (elapsed < 0) {
+        document.getElementById('elapsedTime').textContent = formatTimeWithHours(Math.abs(elapsed));
+        elapsedLabel.textContent = 'Starts in';
+        elapsedLabel.classList.add('countdown');
+      } else {
+        document.getElementById('elapsedTime').textContent = formatTimeWithHours(elapsed);
+        elapsedLabel.textContent = 'Elapsed Time';
+        elapsedLabel.classList.remove('countdown');
+      }
+
+      // Find current and upcoming steps
+      let currentStep = null;
+      let currentStepIndex = -1;
+      const upcomingSteps = [];
+
+      for (let i = 0; i < steps.length; i++) {
+        const step = steps[i];
+        const timeUntil = step.time - elapsed;
+
+        if (timeUntil <= 0 && timeUntil > -60) {
+          // Step just started (within last 60 seconds)
+          currentStep = step;
+          currentStepIndex = i;
+        } else if (timeUntil > 0 && upcomingSteps.length < 3) {
+          upcomingSteps.push({ ...step, timeUntil, index: i });
+        }
+      }
+
+      // If no "just started" step, find the most recent active step
+      if (!currentStep && elapsed >= 0) {
+        for (let i = steps.length - 1; i >= 0; i--) {
+          if (steps[i].time <= elapsed) {
+            currentStep = steps[i];
+            currentStepIndex = i;
+            break;
+          }
+        }
+      }
+
+      // Check if cooking is complete
+      const lastStep = steps[steps.length - 1];
+      if (elapsed >= lastStep.time + 60) {
+        document.getElementById('completedSection').classList.remove('hidden');
+        document.getElementById('currentStepSection').classList.add('hidden');
+        document.getElementById('nextStepsSection').classList.add('hidden');
+      } else {
+        document.getElementById('completedSection').classList.add('hidden');
+
+        // Update current step display
+        if (currentStep) {
+          document.getElementById('currentStepSection').classList.remove('hidden');
+          document.getElementById('currentStepTitle').textContent = currentStep.title;
+          document.getElementById('currentStepDetail').textContent = currentStep.detail || '';
+
+          // Show recipe name in multi-recipe mode, category otherwise
+          const categoryEl = document.getElementById('currentStepCategory');
+          if (isMultiRecipeMode && currentStep.recipeName) {
+            categoryEl.textContent = currentStep.recipeName;
+            categoryEl.style.display = 'inline-block';
+            categoryEl.style.background = currentStep.recipeColor || 'rgba(0,0,0,0.2)';
+          } else {
+            categoryEl.textContent = currentStep.category || '';
+            categoryEl.style.display = currentStep.category ? 'inline-block' : 'none';
+            categoryEl.style.background = 'rgba(0,0,0,0.2)';
+          }
+        } else {
+          // Hide current step section when waiting to start or between steps
+          document.getElementById('currentStepSection').classList.add('hidden');
+        }
+
+        // Update upcoming steps
+        if (upcomingSteps.length > 0) {
+          document.getElementById('nextStepsSection').classList.remove('hidden');
+          let html = '';
+          for (const step of upcomingSteps) {
+            const countdownClass = step.timeUntil <= 30 ? 'now' : step.timeUntil <= 60 ? 'soon' : '';
+            const tagText = isMultiRecipeMode ? step.recipeName : (step.category || '');
+            html += `
+              <div class="next-step-item">
+                <div class="next-step-info">
+                  <div class="next-step-title">${escapeHtml(step.title)}</div>
+                  <div class="next-step-category-tag">${escapeHtml(tagText)}</div>
+                </div>
+                <div class="next-step-countdown ${countdownClass}">
+                  ${step.timeUntil <= 0 ? 'NOW' : 'in ' + formatTime(step.timeUntil)}
+                </div>
+              </div>
+            `;
+          }
+          document.getElementById('nextStepsList').innerHTML = html;
+        } else {
+          document.getElementById('nextStepsSection').classList.add('hidden');
+        }
+      }
+
+      // Update timeline
+      if (isMultiRecipeMode) {
+        renderMultiRecipeTimeline(elapsed, currentStepIndex);
+      } else {
+        renderTimeline(elapsed, currentStepIndex);
+      }
+    }
+
+    function renderTimeline(elapsed = null, currentIndex = -1) {
+      const steps = currentRecipe.steps;
+      let html = '';
+
+      for (let i = 0; i < steps.length; i++) {
+        const step = steps[i];
+        let statusClass = '';
+        let timeDisplay = formatTime(step.time);
+
+        if (elapsed !== null) {
+          if (step.time < elapsed - 60) {
+            statusClass = 'completed';
+          } else if (i === currentIndex) {
+            statusClass = 'active';
+          }
+
+          // Calculate actual clock time
+          const stepDate = new Date(startTime + step.time * 1000);
+          timeDisplay = stepDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        const categoryTag = step.category
+          ? `<span class="timeline-tag">${escapeHtml(step.category)}</span>`
+          : '';
+
+        html += `
+          <div class="timeline-item ${statusClass}">
+            <div class="timeline-time">${timeDisplay}</div>
+            <div class="timeline-content">
+              <div class="timeline-title">${escapeHtml(step.title)}</div>
+              <div class="timeline-detail">${escapeHtml(step.detail || '').replace(/\n/g, '<br>')}</div>
+              ${categoryTag}
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById('timeline').innerHTML = html;
+    }
+
+    // ============================================
+    // Transfer State Functions
+    // ============================================
+
+    /**
+     * Base64url encoding/decoding helpers (URL-safe base64)
+     */
+    function uint8ArrayToBase64url(uint8Array) {
+      // Use native toBase64 if available, otherwise fallback
+      if (uint8Array.toBase64) {
+        return uint8Array.toBase64({ alphabet: 'base64url' });
+      }
+      // Fallback: convert to regular base64 and make URL-safe
+      let binary = '';
+      for (let i = 0; i < uint8Array.length; i++) {
+        binary += String.fromCharCode(uint8Array[i]);
+      }
+      return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+    }
+
+    function base64urlToUint8Array(base64url) {
+      // Use native fromBase64 if available, otherwise fallback
+      if (Uint8Array.fromBase64) {
+        return Uint8Array.fromBase64(base64url, { alphabet: 'base64url' });
+      }
+      // Fallback: convert URL-safe base64 to regular and decode
+      let base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
+      // Add padding if needed
+      while (base64.length % 4) {
+        base64 += '=';
+      }
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes;
+    }
+
+    /**
+     * Compress a string using deflate-raw algorithm.
+     * Returns base64url-encoded compressed data.
+     */
+    async function compressString(string) {
+      const byteArray = new TextEncoder().encode(string);
+      const stream = new CompressionStream('deflate-raw');
+      const writer = stream.writable.getWriter();
+      writer.write(byteArray);
+      writer.close();
+      const buffer = await new Response(stream.readable).arrayBuffer();
+      return uint8ArrayToBase64url(new Uint8Array(buffer));
+    }
+
+    /**
+     * Decompress a base64url-encoded deflate-raw compressed string.
+     */
+    async function decompressString(base64url) {
+      const byteArray = base64urlToUint8Array(base64url);
+      const stream = new DecompressionStream('deflate-raw');
+      const writer = stream.writable.getWriter();
+      writer.write(byteArray);
+      writer.close();
+      const buffer = await new Response(stream.readable).arrayBuffer();
+      return new TextDecoder().decode(buffer);
+    }
+
+    /**
+     * Serialize current timer state to a compressed URL fragment string.
+     * Format: deflate-raw compressed, base64url-encoded JSON containing:
+     * - startTime: timestamp when timer started
+     * - recipeUrls: array of URLs for URL-sourced recipes
+     * - recipeJsons: array of full recipe JSON objects for JSON-pasted recipes
+     */
+    async function serializeState() {
+      const savedRecipes = getSavedRecipes();
+      const state = {
+        startTime: startTime,
+        recipeUrls: [],
+        recipeJsons: []
+      };
+
+      // Get serving time if set
+      const timerState = getTimerState();
+      if (timerState && timerState.startTime) {
+        state.startTime = timerState.startTime;
+      }
+
+      // Collect recipes being used
+      const recipesToInclude = isMultiRecipeMode ? currentRecipes : (currentRecipe ? [currentRecipe] : []);
+
+      for (const recipe of recipesToInclude) {
+        // Find if this recipe was loaded from URL or JSON
+        const savedRecipe = savedRecipes.find(r =>
+          r.name === recipe.name &&
+          (r.recipe && JSON.stringify(r.recipe) === JSON.stringify(recipe)) ||
+          (r.url && r.source === 'url')
+        );
+
+        if (savedRecipe && savedRecipe.source === 'url' && savedRecipe.url) {
+          state.recipeUrls.push(savedRecipe.url);
+        } else {
+          state.recipeJsons.push(recipe);
+        }
+      }
+
+      return await compressString(JSON.stringify(state));
+    }
+
+    /**
+     * Deserialize state from compressed URL fragment string.
+     */
+    async function deserializeState(fragment) {
+      try {
+        const decompressed = await decompressString(fragment);
+        return JSON.parse(decompressed);
+      } catch (e) {
+        console.error('Failed to deserialize state:', e);
+        return null;
+      }
+    }
+
+    /**
+     * Generate transfer URL with current state in fragment.
+     */
+    async function generateTransferUrl() {
+      const baseUrl = window.location.origin + window.location.pathname;
+      const stateFragment = await serializeState();
+      return `${baseUrl}#transfer=${stateFragment}`;
+    }
+
+    // Expose for Playwright testing
+    window.generateTransferUrl = generateTransferUrl;
+    window.deserializeState = deserializeState;
+    window.serializeState = serializeState;
+
+    // Expose startTime getter for testing
+    Object.defineProperty(window, 'startTime', {
+      get: function() { return startTime; }
+    });
+
+    /**
+     * Show transfer modal with QR code.
+     */
+    async function showTransferModal() {
+      const url = await generateTransferUrl();
+      const canvas = document.getElementById('qrCanvas');
+
+      try {
+        // Use qrcode-generator library
+        // Type 0 = auto-detect size based on data
+        const qr = qrcode(0, 'M');
+        qr.addData(url);
+        qr.make();
+
+        const ctx = canvas.getContext('2d');
+        const moduleCount = qr.getModuleCount();
+        const cellSize = 8;
+        const margin = 16;
+        const size = moduleCount * cellSize + margin * 2;
+
+        canvas.width = size;
+        canvas.height = size;
+
+        // White background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, size, size);
+
+        // Draw QR modules
+        ctx.fillStyle = '#000000';
+        for (let row = 0; row < moduleCount; row++) {
+          for (let col = 0; col < moduleCount; col++) {
+            if (qr.isDark(row, col)) {
+              ctx.fillRect(
+                col * cellSize + margin,
+                row * cellSize + margin,
+                cellSize,
+                cellSize
+              );
+            }
+          }
+        }
+
+        document.getElementById('qrModalOverlay').classList.remove('hidden');
+      } catch (error) {
+        console.error('QR code generation error:', error);
+        alert('Failed to generate QR code');
+      }
+    }
+
+    /**
+     * Hide transfer modal.
+     */
+    function hideTransferModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      document.getElementById('qrModalOverlay').classList.add('hidden');
+    }
+
+    /**
+     * Check if a recipe already exists in saved recipes (by URL or JSON content).
+     */
+    function findDuplicateRecipe(recipes, url, recipeJson) {
+      if (url) {
+        return recipes.find(r => r.source === 'url' && r.url === url);
+      }
+      if (recipeJson) {
+        const jsonStr = JSON.stringify(recipeJson);
+        return recipes.find(r =>
+          r.source === 'json' &&
+          r.recipe &&
+          JSON.stringify(r.recipe) === jsonStr
+        );
+      }
+      return null;
+    }
+
+    /**
+     * Import recipes from transfer state, deduplicating as needed.
+     * Returns array of recipe objects ready to cook.
+     */
+    async function importRecipesFromState(state) {
+      const savedRecipes = getSavedRecipes();
+      const recipesToCook = [];
+
+      // Import URL-based recipes
+      for (const url of (state.recipeUrls || [])) {
+        // Check for duplicate
+        const existing = findDuplicateRecipe(savedRecipes, url, null);
+
+        if (existing && existing.recipe) {
+          // Use cached recipe data if available
+          recipesToCook.push(existing.recipe);
+        } else {
+          // Fetch the recipe
+          try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Failed to fetch: ${response.status}`);
+            const recipe = await response.json();
+
+            if (validateRecipe(recipe)) {
+              recipesToCook.push(recipe);
+
+              // Save if not duplicate
+              if (!existing) {
+                saveRecipeToHistory(recipe, 'url', url);
+              }
+            }
+          } catch (e) {
+            console.error(`Failed to fetch recipe from ${url}:`, e);
+          }
+        }
+      }
+
+      // Import JSON-based recipes
+      for (const recipeJson of (state.recipeJsons || [])) {
+        if (!validateRecipe(recipeJson)) continue;
+
+        // Check for duplicate
+        const existing = findDuplicateRecipe(savedRecipes, null, recipeJson);
+
+        recipesToCook.push(recipeJson);
+
+        // Save if not duplicate
+        if (!existing) {
+          saveRecipeToHistory(recipeJson, 'json');
+        }
+      }
+
+      return recipesToCook;
+    }
+
+    /**
+     * Handle transfer state from URL fragment.
+     */
+    async function handleTransferState() {
+      const hash = window.location.hash;
+      if (!hash.startsWith('#transfer=')) return false;
+
+      const stateStr = hash.substring('#transfer='.length);
+      const state = await deserializeState(stateStr);
+
+      if (!state) {
+        showError('Failed to load transfer data. Please try scanning the QR code again.');
+        return false;
+      }
+
+      // Import recipes
+      const recipes = await importRecipesFromState(state);
+
+      if (recipes.length === 0) {
+        showError('No valid recipes found in transfer data.');
+        return false;
+      }
+
+      // Set up cooking state
+      if (recipes.length === 1) {
+        currentRecipe = recipes[0];
+        currentRecipes = [recipes[0]];
+        isMultiRecipeMode = false;
+      } else {
+        currentRecipes = recipes;
+        isMultiRecipeMode = true;
+        mergedSteps = mergeRecipeSteps(recipes.map((r, i) => ({
+          id: Date.now().toString() + i,
+          recipe: r,
+          name: r.name
+        })));
+      }
+
+      // Restore timing state
+      if (state.startTime) {
+        startTime = state.startTime;
+      }
+
+      // Save state to localStorage
+      saveTimerState();
+
+      // Clear the hash to avoid re-processing on reload
+      window.history.replaceState({}, '', window.location.pathname);
+
+      // Show timer screen
+      if (isMultiRecipeMode) {
+        showMultiRecipeTimerScreen();
+      } else {
+        showTimerScreen();
+      }
+
+      // Start the timer if it was already running
+      if (startTime) {
+        startTimer();
+      }
+
+      return true;
+    }
+
+    // ============================================
+    // Test Framework
+    // ============================================
+
+    // Expose testResults globally for Playwright tests
+    window.testResults = {
+      passed: [],
+      failed: []
+    };
+    const testResults = window.testResults;
+
+    async function runTest(name, testFn) {
+      try {
+        await testFn();
+        testResults.passed.push(name);
+      } catch (e) {
+        testResults.failed.push({ name, error: e.message || String(e) });
+      }
+    }
+
+    function assertEqual(actual, expected, message) {
+      if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+        throw new Error(`${message || 'Assertion failed'}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+      }
+    }
+
+    function assertTrue(condition, message) {
+      if (!condition) {
+        throw new Error(message || 'Assertion failed: expected true');
+      }
+    }
+
+    async function runAllTests() {
+      // Test compression/decompression
+      await runTest('compression roundtrip works', async () => {
+        const original = 'Hello, World! This is a test string for compression.';
+        const compressed = await compressString(original);
+        const decompressed = await decompressString(compressed);
+        assertEqual(decompressed, original, 'Decompressed should match original');
+      });
+
+      await runTest('compressed data is smaller', async () => {
+        const original = JSON.stringify({
+          name: 'Test Recipe with a very long name',
+          steps: [
+            { time: 0, title: 'Step 1', detail: 'This is a detailed description of step 1' },
+            { time: 60, title: 'Step 2', detail: 'This is a detailed description of step 2' },
+            { time: 120, title: 'Step 3', detail: 'This is a detailed description of step 3' }
+          ]
+        });
+        const compressed = await compressString(original);
+        assertTrue(compressed.length < original.length, 'Compressed should be smaller than original');
+      });
+
+      // Test state serialization/deserialization
+      await runTest('serializeState creates compressed data', async () => {
+        // Temporarily set up state for testing
+        const oldRecipe = currentRecipe;
+        const oldRecipes = currentRecipes;
+        const oldStartTime = startTime;
+
+        currentRecipe = { name: 'Test Recipe', steps: [{ time: 0, title: 'Step 1' }] };
+        currentRecipes = [currentRecipe];
+        startTime = 1700000000000;
+
+        const serialized = await serializeState();
+        assertTrue(serialized.length > 0, 'Serialized state should not be empty');
+
+        // Restore
+        currentRecipe = oldRecipe;
+        currentRecipes = oldRecipes;
+        startTime = oldStartTime;
+      });
+
+      await runTest('deserializeState roundtrip works', async () => {
+        const originalState = {
+          startTime: 1700000000000,
+          recipeUrls: ['https://example.com/recipe.json'],
+          recipeJsons: [{ name: 'Test', steps: [{ time: 0, title: 'Step' }] }]
+        };
+
+        const compressed = await compressString(JSON.stringify(originalState));
+        const decoded = await deserializeState(compressed);
+
+        assertEqual(decoded.startTime, originalState.startTime, 'startTime should match');
+        assertEqual(decoded.recipeUrls, originalState.recipeUrls, 'recipeUrls should match');
+        assertEqual(decoded.recipeJsons.length, 1, 'recipeJsons should have one item');
+        assertEqual(decoded.recipeJsons[0].name, 'Test', 'recipe name should match');
+      });
+
+      await runTest('deserializeState handles invalid input', async () => {
+        // Temporarily suppress console.error for this test
+        const originalError = console.error;
+        console.error = () => {};
+        const result = await deserializeState('not-valid-base64!!!');
+        console.error = originalError;
+        assertEqual(result, null, 'Should return null for invalid input');
+      });
+
+      await runTest('findDuplicateRecipe finds URL duplicates', async () => {
+        const recipes = [
+          { id: '1', source: 'url', url: 'https://example.com/a.json', name: 'A' },
+          { id: '2', source: 'json', recipe: { name: 'B', steps: [] }, name: 'B' }
+        ];
+
+        const found = findDuplicateRecipe(recipes, 'https://example.com/a.json', null);
+        assertEqual(found.id, '1', 'Should find URL-based recipe');
+
+        const notFound = findDuplicateRecipe(recipes, 'https://example.com/c.json', null);
+        assertEqual(notFound, undefined, 'Should not find non-existent URL');
+      });
+
+      await runTest('findDuplicateRecipe finds JSON duplicates', async () => {
+        const recipeJson = { name: 'B', steps: [{ time: 0, title: 'X' }] };
+        const recipes = [
+          { id: '1', source: 'url', url: 'https://example.com/a.json', name: 'A' },
+          { id: '2', source: 'json', recipe: recipeJson, name: 'B' }
+        ];
+
+        const found = findDuplicateRecipe(recipes, null, recipeJson);
+        assertEqual(found.id, '2', 'Should find JSON-based recipe');
+
+        const notFound = findDuplicateRecipe(recipes, null, { name: 'C', steps: [] });
+        assertEqual(notFound, undefined, 'Should not find non-existent JSON');
+      });
+
+      await runTest('validateRecipe rejects invalid recipes', async () => {
+        assertEqual(validateRecipe(null), false, 'null should be invalid');
+        assertEqual(validateRecipe({}), false, 'empty object should be invalid');
+        assertEqual(validateRecipe({ name: 'X' }), false, 'missing steps should be invalid');
+        assertEqual(validateRecipe({ name: 'X', steps: [] }), false, 'empty steps should be invalid');
+        assertEqual(validateRecipe({ name: 'X', steps: [{ title: 'Y' }] }), false, 'missing time should be invalid');
+      });
+
+      await runTest('validateRecipe accepts valid recipes', async () => {
+        const valid = { name: 'Test', steps: [{ time: 0, title: 'Step 1' }] };
+        assertEqual(validateRecipe(valid), true, 'Valid recipe should pass');
+
+        const validWithDetails = {
+          name: 'Test',
+          steps: [
+            { time: 0, title: 'Step 1', detail: 'Details', category: 'prep' },
+            { time: 60, title: 'Step 2' }
+          ]
+        };
+        assertEqual(validateRecipe(validWithDetails), true, 'Recipe with details should pass');
+      });
+
+      await runTest('generateTransferUrl includes correct format', async () => {
+        const oldRecipe = currentRecipe;
+        const oldRecipes = currentRecipes;
+        const oldStartTime = startTime;
+
+        currentRecipe = { name: 'Test', steps: [{ time: 0, title: 'Step' }] };
+        currentRecipes = [currentRecipe];
+        startTime = 1700000000000;
+
+        const url = await generateTransferUrl();
+        assertTrue(url.includes('#transfer='), 'URL should contain #transfer=');
+        assertTrue(url.startsWith(window.location.origin), 'URL should start with origin');
+
+        currentRecipe = oldRecipe;
+        currentRecipes = oldRecipes;
+        startTime = oldStartTime;
+      });
+
+      await runTest('mergeRecipeSteps sorts by time', async () => {
+        const recipesToMerge = [
+          { id: '1', recipe: { name: 'A', steps: [{ time: 60, title: 'A1' }, { time: 180, title: 'A2' }] }, name: 'A' },
+          { id: '2', recipe: { name: 'B', steps: [{ time: 0, title: 'B1' }, { time: 120, title: 'B2' }] }, name: 'B' }
+        ];
+
+        const merged = mergeRecipeSteps(recipesToMerge);
+
+        assertEqual(merged.length, 4, 'Should have 4 merged steps');
+        assertEqual(merged[0].time, 0, 'First step should be at time 0');
+        assertEqual(merged[0].title, 'B1', 'First step should be B1');
+        assertEqual(merged[1].time, 60, 'Second step should be at time 60');
+        assertEqual(merged[2].time, 120, 'Third step should be at time 120');
+        assertEqual(merged[3].time, 180, 'Fourth step should be at time 180');
+      });
+
+      await runTest('mergeRecipeSteps adds recipe metadata', async () => {
+        const recipesToMerge = [
+          { id: '1', recipe: { name: 'Recipe A', steps: [{ time: 0, title: 'Step' }] }, name: 'Recipe A' }
+        ];
+
+        const merged = mergeRecipeSteps(recipesToMerge);
+
+        assertEqual(merged[0].recipeName, 'Recipe A', 'Should have recipeName');
+        assertEqual(merged[0].recipeIndex, 0, 'Should have recipeIndex');
+        assertTrue(merged[0].recipeColor !== undefined, 'Should have recipeColor');
+      });
+
+      await runTest('formatTime handles various inputs', async () => {
+        assertEqual(formatTime(0), '00:00', 'Zero seconds');
+        assertEqual(formatTime(59), '00:59', '59 seconds');
+        assertEqual(formatTime(60), '01:00', '1 minute');
+        assertEqual(formatTime(125), '02:05', '2 minutes 5 seconds');
+        assertEqual(formatTime(3599), '59:59', '59 minutes 59 seconds');
+      });
+
+      await runTest('escapeHtml escapes special characters', async () => {
+        const escaped = escapeHtml('<div onclick="alert()">test</div>');
+        assertTrue(!escaped.includes('<div'), 'Should escape HTML tags');
+        assertTrue(escaped.includes('&lt;'), 'Should use HTML entities');
+      });
+
+      // Display test results
+      displayTestResults();
+    }
+
+    function displayTestResults() {
+      const container = document.getElementById('testResultsContainer');
+
+      if (testResults.failed.length === 0) {
+        // All tests passed - show nothing
+        container.innerHTML = '';
+        return;
+      }
+
+      // Some tests failed - show error summary
+      const failedList = testResults.failed.map(f =>
+        `FAILED: ${f.name}\n  Error: ${f.error}`
+      ).join('\n\n');
+
+      container.innerHTML = `
+        <details class="test-results">
+          <summary>${testResults.failed.length} test(s) failed</summary>
+          <pre>${escapeHtml(failedList)}</pre>
+        </details>
+      `;
+    }
+
+    // ============================================
+    // Modified init function
+    // ============================================
+
+    async function initWithTransfer() {
+      // Check for transfer state first
+      if (window.location.hash.startsWith('#transfer=')) {
+        await handleTransferState();
+        await runAllTests();
+        return;
+      }
+
+      // Continue with original init
+      init();
+      await runAllTests();
+    }
+
+    // Initialize on load
+    initWithTransfer();
+  </script>
+</body>
+</html>

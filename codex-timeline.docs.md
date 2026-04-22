@@ -1,0 +1,3 @@
+View Mozilla Codex rollout timeline events from `.jsonl` files with an interactive interface that supports filtering, searching, and detailed event inspection. Load files via drag-and-drop, paste, or URL fetch, then explore events organized chronologically with customizable timezone display and comprehensive event details including formatted content, tool calls, and reasoning blocks.
+
+<!-- Generated from commit: 266b40cbefe398ec5a03b695f107cab7a5713529 -->

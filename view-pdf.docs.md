@@ -1,0 +1,3 @@
+View PDF files from any CORS-enabled URL with this interactive PDF viewer application. The viewer supports navigation between pages, adjustable zoom levels including auto-scaling, and maintains your viewing state through URL parameters. High-DPI display support ensures sharp text rendering across all devices, and the responsive design adapts seamlessly to mobile screens.
+
+<!-- Generated from commit: 8d8bac810dc3a0b4b1b3a2ff37a1d2c412b222e0 -->

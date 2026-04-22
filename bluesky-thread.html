@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bluesky Thread Viewer</title>
+  <style>
+    :root {
+      --depth-color-1: hsl(200, 70%, 50%);
+      --depth-color-2: hsl(30, 80%, 50%);
+      --depth-color-3: hsl(120, 60%, 40%);
+      --depth-color-4: hsl(0, 70%, 50%);
+      --depth-color-5: hsl(280, 60%, 50%);
+      --depth-color-6: hsl(20, 60%, 40%);
+      --depth-color-7: hsl(330, 60%, 50%);
+      --depth-color-8: hsl(0, 0%, 40%);
+    }
+    body {
+      font-family: sans-serif;
+      margin: 1em;
+    }
+    header {
+       max-width: 800px;
+    }
+    .controls {
+      margin-bottom: 1em;
+    }
+    form {
+      display: flex;
+      gap: 0.5em;
+    }
+    input[type="text"] {
+      flex: 1;
+      font-size: 1rem;
+      padding: 0.5em;
+    }
+    #urlForm button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .copy-container {
+      display: none;
+      margin-bottom: 1em;
+    }
+    #copyBtn,
+    #copyJsonBtn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-right: 0.5em;
+    }
+    .tabs {
+      display: none;
+      margin-bottom: 1em;
+      border-bottom: 2px solid #ddd;
+    }
+    .tab {
+      background: none;
+      border: none;
+      padding: 0.75em 1.5em;
+      font-size: 1rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      color: #666;
+    }
+    .tab:hover {
+      color: #333;
+    }
+    .tab.active {
+      color: #007bff;
+      border-bottom-color: #007bff;
+      font-weight: bold;
+    }
+    .reply-to {
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 0.25em;
+    }
+    .reply-to a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .reply-to a:hover {
+      text-decoration: underline;
+    }
+    .post.highlighted {
+      background-color: #fffde7;
+      transition: background-color 0.3s;
+    }
+    .post {
+      position: relative;
+      border: 1px solid #ccc;
+      padding: 0.75em 2px 0.75em 0.75em;
+      border-radius: 6px;
+      margin-top: 1em;
+    }
+    .post::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 4px;
+      background-color: var(--stripe-color, transparent);
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+    .depth-1 { --stripe-color: var(--depth-color-1); }
+    /* Connect consecutive root-level posts by the thread author */
+    .post.depth-1.author-continuation {
+      margin-top: 0;
+      border-top: none;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .post.depth-1.author-continuation::before {
+      border-top-left-radius: 0;
+    }
+    .post.depth-1:has(+ .post.depth-1.author-continuation) {
+      border-bottom: none;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .post.depth-1:has(+ .post.depth-1.author-continuation)::before {
+      border-bottom-left-radius: 0;
+    }
+    .depth-2 { --stripe-color: var(--depth-color-2); }
+    .depth-3 { --stripe-color: var(--depth-color-3); }
+    .depth-4 { --stripe-color: var(--depth-color-4); }
+    .depth-5 { --stripe-color: var(--depth-color-5); }
+    .depth-6 { --stripe-color: var(--depth-color-6); }
+    .depth-7 { --stripe-color: var(--depth-color-7); }
+    .depth-8 { --stripe-color: var(--depth-color-8); }
+    .author {
+      font-weight: bold;
+      margin-bottom: 0.25em;
+    }
+    .meta {
+      color: #666;
+      font-size: 0.85rem;
+      margin-bottom: 0.5em;
+      display: flex;
+      gap: 0.5em;
+      align-items: center;
+    }
+    .meta a {
+      font-size: 0.85rem;
+      color: #007bff;
+      text-decoration: none;
+    }
+    .text {
+      white-space: pre-wrap;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5em;
+      margin-top: 0.5em;
+    }
+    .images img {
+      max-height: 150px;
+      border-radius: 8px;
+      cursor: pointer;
+      object-fit: cover;
+    }
+    .images img:hover {
+      opacity: 0.9;
+    }
+    #imageModal {
+      border: none;
+      background: transparent;
+      max-width: 100vw;
+      max-height: 100vh;
+      padding: 0;
+    }
+    #imageModal::backdrop {
+      background: rgba(0, 0, 0, 0.9);
+    }
+    #imageModal img {
+      max-width: 95vw;
+      max-height: 95vh;
+      object-fit: contain;
+    }
+    #imageModal:focus {
+      outline: none;
+    }
+    /* Video thumbnail styling */
+    .video-container {
+      position: relative;
+      display: inline-block;
+      margin-top: 0.5em;
+      cursor: pointer;
+    }
+    .video-container img {
+      max-height: 200px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .video-container:hover img {
+      opacity: 0.9;
+    }
+    .video-play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .video-play-icon::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 20px solid white;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      margin-left: 5px;
+    }
+    /* Video modal styling */
+    #videoModal {
+      border: none;
+      background: transparent;
+      max-width: 100vw;
+      max-height: 100vh;
+      padding: 0;
+    }
+    #videoModal::backdrop {
+      background: rgba(0, 0, 0, 0.9);
+    }
+    #videoModal .video-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #videoModal video {
+      max-width: 95vw;
+      max-height: 95vh;
+      object-fit: contain;
+    }
+    #videoModal:focus {
+      outline: none;
+    }
+    #videoModal .close-btn {
+      position: absolute;
+      top: -30px;
+      right: 0;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+    .quote-tweet {
+      border: 1px solid #d0d7de;
+      border-left: 3px solid #1185fe;
+      border-radius: 8px;
+      padding: 0.75em;
+      margin-top: 0.5em;
+      background: linear-gradient(to right, #f0f7ff, #f9f9f9);
+      position: relative;
+    }
+    .quote-tweet .qt-header {
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+      margin-bottom: 0.25em;
+    }
+    .quote-tweet .qt-icon {
+      width: 16px;
+      height: 16px;
+      color: #1185fe;
+      flex-shrink: 0;
+    }
+    .quote-tweet .qt-author {
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .quote-tweet .qt-meta {
+      font-size: 0.8rem;
+      margin-bottom: 0.25em;
+      display: flex;
+      gap: 0.5em;
+    }
+    .quote-tweet .qt-meta a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .quote-tweet .qt-meta a:hover {
+      text-decoration: underline;
+    }
+    .quote-tweet .qt-text {
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      line-height: 1.3;
+    }
+    .quote-tweet .images img {
+      max-height: 100px;
+    }
+    .external-link {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 0.5em;
+      overflow: hidden;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .external-link:hover {
+      background: #f5f5f5;
+    }
+    .external-link .el-thumb {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+    }
+    .external-link .el-content {
+      padding: 0.5em 0.75em;
+    }
+    .external-link .el-title {
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-bottom: 0.25em;
+    }
+    .external-link .el-desc {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    .external-link .el-url {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 0.25em;
+    }
+    /* Hide other replies toggle */
+    .hide-replies-toggle {
+      display: block;
+      margin-top: 0.75em;
+      padding: 0.4em 0.8em;
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #555;
+      cursor: pointer;
+    }
+    .hide-replies-toggle:hover {
+      background: #e5e5e5;
+    }
+    /* When hiding replies, only show depth-1 posts by the root author */
+    #threadContainer.hide-other-replies .post:not(.depth-1.root-author-post) {
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .post { padding-left: 1em; }
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+  <dialog id="imageModal"><img src="" alt=""></dialog>
+  <dialog id="videoModal">
+    <div class="video-wrapper">
+      <button class="close-btn">&times;</button>
+      <video controls playsinline></video>
+    </div>
+  </dialog>
+  <header>
+    <h1>Bluesky Thread Viewer</h1>
+    <div class="controls">
+      <form id="urlForm">
+        <input type="text" id="postUrl" placeholder="Bluesky post URL" required />
+        <button type="submit">Fetch Thread</button>
+      </form>
+    </div>
+    <div class="copy-container">
+      <button id="copyBtn">Copy</button>
+      <button id="copyJsonBtn">Copy JSON</button>
+    </div>
+    <div class="tabs" id="viewTabs">
+      <button class="tab active" data-view="thread">Thread View</button>
+      <button class="tab" data-view="recent">Most Recent First</button>
+      <button class="tab" data-view="oldest">Oldest First</button>
+    </div>
+  </header>
+  <div id="threadContainer"></div>
+
+  <script>
+    (async () => {
+      const form = document.getElementById('urlForm');
+      const container = document.getElementById('threadContainer');
+      const copyBtn = document.getElementById('copyBtn');
+      const copyJsonBtn = document.getElementById('copyJsonBtn');
+      const copyContainer = document.querySelector('.copy-container');
+      const viewTabs = document.getElementById('viewTabs');
+      const postUrl = document.getElementById('postUrl');
+      let lastThread = null;
+      let allPosts = []; // Flat array of all posts with metadata
+      let currentView = 'thread';
+      let hideOtherReplies = false;
+
+      postUrl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); form.requestSubmit(); }
+      });
+
+      // Extract post ID from URI for use as element ID
+      function getPostId(uri) {
+        return 'post-' + uri.split('/').pop();
+      }
+
+      // Flatten thread into array of posts with parent info
+      function flattenThread(item, parentUri = null, parentAuthor = null) {
+        const posts = [];
+        posts.push({
+          item,
+          parentUri,
+          parentAuthor,
+          uri: item.post.uri,
+          createdAt: new Date(item.post.record.createdAt)
+        });
+        if (item.replies && item.replies.length) {
+          const authorName = item.post.author.displayName || item.post.author.handle;
+          item.replies.forEach(reply => {
+            posts.push(...flattenThread(reply, item.post.uri, authorName));
+          });
+        }
+        return posts;
+      }
+
+      // Render text with facets (links, mentions, etc.)
+      function renderTextWithFacets(text, facets) {
+        if (!facets || !facets.length) {
+          return document.createTextNode(text);
+        }
+
+        // Convert string to bytes for accurate indexing
+        const encoder = new TextEncoder();
+        const decoder = new TextDecoder();
+        const bytes = encoder.encode(text);
+
+        // Sort facets by start index
+        const sorted = [...facets].sort((a, b) => a.index.byteStart - b.index.byteStart);
+
+        const container = document.createDocumentFragment();
+        let lastEnd = 0;
+
+        for (const facet of sorted) {
+          const { byteStart, byteEnd } = facet.index;
+
+          // Add text before this facet
+          if (byteStart > lastEnd) {
+            const before = decoder.decode(bytes.slice(lastEnd, byteStart));
+            container.appendChild(document.createTextNode(before));
+          }
+
+          // Get the facet text
+          const facetText = decoder.decode(bytes.slice(byteStart, byteEnd));
+
+          // Check for link feature
+          const linkFeature = facet.features.find(f => f.$type === 'app.bsky.richtext.facet#link');
+          if (linkFeature) {
+            const link = document.createElement('a');
+            link.href = linkFeature.uri;
+            link.target = '_blank';
+            link.textContent = facetText;
+            container.appendChild(link);
+          } else {
+            // For other facet types (mentions, tags), just render as text for now
+            container.appendChild(document.createTextNode(facetText));
+          }
+
+          lastEnd = byteEnd;
+        }
+
+        // Add remaining text after last facet
+        if (lastEnd < bytes.length) {
+          const after = decoder.decode(bytes.slice(lastEnd));
+          container.appendChild(document.createTextNode(after));
+        }
+
+        return container;
+      }
+
+      // Image modal setup
+      const imageModal = document.getElementById('imageModal');
+      const modalImg = imageModal.querySelector('img');
+      imageModal.addEventListener('click', () => imageModal.close());
+
+      function openImageModal(src, alt) {
+        modalImg.src = src;
+        modalImg.alt = alt || '';
+        imageModal.showModal();
+      }
+
+      // Video modal setup
+      const videoModal = document.getElementById('videoModal');
+      const modalVideo = videoModal.querySelector('video');
+      const videoCloseBtn = videoModal.querySelector('.close-btn');
+      let hlsInstance = null;
+
+      function closeVideoModal() {
+        if (hlsInstance) {
+          hlsInstance.destroy();
+          hlsInstance = null;
+        }
+        modalVideo.pause();
+        modalVideo.src = '';
+        videoModal.close();
+      }
+
+      videoCloseBtn.addEventListener('click', closeVideoModal);
+      videoModal.addEventListener('click', (e) => {
+        // Close when clicking backdrop (outside video wrapper)
+        if (e.target === videoModal) {
+          closeVideoModal();
+        }
+      });
+
+      function openVideoModal(playlistUrl) {
+        if (Hls.isSupported()) {
+          hlsInstance = new Hls();
+          hlsInstance.loadSource(playlistUrl);
+          hlsInstance.attachMedia(modalVideo);
+          hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+            modalVideo.play();
+          });
+        } else if (modalVideo.canPlayType('application/vnd.apple.mpegurl')) {
+          // Native HLS support (Safari)
+          modalVideo.src = playlistUrl;
+          modalVideo.addEventListener('loadedmetadata', () => {
+            modalVideo.play();
+          }, { once: true });
+        }
+        videoModal.showModal();
+      }
+
+      // Render video thumbnail with play button
+      function renderVideo(videoEmbed) {
+        if (!videoEmbed) return null;
+        const container = document.createElement('div');
+        container.className = 'video-container';
+
+        if (videoEmbed.thumbnail) {
+          const thumb = document.createElement('img');
+          thumb.src = videoEmbed.thumbnail;
+          thumb.alt = videoEmbed.alt || 'Video thumbnail';
+          thumb.title = videoEmbed.alt || 'Click to play video';
+          container.appendChild(thumb);
+        }
+
+        // Play icon overlay
+        const playIcon = document.createElement('div');
+        playIcon.className = 'video-play-icon';
+        container.appendChild(playIcon);
+
+        container.addEventListener('click', () => {
+          openVideoModal(videoEmbed.playlist);
+        });
+
+        return container;
+      }
+
+      // Render images from an embed
+      function renderImages(images) {
+        if (!images || !images.length) return null;
+        const container = document.createElement('div');
+        container.className = 'images';
+        images.forEach(img => {
+          const imgEl = document.createElement('img');
+          imgEl.src = img.thumb;
+          imgEl.alt = img.alt || '';
+          imgEl.title = img.alt || '';
+          imgEl.addEventListener('click', () => openImageModal(img.fullsize, img.alt));
+          container.appendChild(imgEl);
+        });
+        return container;
+      }
+
+      // Render external link preview
+      function renderExternalLink(external) {
+        if (!external) return null;
+        const link = document.createElement('a');
+        link.className = 'external-link';
+        link.href = external.uri;
+        link.target = '_blank';
+        if (external.thumb) {
+          const thumb = document.createElement('img');
+          thumb.className = 'el-thumb';
+          thumb.src = external.thumb;
+          link.appendChild(thumb);
+        }
+        const content = document.createElement('div');
+        content.className = 'el-content';
+        if (external.title) {
+          const title = document.createElement('div');
+          title.className = 'el-title';
+          title.textContent = external.title;
+          content.appendChild(title);
+        }
+        if (external.description) {
+          const desc = document.createElement('div');
+          desc.className = 'el-desc';
+          desc.textContent = external.description;
+          content.appendChild(desc);
+        }
+        const url = document.createElement('div');
+        url.className = 'el-url';
+        url.textContent = new URL(external.uri).hostname;
+        content.appendChild(url);
+        link.appendChild(content);
+        return link;
+      }
+
+      // Render a quoted post
+      function renderQuoteTweet(record) {
+        if (!record || record.$type !== 'app.bsky.embed.record#viewRecord') return null;
+        const qt = document.createElement('div');
+        qt.className = 'quote-tweet';
+
+        // Header with quote icon and author
+        const header = document.createElement('div');
+        header.className = 'qt-header';
+
+        // Quote icon SVG
+        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        icon.setAttribute('class', 'qt-icon');
+        icon.setAttribute('viewBox', '0 0 24 24');
+        icon.setAttribute('fill', 'currentColor');
+        icon.innerHTML = '<path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>';
+        header.appendChild(icon);
+
+        const author = document.createElement('div');
+        author.className = 'qt-author';
+        author.textContent = `${record.author.displayName || record.author.handle} (@${record.author.handle})`;
+        header.appendChild(author);
+        qt.appendChild(header);
+
+        // Add meta with View links
+        const postId = record.uri.split('/').pop();
+        const bskyUrl = `https://bsky.app/profile/${record.author.handle}/post/${postId}`;
+        const viewerUrl = `?url=${encodeURIComponent(bskyUrl)}&view=thread`;
+
+        const meta = document.createElement('div');
+        meta.className = 'qt-meta';
+        const viewLink = document.createElement('a');
+        viewLink.href = viewerUrl;
+        viewLink.textContent = 'View';
+        const bskyLink = document.createElement('a');
+        bskyLink.href = bskyUrl;
+        bskyLink.target = '_blank';
+        bskyLink.textContent = 'View in Bluesky';
+        meta.appendChild(viewLink);
+        meta.appendChild(bskyLink);
+        qt.appendChild(meta);
+
+        if (record.value && record.value.text) {
+          const text = document.createElement('div');
+          text.className = 'qt-text';
+          text.textContent = record.value.text;
+          qt.appendChild(text);
+        }
+
+        // Handle embeds within the quoted post
+        if (record.embeds && record.embeds.length) {
+          record.embeds.forEach(embed => {
+            const embedEl = renderEmbed(embed);
+            if (embedEl) qt.appendChild(embedEl);
+          });
+        }
+
+        return qt;
+      }
+
+      // Render any embed type
+      function renderEmbed(embed) {
+        if (!embed) return null;
+        const type = embed.$type;
+
+        if (type === 'app.bsky.embed.images#view') {
+          return renderImages(embed.images);
+        }
+
+        if (type === 'app.bsky.embed.video#view') {
+          return renderVideo(embed);
+        }
+
+        if (type === 'app.bsky.embed.external#view') {
+          return renderExternalLink(embed.external);
+        }
+
+        if (type === 'app.bsky.embed.record#view') {
+          return renderQuoteTweet(embed.record);
+        }
+
+        if (type === 'app.bsky.embed.recordWithMedia#view') {
+          const container = document.createElement('div');
+          // Render the media (images or video)
+          if (embed.media) {
+            if (embed.media.$type === 'app.bsky.embed.images#view') {
+              const images = renderImages(embed.media.images);
+              if (images) container.appendChild(images);
+            } else if (embed.media.$type === 'app.bsky.embed.video#view') {
+              const video = renderVideo(embed.media);
+              if (video) container.appendChild(video);
+            }
+          }
+          // Render the quoted record
+          if (embed.record && embed.record.record) {
+            const qt = renderQuoteTweet(embed.record.record);
+            if (qt) container.appendChild(qt);
+          }
+          return container;
+        }
+
+        return null;
+      }
+
+      // Fixed function to generate thread text in a readable format
+      function generateThreadText(thread) {
+        const lines = [];
+
+        function processPost(item, prefix = '1') {
+          const author = item.post.author.displayName || item.post.author.handle;
+          const text = item.post.record.text.replace(/\n/g, ' ');
+          lines.push(`[${prefix}] ${author}: ${text}`);
+
+          if (item.replies && item.replies.length > 0) {
+            item.replies.forEach((reply, i) => {
+              processPost(reply, `${prefix}.${i+1}`);
+            });
+          }
+        }
+
+        processPost(thread);
+        return lines.join('\n\n');
+      }
+
+      // Display post in thread view (nested)
+      // rootAuthorDid: the DID of the root post author (for flattening self-replies)
+      // rootContainer: the top-level container element (for appending flattened self-replies)
+      // parentAuthorDid: the DID of the parent post's author (to detect self-replies)
+      // parentAtRootLevel: whether the parent post is at the root level (depth 1)
+      function displayPostThread(item, parent, depth = 1, rootAuthorDid = null, rootContainer = null, parentAuthorDid = null, parentAtRootLevel = true) {
+        const currentAuthorDid = item.post.author.did;
+        // Initialize rootAuthorDid and rootContainer on first call (root post)
+        const isRootPost = rootAuthorDid === null;
+        if (isRootPost) {
+          rootAuthorDid = currentAuthorDid;
+          rootContainer = parent;
+        }
+
+        // Flatten only when root author replies to their own root-level post
+        const isRootAuthorPost = currentAuthorDid === rootAuthorDid;
+        const isSelfReplyAtRoot = isRootAuthorPost && parentAuthorDid === rootAuthorDid && parentAtRootLevel && !isRootPost;
+        const shouldFlatten = isSelfReplyAtRoot;
+        const effectiveParent = shouldFlatten ? rootContainer : parent;
+        const effectiveDepth = shouldFlatten ? 1 : depth;
+        const thisPostAtRootLevel = effectiveDepth === 1;
+
+        const el = document.createElement('div');
+        const classes = [`post`, `depth-${Math.min(effectiveDepth, 8)}`];
+        if (shouldFlatten) classes.push('author-continuation');
+        if (isRootAuthorPost) classes.push('root-author-post');
+        el.className = classes.join(' ');
+        el.id = getPostId(item.post.uri);
+        const authorEl = document.createElement('div');
+        authorEl.className = 'author';
+        authorEl.textContent = `${item.post.author.displayName} (@${item.post.author.handle})`;
+        const metaEl = document.createElement('div');
+        metaEl.className = 'meta';
+        metaEl.textContent = new Date(item.post.record.createdAt).toLocaleString();
+        const link = document.createElement('a');
+        link.href = `https://bsky.app/profile/${item.post.author.handle}/post/${item.post.uri.split('/').pop()}`;
+        link.textContent = 'View in Bluesky';
+        link.target = '_blank';
+        metaEl.appendChild(link);
+        const textEl = document.createElement('div');
+        textEl.className = 'text';
+        textEl.appendChild(renderTextWithFacets(item.post.record.text, item.post.record.facets));
+        el.append(authorEl, metaEl, textEl);
+        // Render embed if present
+        if (item.post.embed) {
+          const embedEl = renderEmbed(item.post.embed);
+          if (embedEl) el.appendChild(embedEl);
+        }
+        effectiveParent.appendChild(el);
+        if (item.replies && item.replies.length) {
+          item.replies.forEach(reply => {
+            // If this post was flattened to root, replies to it should be at depth 2
+            const nextDepth = shouldFlatten ? 2 : depth + 1;
+            displayPostThread(reply, el, nextDepth, rootAuthorDid, rootContainer, currentAuthorDid, thisPostAtRootLevel);
+          });
+        }
+      }
+
+      // Display posts in chronological order (most recent first)
+      function displayPostsChronological() {
+        container.innerHTML = '';
+        const sorted = [...allPosts].sort((a, b) => b.createdAt - a.createdAt);
+
+        sorted.forEach(postData => {
+          const item = postData.item;
+          const el = document.createElement('div');
+          el.className = 'post depth-1';
+          el.id = getPostId(item.post.uri);
+
+          // Add "in reply to" if this is a reply
+          if (postData.parentUri) {
+            const replyToEl = document.createElement('div');
+            replyToEl.className = 'reply-to';
+            const replyLink = document.createElement('a');
+            replyLink.href = '#' + getPostId(postData.parentUri);
+            replyLink.textContent = `in reply to ${postData.parentAuthor}`;
+            replyLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              const targetEl = document.getElementById(getPostId(postData.parentUri));
+              if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetEl.classList.add('highlighted');
+                setTimeout(() => targetEl.classList.remove('highlighted'), 2000);
+              }
+            });
+            replyToEl.appendChild(replyLink);
+            el.appendChild(replyToEl);
+          }
+
+          const authorEl = document.createElement('div');
+          authorEl.className = 'author';
+          authorEl.textContent = `${item.post.author.displayName} (@${item.post.author.handle})`;
+          const metaEl = document.createElement('div');
+          metaEl.className = 'meta';
+          metaEl.textContent = new Date(item.post.record.createdAt).toLocaleString();
+          const link = document.createElement('a');
+          link.href = `https://bsky.app/profile/${item.post.author.handle}/post/${item.post.uri.split('/').pop()}`;
+          link.textContent = 'View in Bluesky';
+          link.target = '_blank';
+          metaEl.appendChild(link);
+          const textEl = document.createElement('div');
+          textEl.className = 'text';
+          textEl.appendChild(renderTextWithFacets(item.post.record.text, item.post.record.facets));
+          el.append(authorEl, metaEl, textEl);
+          // Render embed if present
+          if (item.post.embed) {
+            const embedEl = renderEmbed(item.post.embed);
+            if (embedEl) el.appendChild(embedEl);
+          }
+          container.appendChild(el);
+        });
+      }
+
+      // Display posts in chronological order (oldest first)
+      function displayPostsOldestFirst() {
+        container.innerHTML = '';
+        const sorted = [...allPosts].sort((a, b) => a.createdAt - b.createdAt);
+
+        sorted.forEach(postData => {
+          const item = postData.item;
+          const el = document.createElement('div');
+          el.className = 'post depth-1';
+          el.id = getPostId(item.post.uri);
+
+          // Add "in reply to" if this is a reply
+          if (postData.parentUri) {
+            const replyToEl = document.createElement('div');
+            replyToEl.className = 'reply-to';
+            const replyLink = document.createElement('a');
+            replyLink.href = '#' + getPostId(postData.parentUri);
+            replyLink.textContent = `in reply to ${postData.parentAuthor}`;
+            replyLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              const targetEl = document.getElementById(getPostId(postData.parentUri));
+              if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetEl.classList.add('highlighted');
+                setTimeout(() => targetEl.classList.remove('highlighted'), 2000);
+              }
+            });
+            replyToEl.appendChild(replyLink);
+            el.appendChild(replyToEl);
+          }
+
+          const authorEl = document.createElement('div');
+          authorEl.className = 'author';
+          authorEl.textContent = `${item.post.author.displayName} (@${item.post.author.handle})`;
+          const metaEl = document.createElement('div');
+          metaEl.className = 'meta';
+          metaEl.textContent = new Date(item.post.record.createdAt).toLocaleString();
+          const link = document.createElement('a');
+          link.href = `https://bsky.app/profile/${item.post.author.handle}/post/${item.post.uri.split('/').pop()}`;
+          link.textContent = 'View in Bluesky';
+          link.target = '_blank';
+          metaEl.appendChild(link);
+          const textEl = document.createElement('div');
+          textEl.className = 'text';
+          textEl.appendChild(renderTextWithFacets(item.post.record.text, item.post.record.facets));
+          el.append(authorEl, metaEl, textEl);
+          // Render embed if present
+          if (item.post.embed) {
+            const embedEl = renderEmbed(item.post.embed);
+            if (embedEl) el.appendChild(embedEl);
+          }
+          container.appendChild(el);
+        });
+      }
+
+      // Display thread view
+      function displayThreadView() {
+        container.innerHTML = '';
+        if (lastThread) {
+          displayPostThread(lastThread, container);
+        }
+      }
+
+      // Render current view
+      function renderCurrentView() {
+        if (currentView === 'thread') {
+          displayThreadView();
+        } else if (currentView === 'oldest') {
+          displayPostsOldestFirst();
+        } else {
+          displayPostsChronological();
+        }
+        setupHideRepliesToggle();
+      }
+
+      // Setup the "Hide other replies" toggle if conditions are met
+      function setupHideRepliesToggle() {
+        // Remove any existing toggle
+        const existingToggle = container.querySelector('.hide-replies-toggle');
+        if (existingToggle) existingToggle.remove();
+
+        // Only show in thread view
+        if (currentView !== 'thread') {
+          container.classList.remove('hide-other-replies');
+          return;
+        }
+
+        const rootAuthorPosts = container.querySelectorAll('.post.root-author-post');
+        const otherPosts = container.querySelectorAll('.post:not(.root-author-post)');
+
+        // Only show toggle if there are multiple root author posts AND other replies exist
+        if (rootAuthorPosts.length < 2 || otherPosts.length === 0) {
+          container.classList.remove('hide-other-replies');
+          return;
+        }
+
+        // Apply current hide state
+        if (hideOtherReplies) {
+          container.classList.add('hide-other-replies');
+        } else {
+          container.classList.remove('hide-other-replies');
+        }
+
+        // Create toggle button
+        const toggle = document.createElement('button');
+        toggle.className = 'hide-replies-toggle';
+        updateToggleText(toggle, otherPosts.length);
+
+        toggle.addEventListener('click', () => {
+          hideOtherReplies = !hideOtherReplies;
+          container.classList.toggle('hide-other-replies', hideOtherReplies);
+          updateToggleText(toggle, otherPosts.length);
+
+          // Update URL
+          const newUrl = new URL(window.location);
+          if (hideOtherReplies) {
+            newUrl.searchParams.set('hideReplies', '1');
+          } else {
+            newUrl.searchParams.delete('hideReplies');
+          }
+          history.replaceState(null, '', newUrl);
+        });
+
+        // Insert toggle in the first root post, before any nested replies
+        const firstRootPost = rootAuthorPosts[0];
+        const firstNestedReply = firstRootPost.querySelector('.post');
+        if (firstNestedReply) {
+          firstRootPost.insertBefore(toggle, firstNestedReply);
+        } else {
+          firstRootPost.appendChild(toggle);
+        }
+      }
+
+      function updateToggleText(toggle, otherCount) {
+        if (hideOtherReplies) {
+          toggle.textContent = `Show ${otherCount} other repl${otherCount === 1 ? 'y' : 'ies'}`;
+        } else {
+          toggle.textContent = 'Hide other replies';
+        }
+      }
+
+      // Tab click handlers
+      viewTabs.addEventListener('click', (e) => {
+        if (e.target.classList.contains('tab')) {
+          const view = e.target.dataset.view;
+          if (view !== currentView) {
+            currentView = view;
+            viewTabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            e.target.classList.add('active');
+            // Update URL with current view
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('view', view);
+            history.replaceState(null, '', newUrl);
+            renderCurrentView();
+          }
+        }
+      });
+
+      copyBtn.addEventListener('click', async () => {
+        if (!lastThread) return;
+        try {
+          const textToCopy = generateThreadText(lastThread);
+          await navigator.clipboard.writeText(textToCopy);
+          const orig = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => (copyBtn.textContent = orig), 2000);
+        } catch (err) {
+          console.error('Copy failed', err);
+        }
+      });
+
+      copyJsonBtn.addEventListener('click', async () => {
+        if (!lastThread) return;
+        const jsonToCopy = JSON.stringify(lastThread, null, 2);
+        try {
+          await navigator.clipboard.writeText(jsonToCopy);
+          const orig = copyJsonBtn.textContent;
+          copyJsonBtn.textContent = 'Copied!';
+          setTimeout(() => (copyJsonBtn.textContent = orig), 2000);
+        } catch (err) {
+          console.error('Copy JSON failed', err);
+        }
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        container.innerHTML = '';
+        copyContainer.style.display = 'none';
+        viewTabs.style.display = 'none';
+        lastThread = null;
+        allPosts = [];
+        // Reset hide state for new thread (will be restored from URL if present)
+        const currentParams = new URLSearchParams(window.location.search);
+        if (!currentParams.get('hideReplies')) {
+          hideOtherReplies = false;
+        }
+        // Update URL with the submitted post URL and current view
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set('url', postUrl.value.trim());
+        newUrl.searchParams.set('view', currentView);
+        history.replaceState(null, '', newUrl);
+        try {
+          const url = new URL(postUrl.value.trim());
+          if (url.hostname !== 'bsky.app') throw new Error('URL must be from bsky.app');
+          const parts = url.pathname.split('/').filter(Boolean);
+          if (parts[0] !== 'profile' || parts[2] !== 'post') throw new Error('Use https://bsky.app/profile/{handle}/post/{postId}');
+          const rawHandle = parts[1];
+          const actor = rawHandle.includes('.') ? rawHandle : `${rawHandle}.bsky.social`;
+          const postId = parts[3];
+
+          const profileRes = await fetch(
+            `https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(actor)}`
+          );
+          if (!profileRes.ok) throw new Error('Profile fetch failed ' + profileRes.status);
+          const profileJson = await profileRes.json();
+          const did = profileJson.did || profileJson.profile?.did;
+          if (!did) throw new Error('Could not parse DID');
+
+          const atUri = `at://${did}/app.bsky.feed.post/${postId}`;
+          const threadRes = await fetch(
+            `https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(atUri)}&depth=1000&parentHeight=0`
+          );
+          if (!threadRes.ok) throw new Error('Thread fetch failed ' + threadRes.status);
+          const threadJson = await threadRes.json();
+          if (threadJson.thread.$type === 'app.bsky.feed.defs#notFoundPost') throw new Error('Post not found');
+
+          lastThread = threadJson.thread;
+          allPosts = flattenThread(threadJson.thread);
+          renderCurrentView();
+          copyContainer.style.display = 'block';
+          viewTabs.style.display = 'block';
+
+          // Set document title and page heading
+          const rootAuthor = lastThread.post.author.handle;
+          const rootText = lastThread.post.record.text.replace(/\n/g, ' ');
+          const truncatedText = rootText.length > 80 ? rootText.slice(0, 80) + '…' : rootText;
+          document.title = `Thread by @${rootAuthor}: ${truncatedText}`;
+          document.querySelector('h1').textContent = `Thread by @${rootAuthor}`;
+        } catch (err) {
+          console.error(err);
+          container.textContent = 'Error: ' + err.message;
+        }
+      });
+
+      // Check for query parameters on page load
+      const params = new URLSearchParams(window.location.search);
+      const urlParam = params.get('url');
+      const viewParam = params.get('view');
+      const hideRepliesParam = params.get('hideReplies');
+      // Initialize view from URL parameter if valid
+      if (viewParam === 'thread' || viewParam === 'recent' || viewParam === 'oldest') {
+        currentView = viewParam;
+        viewTabs.querySelectorAll('.tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.view === viewParam);
+        });
+      }
+      // Initialize hide replies state from URL
+      if (hideRepliesParam === '1') {
+        hideOtherReplies = true;
+      }
+      if (urlParam) {
+        postUrl.value = urlParam;
+        form.requestSubmit();
+      }
+    })();
+  </script>
+</body>
+</html>

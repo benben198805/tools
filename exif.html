@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXIF Data Viewer</title>
+    <style>
+        :root {
+            --bg: #f4f4f4;
+            --card: #ffffff;
+            --muted: #666;
+            --border: #d9d9d9;
+            --accent: #2563eb;
+            --accent-bg: #eff4ff;
+            --panel: #f1f3f5;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            line-height: 1.4;
+            margin: 0;
+            padding: 16px;
+            background-color: var(--bg);
+            color: #222;
+        }
+        .container {
+            max-width: 760px;
+            margin: auto;
+            background: var(--card);
+            padding: 20px 22px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        h1 {
+            margin: 0 0 14px;
+            font-size: 1.6rem;
+            color: #222;
+        }
+        h2 {
+            margin: 0 0 8px;
+            font-size: 1rem;
+            color: #333;
+        }
+        .dropzone {
+            display: block;
+            width: 100%;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 22px 16px;
+            text-align: center;
+            cursor: pointer;
+            background: #fafafa;
+            transition: background-color 0.15s, border-color 0.15s;
+            color: var(--muted);
+        }
+        .dropzone .label-text {
+            display: block;
+        }
+        .dropzone:hover,
+        .dropzone:focus-visible {
+            border-color: var(--accent);
+            background: var(--accent-bg);
+            color: var(--accent);
+            outline: none;
+        }
+        .dropzone.dragover {
+            border-color: var(--accent);
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+        .dropzone strong {
+            color: var(--accent);
+        }
+        .dropzone .hint {
+            display: block;
+            font-size: 0.85rem;
+            margin-top: 4px;
+            color: var(--muted);
+        }
+        .dropzone .filename {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.85rem;
+            color: #222;
+        }
+        #file-input {
+            display: none;
+        }
+        #coordinates:not(:empty),
+        #exif-data:not(:empty) {
+            margin-top: 14px;
+            padding: 12px 14px;
+            background-color: var(--panel);
+            border-radius: 6px;
+        }
+        #coordinates p {
+            margin: 2px 0;
+        }
+        #exif-data pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+            margin: 0;
+            font-size: 0.85rem;
+            line-height: 1.45;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>EXIF Data Viewer</h1>
+        <label for="file-input" class="dropzone" id="dropzone" tabindex="0">
+            <span class="label-text"><strong>Click to choose</strong> or drop an image here</span>
+            <span class="hint">JPEG, PNG, HEIC, etc.</span>
+            <span class="filename" id="filename"></span>
+        </label>
+        <input type="file" id="file-input" accept="image/*">
+        <div id="coordinates"></div>
+        <div id="exif-data"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file-input');
+            const dropzone = document.getElementById('dropzone');
+            const filenameEl = document.getElementById('filename');
+            const coordinatesDiv = document.getElementById('coordinates');
+            const exifDataDiv = document.getElementById('exif-data');
+
+            fileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) handleFile(file);
+            });
+
+            dropzone.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    fileInput.click();
+                }
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    dropzone.classList.add('dragover');
+                });
+            });
+
+            ['dragleave', 'dragend', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    dropzone.classList.remove('dragover');
+                });
+            });
+
+            dropzone.addEventListener('drop', function(event) {
+                const file = event.dataTransfer.files[0];
+                if (file) handleFile(file);
+            });
+
+            function handleFile(file) {
+                filenameEl.textContent = file.name;
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        EXIF.getData(this, function() {
+                            const allTags = EXIF.getAllTags(this);
+                            displayExifData(allTags);
+                        });
+                    };
+                    img.src = e.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            }
+
+            function displayExifData(tags) {
+                let lat = null;
+                let lon = null;
+
+                if (tags.GPSLatitude && tags.GPSLongitude) {
+                    lat = convertDMSToDD(tags.GPSLatitude, tags.GPSLatitudeRef);
+                    lon = convertDMSToDD(tags.GPSLongitude, tags.GPSLongitudeRef);
+                }
+
+                if (lat !== null && lon !== null) {
+                    coordinatesDiv.innerHTML = `
+                        <h2>GPS Coordinates</h2>
+                        <p>Latitude: ${lat.toFixed(6)}</p>
+                        <p>Longitude: ${lon.toFixed(6)}</p>
+                    `;
+                } else {
+                    coordinatesDiv.innerHTML = '<p>No GPS coordinates found in the image.</p>';
+                }
+
+                exifDataDiv.innerHTML = `
+                    <h2>All EXIF Data</h2>
+                    <pre>${escapeHtml(formatExifJson(tags))}</pre>
+                `;
+            }
+
+            function formatExifJson(obj) {
+                const keys = Object.keys(obj);
+                if (keys.length === 0) {
+                    return '{}';
+                }
+                const lines = ['{'];
+                keys.forEach((key, i) => {
+                    const value = JSON.stringify(obj[key]);
+                    const comma = i < keys.length - 1 ? ',' : '';
+                    lines.push(`  ${JSON.stringify(key)}: ${value === undefined ? 'null' : value}${comma}`);
+                });
+                lines.push('}');
+                return lines.join('\n');
+            }
+
+            function escapeHtml(str) {
+                return str
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+            }
+
+            function convertDMSToDD(dms, ref) {
+                let dd = dms[0] + dms[1] / 60 + dms[2] / 3600;
+                if (ref === "S" || ref === "W") {
+                    dd = dd * -1;
+                }
+                return dd;
+            }
+        });
+    </script>
+</body>
+</html>

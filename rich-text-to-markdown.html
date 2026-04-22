@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rich Text to Markdown</title>
+  <style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+.instructions {
+  background: #e8f4fd;
+  border-left: 4px solid #2196f3;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.paste-area {
+  width: 100%;
+  min-height: 120px;
+  padding: 15px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 16px;
+  margin-bottom: 20px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.paste-area:focus {
+  border-color: #2196f3;
+  border-style: solid;
+}
+
+.section {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.section h2 {
+  margin-top: 0;
+  font-size: 18px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.code-output {
+  width: 100%;
+  min-height: 200px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fafafa;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  resize: vertical;
+  white-space: pre-wrap;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  background: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #1976d2;
+}
+
+button.copied {
+  background: #4caf50;
+}
+
+.empty-state {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+  font-size: 18px;
+}
+  </style>
+</head>
+<body>
+  <h1>Rich Text to Markdown</h1>
+
+  <div class="instructions">
+    <strong>Instructions:</strong> Paste rich text below. Formatting (bold, italic, links, code, headings, lists) will be converted to Markdown and leading spaces will be removed.
+  </div>
+
+  <textarea class="paste-area" placeholder="Click here and paste your rich text (Cmd+V or Ctrl+V)..."></textarea>
+
+  <div id="results">
+    <div class="empty-state">Paste rich text to see the Markdown conversion</div>
+  </div>
+
+<script>
+const pasteArea = document.querySelector('.paste-area');
+const resultsDiv = document.getElementById('results');
+
+function parseRTFColor(colorDef) {
+  const redMatch = colorDef.match(/\\red(\d+)/);
+  const greenMatch = colorDef.match(/\\green(\d+)/);
+  const blueMatch = colorDef.match(/\\blue(\d+)/);
+
+  if (redMatch && greenMatch && blueMatch) {
+    const r = parseInt(redMatch[1]);
+    const g = parseInt(greenMatch[1]);
+    const b = parseInt(blueMatch[1]);
+    return { r, g, b, brightness: (r + g + b) / 3 };
+  }
+  return null;
+}
+
+function parseRTFColorTable(rtf) {
+  const colorTableMatch = rtf.match(/\{\\colortbl;([^}]+)\}/);
+  if (!colorTableMatch) return [];
+
+  const colorTable = [null];
+  const colorDefs = colorTableMatch[1].split(';');
+
+  for (const colorDef of colorDefs) {
+    if (colorDef.trim()) {
+      const color = parseRTFColor(colorDef.trim());
+      colorTable.push(color);
+    }
+  }
+
+  return colorTable;
+}
+
+function rtfToMarkdown(rtf) {
+  const colorTable = parseRTFColorTable(rtf);
+
+  // Find the brightest color (likely the "bold"/highlighted text)
+  let brightestIndex = -1;
+  let brightestValue = -1;
+  for (let i = 1; i < colorTable.length; i++) {
+    if (colorTable[i] && colorTable[i].brightness > brightestValue) {
+      brightestValue = colorTable[i].brightness;
+      brightestIndex = i;
+    }
+  }
+
+  const pardIndex = rtf.indexOf('\\pard');
+  if (pardIndex === -1) {
+    throw new Error('Could not find paragraph content');
+  }
+
+  // Find content start after formatting codes
+  const contentPattern = /\\f0\\fs\d+\s+\\cf\d+\s+\\cb\d+\s+\\CocoaLigature\d+\s+/;
+  const match = rtf.substring(pardIndex).match(contentPattern);
+
+  let contentStartOffset;
+  if (match) {
+    contentStartOffset = pardIndex + match.index + match[0].length;
+  } else {
+    // Fallback: find first text after \pard
+    contentStartOffset = pardIndex + 5;
+  }
+
+  const lastBrace = rtf.lastIndexOf('}');
+  let content = rtf.substring(contentStartOffset, lastBrace);
+
+  let markdown = '';
+  let i = 0;
+  let currentColorIndex = -1;
+  let isBright = false;
+
+  while (i < content.length) {
+    const char = content[i];
+
+    if (char === '\\') {
+      let controlWord = '';
+      let j = i + 1;
+
+      // Handle hex escape \'xx
+      if (j < content.length && content[j] === "'") {
+        j++;
+        let hexCode = '';
+        while (j < content.length && /[0-9a-fA-F]/.test(content[j]) && hexCode.length < 2) {
+          hexCode += content[j];
+          j++;
+        }
+        if (hexCode.length === 2) {
+          const charCode = parseInt(hexCode, 16);
+          markdown += String.fromCharCode(charCode);
+          i = j;
+          continue;
+        }
+      }
+
+      while (j < content.length && /[a-z]/i.test(content[j])) {
+        controlWord += content[j];
+        j++;
+      }
+
+      let numParam = '';
+      while (j < content.length && /[0-9-]/.test(content[j])) {
+        numParam += content[j];
+        j++;
+      }
+
+      if (j < content.length && content[j] === ' ') {
+        j++;
+      }
+
+      if (controlWord === 'cf') {
+        const newColorIndex = parseInt(numParam);
+        const wasBright = isBright;
+        isBright = (newColorIndex === brightestIndex);
+
+        // Close bold if we were bright and now we're not
+        if (wasBright && !isBright) {
+          markdown += '**';
+        }
+        // Open bold if we weren't bright and now we are
+        if (!wasBright && isBright) {
+          markdown += '**';
+        }
+
+        currentColorIndex = newColorIndex;
+        i = j;
+      } else if (controlWord === 'u') {
+        const codePoint = parseInt(numParam);
+        if (codePoint < 0) {
+          markdown += String.fromCharCode(65536 + codePoint);
+        } else {
+          markdown += String.fromCharCode(codePoint);
+        }
+        if (j < content.length && content[j] === '?') {
+          j++;
+        }
+        i = j;
+      } else if (controlWord === '') {
+        if (i + 1 < content.length) {
+          const nextChar = content[i + 1];
+          if (nextChar === '\\') {
+            markdown += '\\';
+            i += 2;
+          } else if (nextChar === '\n') {
+            markdown += '\n';
+            i += 2;
+          } else {
+            i++;
+          }
+        } else {
+          i++;
+        }
+      } else {
+        i = j;
+      }
+    } else if (char === '\n') {
+      markdown += '\n';
+      i++;
+    } else {
+      let text = '';
+      while (i < content.length && content[i] !== '\\' && content[i] !== '\n') {
+        text += content[i];
+        i++;
+      }
+      markdown += text;
+    }
+  }
+
+  // Close any open bold
+  if (isBright) {
+    markdown += '**';
+  }
+
+  // Remove leading spaces from each line
+  markdown = markdown.split('\n').map(line => line.trimStart()).join('\n');
+
+  // Clean up multiple consecutive newlines
+  markdown = markdown.replace(/\n{3,}/g, '\n\n');
+
+  // Trim
+  markdown = markdown.trim();
+
+  return markdown;
+}
+
+function htmlToMarkdown(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  function processNode(node, listDepth = 0) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      return node.textContent;
+    }
+
+    if (node.nodeType !== Node.ELEMENT_NODE) {
+      return '';
+    }
+
+    const tag = node.tagName.toLowerCase();
+
+    // For <pre>, grab raw text content and wrap in a fenced code block
+    if (tag === 'pre') {
+      const code = node.querySelector('code');
+      const text = (code || node).textContent;
+      return '\n```\n' + text.replace(/\n$/, '') + '\n```\n';
+    }
+
+    let childContent = '';
+    for (const child of node.childNodes) {
+      childContent += processNode(child, listDepth);
+    }
+
+    // Check for bold - either tag or style
+    const isBold = tag === 'b' || tag === 'strong' ||
+      (node.style && (
+        node.style.fontWeight === 'bold' ||
+        node.style.fontWeight === '700' ||
+        parseInt(node.style.fontWeight) >= 700
+      ));
+
+    if (isBold && childContent.trim()) {
+      const leadingSpace = childContent.match(/^\s*/)[0];
+      const trailingSpace = childContent.match(/\s*$/)[0];
+      const trimmed = childContent.trim();
+      return `${leadingSpace}**${trimmed}**${trailingSpace}`;
+    }
+
+    // Check for italic - either tag or style
+    const isItalic = tag === 'em' || tag === 'i' ||
+      (node.style && node.style.fontStyle === 'italic');
+
+    if (isItalic && childContent.trim()) {
+      const leadingSpace = childContent.match(/^\s*/)[0];
+      const trailingSpace = childContent.match(/\s*$/)[0];
+      const trimmed = childContent.trim();
+      return `${leadingSpace}*${trimmed}*${trailingSpace}`;
+    }
+
+    // Handle inline code
+    if (tag === 'code') {
+      if (childContent.trim()) {
+        return '`' + childContent.trim() + '`';
+      }
+      return childContent;
+    }
+
+    // Handle links
+    if (tag === 'a') {
+      const href = node.getAttribute('href');
+      if (href && childContent.trim()) {
+        return `[${childContent.trim()}](${href})`;
+      }
+      return childContent;
+    }
+
+    // Handle headings
+    const headingMatch = tag.match(/^h([1-6])$/);
+    if (headingMatch && childContent.trim()) {
+      const level = parseInt(headingMatch[1]);
+      const prefix = '#'.repeat(level);
+      return `\n${prefix} ${childContent.trim()}\n`;
+    }
+
+    // Handle lists
+    if (tag === 'ul' || tag === 'ol') {
+      let result = '';
+      let index = 1;
+      for (const child of node.children) {
+        if (child.tagName.toLowerCase() === 'li') {
+          const indent = '  '.repeat(listDepth);
+          const bullet = tag === 'ul' ? '-' : `${index}.`;
+          let liContent = '';
+          for (const liChild of child.childNodes) {
+            liContent += processNode(liChild, listDepth + 1);
+          }
+          // Trim trailing newlines from the li content but keep one newline at the end
+          result += `${indent}${bullet} ${liContent.trim()}\n`;
+          index++;
+        }
+      }
+      return (listDepth === 0 ? '\n' : '') + result + (listDepth === 0 ? '\n' : '');
+    }
+
+    // Skip <li> processed by parent list handler
+    if (tag === 'li') {
+      return childContent;
+    }
+
+    // Handle line breaks
+    if (tag === 'br') {
+      return '\n';
+    }
+
+    // Handle block elements
+    if (['p', 'div'].includes(tag)) {
+      return childContent + '\n';
+    }
+
+    return childContent;
+  }
+
+  let markdown = processNode(doc.body);
+
+  // Remove leading spaces from each line
+  markdown = markdown.split('\n').map(line => line.trimStart()).join('\n');
+
+  // Clean up multiple consecutive newlines
+  markdown = markdown.replace(/\n{3,}/g, '\n\n');
+
+  // Trim trailing whitespace
+  markdown = markdown.trim();
+
+  return markdown;
+}
+
+pasteArea.addEventListener('paste', async (e) => {
+  e.preventDefault();
+
+  const clipboardData = e.clipboardData;
+  if (!clipboardData) {
+    resultsDiv.innerHTML = '<div class="empty-state">No clipboard data detected</div>';
+    return;
+  }
+
+  let markdown = '';
+
+  // Try RTF first (terminal output with colors)
+  const rtfData = clipboardData.getData('text/rtf');
+  if (rtfData) {
+    try {
+      markdown = rtfToMarkdown(rtfData);
+    } catch (err) {
+      console.error('RTF parsing failed:', err);
+    }
+  }
+
+  // Try HTML if RTF didn't work
+  if (!markdown) {
+    const htmlData = clipboardData.getData('text/html');
+    if (htmlData) {
+      markdown = htmlToMarkdown(htmlData);
+    }
+  }
+
+  // Fall back to plain text
+  if (!markdown) {
+    const plainText = clipboardData.getData('text/plain');
+    if (plainText) {
+      // Just remove leading spaces from each line
+      markdown = plainText.split('\n').map(line => line.trimStart()).join('\n').trim();
+    } else {
+      resultsDiv.innerHTML = '<div class="empty-state">No supported format detected in clipboard.</div>';
+      return;
+    }
+  }
+
+  // Clear paste area
+  pasteArea.value = '';
+
+  // Show results
+  resultsDiv.innerHTML = `
+    <div class="section">
+      <h2>Markdown Output</h2>
+      <div class="button-group">
+        <button id="copyBtn">Copy Markdown</button>
+      </div>
+      <textarea class="code-output" id="markdownOutput" readonly></textarea>
+    </div>
+  `;
+
+  const markdownOutput = document.getElementById('markdownOutput');
+  markdownOutput.value = markdown;
+
+  const copyBtn = document.getElementById('copyBtn');
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(markdown);
+      copyBtn.textContent = 'Copied!';
+      copyBtn.classList.add('copied');
+      setTimeout(() => {
+        copyBtn.textContent = 'Copy Markdown';
+        copyBtn.classList.remove('copied');
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+});
+</script>
+</body>
+</html>

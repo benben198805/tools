@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQLite AST</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/github.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    line-height: 1.5;
+}
+
+.page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#status {
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+#status.ready { color: #6ecf6e; }
+#status.error { color: #f08080; }
+
+.input-section {
+    padding: 1rem 1.5rem;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.input-section label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.editor-wrap {
+    position: relative;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+    background: #fafafa;
+}
+
+.editor-wrap:focus-within {
+    border-color: #4a90d9;
+    background: #fff;
+}
+
+.editor-wrap pre {
+    margin: 0;
+    padding: 0.75rem;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 100px;
+    pointer-events: none;
+}
+
+.editor-wrap pre code {
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.editor-wrap textarea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding: 0.75rem;
+    border: none;
+    resize: none;
+    background: transparent;
+    color: transparent;
+    caret-color: #1a1a1a;
+    outline: none;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    -webkit-text-fill-color: transparent;
+}
+
+.editor-wrap textarea::placeholder {
+    color: #999;
+    -webkit-text-fill-color: #999;
+}
+
+#error-banner {
+    display: none;
+    margin: 0.75rem 1.5rem 0;
+    padding: 0.75rem 1rem;
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-left: 4px solid #ef4444;
+    border-radius: 6px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.85rem;
+    color: #b91c1c;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+#error-banner.visible {
+    display: block;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+.column {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.column-header {
+    background: #f0f0f0;
+    padding: 0.5rem 0.75rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+}
+
+.column pre {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #1a1a1a;
+    min-height: 200px;
+    max-height: 70vh;
+}
+
+.column pre code {
+    display: block;
+    padding: 0.75rem;
+    background: transparent !important;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.column pre.empty {
+    padding: 0.75rem;
+    color: #999;
+    font-style: italic;
+}
+
+.partial-label {
+    display: none;
+    margin: 0.5rem 1.5rem 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #b45309;
+}
+
+.partial-label.visible {
+    display: block;
+}
+
+.examples {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.examples a {
+    color: #4a90d9;
+    text-decoration: none;
+    margin-left: 0.25rem;
+}
+
+.examples a:hover {
+    text-decoration: underline;
+}
+
+.examples a + a::before {
+    content: " | ";
+    color: #ccc;
+    margin-right: 0.25rem;
+}
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<header>
+    <h1>SQLite AST</h1>
+    <a href="https://github.com/simonw/sqlite-ast" style="color:#8cb4e0;font-size:0.85rem;text-decoration:none;">github.com/simonw/sqlite-ast</a>
+    <span id="status">Loading Pyodide...</span>
+</header>
+
+<div class="input-section">
+    <label for="sql-input">SQL Query</label>
+    <div class="editor-wrap">
+        <pre aria-hidden="true"><code id="sql-highlight" class="language-sql"></code></pre>
+        <textarea id="sql-input" placeholder="Enter a SQLite SELECT query, e.g.: select * from users where age > 21" spellcheck="false">select * from users where age > 21 order by name</textarea>
+    </div>
+    <div class="examples">Examples:
+        <a href="#" data-sql="select id, name, email from users where age > 21 order by name limit 10">Simple select</a>
+        <a href="#" data-sql="select name from users where active = 1 union all select name from archived_users where year > 2020">Compound select</a>
+        <a href="#" data-sql="with regional_sales as (select region, sum(amount) as total from orders group by region), top_regions as (select region from regional_sales where total > (select sum(total) / 10 from regional_sales)) select region, product, sum(quantity) as units from orders where region in (select region from top_regions) group by region, product">Select with CTE</a>
+        <a href="#" data-sql="select name, department, salary, rank() over (partition by department order by salary desc) as dept_rank, avg(salary) over (partition by department) as dept_avg, sum(salary) over (order by salary rows between unbounded preceding and current row) as running_total from employees">Select with window functions</a>
+    </div>
+</div>
+
+<div id="error-banner"></div>
+<div id="partial-label" class="partial-label">Partial AST (from parse error):</div>
+
+<div class="columns">
+    <div class="column">
+        <div class="column-header">parse() — JSON</div>
+        <pre id="json-pre" class="empty"><code id="json-output" class="language-json">Loading...</code></pre>
+    </div>
+    <div class="column">
+        <div class="column-header">parse_ast() — rich</div>
+        <pre id="pprint-pre" class="empty"><code id="pprint-output" class="language-python">Loading...</code></pre>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/languages/sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/languages/json.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/languages/python.min.js"></script>
+<script>
+const sqlInput = document.getElementById('sql-input');
+const sqlHighlight = document.getElementById('sql-highlight');
+const jsonOutput = document.getElementById('json-output');
+const jsonPre = document.getElementById('json-pre');
+const pprintOutput = document.getElementById('pprint-output');
+const pprintPre = document.getElementById('pprint-pre');
+const statusEl = document.getElementById('status');
+const errorBanner = document.getElementById('error-banner');
+const partialLabel = document.getElementById('partial-label');
+
+let pyodide = null;
+let debounceTimer = null;
+
+function highlightSQL() {
+    const text = sqlInput.value;
+    // Need trailing newline so the pre height matches when textarea ends with newline
+    sqlHighlight.textContent = text + '\n';
+    sqlHighlight.removeAttribute('data-highlighted');
+    hljs.highlightElement(sqlHighlight);
+}
+
+function highlightOutput(codeEl, preEl, text, isEmpty) {
+    if (isEmpty) {
+        codeEl.textContent = text;
+        preEl.className = 'empty';
+        // Remove hljs class so it doesn't style placeholder text
+        codeEl.removeAttribute('data-highlighted');
+    } else {
+        codeEl.textContent = text;
+        preEl.className = '';
+        codeEl.removeAttribute('data-highlighted');
+        hljs.highlightElement(codeEl);
+    }
+}
+
+// Sync textarea scroll to highlighted pre
+sqlInput.addEventListener('scroll', () => {
+    const pre = sqlHighlight.parentElement;
+    pre.scrollTop = sqlInput.scrollTop;
+    pre.scrollLeft = sqlInput.scrollLeft;
+});
+
+// Keep highlight in sync on every input
+sqlInput.addEventListener('input', () => {
+    highlightSQL();
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(runParse, 300);
+});
+
+// Initial highlight
+highlightSQL();
+
+async function initPyodide() {
+    try {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/pyodide/v0.27.5/full/pyodide.js';
+        document.head.appendChild(script);
+
+        await new Promise((resolve, reject) => {
+            script.onload = resolve;
+            script.onerror = reject;
+        });
+
+        statusEl.textContent = 'Initializing Python...';
+        pyodide = await loadPyodide();
+
+        statusEl.textContent = 'Installing sqlite-ast...';
+        await pyodide.loadPackage('micropip');
+        await pyodide.runPythonAsync(`
+import micropip
+import asyncio
+await asyncio.gather(micropip.install('sqlite-ast'), micropip.install('rich'))
+`);
+
+        // Set up the Python helper functions
+        await pyodide.runPythonAsync(`
+import json
+from rich.pretty import pretty_repr
+from sqlite_ast import parse, parse_ast, ParseError
+
+def run_parse(sql):
+    """Returns a dict with results or error info."""
+    result = {
+        "ok": False,
+        "error": None,
+        "json_str": "",
+        "pprint_str": "",
+        "partial_json_str": "",
+        "partial_pprint_str": "",
+    }
+    try:
+        dict_ast = parse(sql)
+        node_ast = parse_ast(sql)
+        result["ok"] = True
+        result["json_str"] = json.dumps(dict_ast, indent=2)
+        result["pprint_str"] = pretty_repr(node_ast, max_width=88, indent_size=2, expand_all=True)
+    except ParseError as e:
+        result["error"] = str(e)
+        if e.partial_ast is not None:
+            try:
+                result["partial_json_str"] = json.dumps(e.partial_ast.to_dict(), indent=2)
+            except Exception:
+                result["partial_json_str"] = "(could not convert partial AST to JSON)"
+            result["partial_pprint_str"] = pretty_repr(e.partial_ast, max_width=88, indent_size=2, expand_all=True)
+        else:
+            result["partial_json_str"] = ""
+            result["partial_pprint_str"] = ""
+    except Exception as e:
+        result["error"] = str(e)
+    return json.dumps(result)
+`);
+
+        statusEl.textContent = 'Ready';
+        statusEl.className = 'ready';
+
+        // Run initial parse
+        runParse();
+    } catch (err) {
+        statusEl.textContent = 'Failed to load: ' + err.message;
+        statusEl.className = 'error';
+        console.error(err);
+    }
+}
+
+async function runParse() {
+    if (!pyodide) return;
+
+    const sql = sqlInput.value.trim();
+    if (!sql) {
+        highlightOutput(jsonOutput, jsonPre, 'Enter a SQL query above', true);
+        highlightOutput(pprintOutput, pprintPre, 'Enter a SQL query above', true);
+        errorBanner.className = '';
+        partialLabel.className = 'partial-label';
+        return;
+    }
+
+    try {
+        // Escape the SQL for embedding in Python string
+        const escaped = sql.replace(/\\/g, '\\\\').replace(/"""/g, '\\"\\"\\"');
+        const resultJson = await pyodide.runPythonAsync(`run_parse("""${escaped}""")`);
+        const result = JSON.parse(resultJson);
+
+        if (result.ok) {
+            errorBanner.className = '';
+            partialLabel.className = 'partial-label';
+            highlightOutput(jsonOutput, jsonPre, result.json_str, false);
+            highlightOutput(pprintOutput, pprintPre, result.pprint_str, false);
+        } else {
+            // Show error
+            errorBanner.textContent = result.error;
+            errorBanner.className = 'visible';
+
+            if (result.partial_json_str || result.partial_pprint_str) {
+                partialLabel.className = 'partial-label visible';
+                highlightOutput(jsonOutput, jsonPre,
+                    result.partial_json_str || '(no partial AST available)',
+                    !result.partial_json_str);
+                highlightOutput(pprintOutput, pprintPre,
+                    result.partial_pprint_str || '(no partial AST available)',
+                    !result.partial_pprint_str);
+            } else {
+                partialLabel.className = 'partial-label';
+                highlightOutput(jsonOutput, jsonPre, '(no partial AST available)', true);
+                highlightOutput(pprintOutput, pprintPre, '(no partial AST available)', true);
+            }
+        }
+    } catch (err) {
+        errorBanner.textContent = 'Unexpected error: ' + err.message;
+        errorBanner.className = 'visible';
+        console.error(err);
+    }
+}
+
+document.querySelectorAll('.examples a[data-sql]').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        sqlInput.value = link.dataset.sql;
+        highlightSQL();
+        runParse();
+    });
+});
+
+initPyodide();
+</script>
+
+</div><!-- .page-wrapper -->
+</body>
+</html>
