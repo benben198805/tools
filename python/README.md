@@ -326,6 +326,19 @@ uv run https://tools.simonwillison.net/python/http_check.py \
   https://simonw.github.io/ollama-models-atom-feed/atom.xml
 ```
 
+## image_crop_compress.py
+
+Port of an Azure Blob **ImageCropFunction** plus **EnvironmentConfig**: magic-byte detection (PNG / JPEG / WebP), extension fallback, **EXIF transpose**, center crop with the same rules as the Java code (wide images → width `ceil(1.25×height)`; otherwise height `ceil(0.8×width)`; clamp to **MAX_DIMENSION**), then scale dimensions by **COMPRESSION_RATIO** (default **0.3**).
+
+Environment variables: **`ENVIRONMENT`**, **`LOG_LEVEL`**, **`COMPRESSION_RATIO`**, **`MAX_DIMENSION`**. Overrides: **`--compression-ratio`**, **`--max-dimension`**, **`--log-level`**, **`-q` / `--quiet`**.
+
+```bash
+uv run python/image_crop_compress.py ./photo.jpg -o ./out.jpg
+uv run python/image_crop_compress.py ./wide.png --compression-ratio 0.5 --max-dimension 2048
+```
+
+Default output is `<stem>_cropped.{jpg|png|webp}` beside the input. Pillow needs WebP support to read/write WebP.
+
 ## update_git_repos.py
 
 Recursively find Git work trees under a directory. **Every `git` invocation is printed** as ` $ cd <repo> && git ...` before it runs. Direct subdirectories of the root **without** a `.git` folder get a `Note: not a Git repository` line; paths with `.git` that fail `git rev-parse --is-inside-work-tree` are skipped with a short note.
