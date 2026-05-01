@@ -1,0 +1,1838 @@
+[
+  {
+    "filename": "icon-editor.html",
+    "slug": "icon-editor",
+    "title": "24×24 Icon Editor",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/icon-editor"
+  },
+  {
+    "filename": "ai-adoption.html",
+    "slug": "ai-adoption",
+    "title": "AI Adoption Rolling Avg — Pyodide",
+    "description": "View AI adoption trends across different firm sizes by analyzing survey data on artificial intelligence usage in the workplace. This page runs a Python analysis using Pyodide to fetch employment survey data, calculate six-survey rolling averages, and generate an interactive visualization showing adoption rates by company size from November 2023 through August 2025. Download the resulting chart as PNG or SVG for further use or presentation.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/ai-adoption"
+  },
+  {
+    "filename": "alt-text-extractor.html",
+    "slug": "alt-text-extractor",
+    "title": "Alt Text Extractor",
+    "description": "Extract images and their associated metadata from pasted web content with this tool. When you paste rich text containing images, the application automatically retrieves each image's alt text, URL, and generates ready-to-use Markdown and HTML code snippets. Each extracted element can be individually copied to your clipboard for use in documentation, accessibility audits, or content management.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/alt-text-extractor"
+  },
+  {
+    "filename": "animated-word-cloud.html",
+    "slug": "animated-word-cloud",
+    "title": "Animated Word Cloud",
+    "description": "View animated word cloud visualizations that use an Archimedean spiral placement algorithm to position words on a canvas. Each word spirals outward from the center until it finds an unoccupied space, with grid-based spatial indexing accelerating collision detection to handle large datasets efficiently. Control the animation playback speed, step through frames manually, download the final result as a PNG, or paste your own text to generate a custom word cloud.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/animated-word-cloud"
+  },
+  {
+    "filename": "animated-rainbow-border.html",
+    "slug": "animated-rainbow-border",
+    "title": "animated-rainbow-border",
+    "description": "Display an animated rainbow gradient border effect around a centered box with interactive controls. The page features a dark theme with a glowing, color-shifting border that can be toggled on and off using the provided button. The animation combines gradient shifting and pulsing effects to create a dynamic, eye-catching visual presentation.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/animated-rainbow-border"
+  },
+  {
+    "filename": "annotated-presentations.html",
+    "slug": "annotated-presentations",
+    "title": "Annotated Presentation Creator",
+    "description": "Create annotated presentation slides with alt text and markdown notes. Upload your slide images, add accessibility descriptions and annotations with markdown support, then generate HTML output using customizable templates. The tool automatically saves your work and includes optional OCR functionality to extract text from slides.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/annotated-presentations"
+  },
+  {
+    "filename": "iframe-api-explorer.html",
+    "slug": "iframe-api-explorer",
+    "title": "API Explorer",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/iframe-api-explorer"
+  },
+  {
+    "filename": "apsw-query.html",
+    "slug": "apsw-query",
+    "title": "APSW SQLite query explainer",
+    "description": "Analyze and explain SQLite queries using APSW by entering SQL code and executing it in an in-browser Python environment. The tool provides detailed query analysis including execution plans, expanded SQL, and query information to help understand how SQLite processes your queries. Optional setup SQL can be run before the main query to create tables or initialize data, and parameterized queries are supported through labeled input fields.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/apsw-query"
+  },
+  {
+    "filename": "ares.html",
+    "slug": "ares",
+    "title": "ARES Phonetic Alphabet Converter",
+    "description": "Convert text to NATO phonetic alphabet equivalents for clear communication in radio, military, and aviation contexts. Enter any combination of letters and numbers, then click the convert button to display the phonetic representation with each character separated by spaces. Spaces in the original text are marked as \"(SPACE)\" in the output.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/ares"
+  },
+  {
+    "filename": "audio-spectrum.html",
+    "slug": "audio-spectrum",
+    "title": "Audio Spectrum Visualizer",
+    "description": "Visualize real-time audio frequency data from your microphone as an animated spectrum display. This application uses the Web Audio API to capture microphone input, analyze frequencies using FFT (Fast Fourier Transform), and render dynamic bars that respond to sound levels across the frequency spectrum. Grant microphone permissions when prompted to begin the visualization.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/audio-spectrum"
+  },
+  {
+    "filename": "avatar-web-component.html",
+    "slug": "avatar-web-component",
+    "title": "Avatar Web Component",
+    "description": "Display and edit images with an interactive cropping interface for creating avatars or profile pictures. Users can select images by clicking, dragging and dropping files, or pasting from the clipboard, then crop them to a specified aspect ratio using resizable handles. The final cropped image is automatically exported as a JPEG data URL and can be synced to a designated form input field for seamless integration with web forms.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/avatar-web-component"
+  },
+  {
+    "filename": "badge-drawer.html",
+    "slug": "badge-drawer",
+    "title": "Badge Drawer — Device-Scale Canvas",
+    "description": "# Badge Drawer — Device-Scale Canvas",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/badge-drawer"
+  },
+  {
+    "filename": "badge-repl.html",
+    "slug": "badge-repl",
+    "title": "Badge Interactive REPL",
+    "description": "Interact with a MicroPython device via the Web Serial API to execute Python commands in real-time through a browser-based REPL interface. This tool enables direct communication with compatible microcontroller boards, allowing users to run Python code, query system information, and manage files without requiring terminal software or drivers. The interface provides quick-access buttons for common operations like listing files, checking CPU frequency, and monitoring available memory.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/badge-repl"
+  },
+  {
+    "filename": "base64-gzip-decoder.html",
+    "slug": "base64-gzip-decoder",
+    "title": "Base64 Gzip Decoder",
+    "description": "Decode base64-encoded gzip data to retrieve the original decompressed content. Paste your base64 string into the input field and click the Decode button to process the data. The decoder handles the conversion from base64 format and gzip decompression in sequence, displaying the result or providing detailed error messages if the input is invalid.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/base64-gzip-decoder"
+  },
+  {
+    "filename": "bbox-cropper.html",
+    "slug": "bbox-cropper",
+    "title": "BBox Tool - CropperJS Version",
+    "description": "Draw bounding boxes on images using an interactive cropping tool powered by CropperJS. Load an image by pasting, dragging and dropping, or selecting a file, then click and drag to create a box around your region of interest. The tool automatically outputs normalized coordinates as percentages of the image dimensions in a format ready for command-line use.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bbox-cropper"
+  },
+  {
+    "filename": "blog-to-newsletter.html",
+    "slug": "blog-to-newsletter",
+    "title": "Blog to Newsletter",
+    "description": "Convert a blog database into a Substack newsletter by selecting content from the past week or more and arranging stories in your preferred order. The tool fetches entries, links, quotes, and notes from Simon Willison's blog backup, filters out previously sent content, and generates ready-to-paste HTML for your newsletter. Preview the newsletter layout, remove unwanted items, and receive warnings for URLs exceeding character limits before copying to your clipboard.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/blog-to-newsletter"
+  },
+  {
+    "filename": "bluesky-faves.html",
+    "slug": "bluesky-faves",
+    "title": "Bluesky Favorites Viewer",
+    "description": "# Bluesky Favorites Viewer Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bluesky-faves"
+  },
+  {
+    "filename": "bluesky-quote-finder.html",
+    "slug": "bluesky-quote-finder",
+    "title": "Bluesky Quote Finder",
+    "description": "Search for quote posts on Bluesky by entering a post URL to discover all responses that quote the original post. The tool fetches and displays these quotes with options to sort by likes, recency, or oldest first, and provides direct links to view each quote on Bluesky or explore its thread context. A color-coded depth indicator helps visualize the conversation hierarchy.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bluesky-quote-finder"
+  },
+  {
+    "filename": "bluesky-search.html",
+    "slug": "bluesky-search",
+    "title": "Bluesky Search",
+    "description": "Search Bluesky posts using advanced filters and options to organize results by latest or top engagement. This tool requires authentication with your Bluesky account credentials and supports filtering by date range, author, mentions, language, domain, URL, and hashtags. Results can be exported as formatted markdown for easy sharing and documentation.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bluesky-search"
+  },
+  {
+    "filename": "bluesky-thread.html",
+    "slug": "bluesky-thread",
+    "title": "Bluesky Thread Viewer",
+    "description": "View Bluesky thread conversations with multiple display options including nested thread view, chronological sorting, and media support. This viewer fetches complete discussion threads from Bluesky posts and renders them with color-coded depth indicators, clickable reply relationships, and embedded images and videos. Users can switch between different viewing modes, copy thread text or raw JSON data, and optionally hide non-author replies to focus on the original poster's main conversation.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bluesky-thread"
+  },
+  {
+    "filename": "bluesky-timeline.html",
+    "slug": "bluesky-timeline",
+    "title": "Bluesky Timeline Viewer",
+    "description": "View Bluesky social media timelines by authenticating with your account credentials and retrieving live feed data. The application automatically refreshes your timeline at regular intervals while displaying posts with author information, timestamps, and full JSON response data for advanced inspection. Credentials are securely stored locally in your browser for convenient access during future sessions.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bluesky-timeline"
+  },
+  {
+    "filename": "bluesky-firehose.html",
+    "slug": "bluesky-firehose",
+    "title": "Bluesky WebSocket Feed Monitor",
+    "description": "Monitor real-time Bluesky feed data by connecting to the Bluesky Jetstream WebSocket service and viewing incoming posts and events. Send custom JSON messages to filter the feed by collection type, specific user DIDs, or other parameters, with all activity logged in the output panel for debugging and inspection. Use the provided keyboard shortcut (Ctrl/Cmd + Enter) to quickly send configuration updates to the WebSocket connection.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bluesky-firehose"
+  },
+  {
+    "filename": "bluesky-resolve.html",
+    "slug": "bluesky-resolve",
+    "title": "bluesky-resolve",
+    "description": "View and resolve Bluesky handles to their corresponding Decentralized Identifiers (DIDs) using the AT Protocol API. Enter a Bluesky handle in the format `username.bsky.social` to retrieve the associated DID, which serves as a unique identifier for accounts on the Bluesky network. This tool provides a simple interface for looking up handle-to-DID mappings through Bluesky's public resolver endpoint.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bluesky-resolve"
+  },
+  {
+    "filename": "bookmarklets.html",
+    "slug": "bookmarklets",
+    "title": "Bookmarklets Collection",
+    "description": "Access a collection of practical bookmarklets for web development and general browsing tasks. Each bookmarklet can be installed by dragging it to your bookmarks bar on desktop browsers or by copying the code for mobile Safari. The collection includes tools for revealing page anchor points and viewing page source code with formatting options, all presented with detailed documentation and source code inspection capabilities.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bookmarklets"
+  },
+  {
+    "filename": "box-shadow.html",
+    "slug": "box-shadow",
+    "title": "Box shadow CSS generator",
+    "description": "Generate custom CSS box-shadow effects with interactive controls and real-time preview. Adjust horizontal and vertical offsets, blur radius, spread radius, color, and opacity using intuitive sliders and color picker to visualize shadow changes instantly. Copy the generated CSS code directly to your clipboard for immediate use in your stylesheets.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/box-shadow"
+  },
+  {
+    "filename": "bugzilla-bug.html",
+    "slug": "bugzilla-bug",
+    "title": "Bugzilla Bug Viewer",
+    "description": "View Mozilla Bugzilla bug reports with a streamlined interface that displays bug details, comments, and change history in an organized timeline format. Enter a bug ID, URL, or Bugzilla link to retrieve comprehensive information including status, dependencies, keywords, and all activity related to the bug. The viewer automatically fetches and displays details about related bugs referenced in dependencies and history changes, making it easy to navigate connections between issues.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bugzilla-bug"
+  },
+  {
+    "filename": "bullish-bearish.html",
+    "slug": "bullish-bearish",
+    "title": "Bullish vs Bearish - Remember Which is Which!",
+    "description": "Learn the difference between bullish and bearish market sentiment through an interactive visual guide featuring animated bull and bear characters. The page uses intuitive animal metaphors—bulls thrust their horns upward to represent rising markets and optimism, while bears swipe downward to represent falling markets and pessimism. A built-in quiz feature helps reinforce these concepts with randomized questions about market terminology.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/bullish-bearish"
+  },
+  {
+    "filename": "california-clock-change.html",
+    "slug": "california-clock-change",
+    "title": "California Clock Change - PST/PDT Only",
+    "description": "Track California's Daylight Saving Time changes with this tool that displays the most recent clock adjustment and alerts you to the next one. The page automatically detects your timezone and restricts functionality to Pacific Time users, while offering detailed information about when clocks spring forward or fall back, along with a note about how the change might affect your dog's internal schedule. An embedded test suite verifies the accuracy of DST date calculations for multiple years.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/california-clock-change"
+  },
+  {
+    "filename": "census-reporter-claude.html",
+    "slug": "census-reporter-claude",
+    "title": "Census Explorer (built using Claude 3.7 Sonnet thinking)",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/census-reporter-claude"
+  },
+  {
+    "filename": "census-reporter-gemini.html",
+    "slug": "census-reporter-gemini",
+    "title": "Census Reporter Explorer (built using Gemini 2.5 Pro)",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/census-reporter-gemini"
+  },
+  {
+    "filename": "chrome-prompt-playground.html",
+    "slug": "chrome-prompt-playground",
+    "title": "Chrome LanguageModel Playground",
+    "description": "Interact with Chrome's built-in language model API through this web-based playground interface. The application allows users to check model availability, download the model if needed, and execute text prompts to generate responses directly in the browser. A persistent history feature maintains records of previous prompts and responses for easy reference.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/chrome-prompt-playground"
+  },
+  {
+    "filename": "claude-code-timeline.html",
+    "slug": "claude-code-timeline",
+    "title": "Claude Code Timeline Viewer",
+    "description": "View Claude Code session `.jsonl` files as an interactive timeline with customizable filtering and search capabilities. This tool displays events chronologically, extracting conversation messages, tool calls, and file snapshots with formatted previews of text content, code blocks, and embedded images. Use the file picker, drag-and-drop, paste input, or URL fetch to load your session data and explore it with timezone switching, content-type filters, and easy JSON export.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/claude-code-timeline"
+  },
+  {
+    "filename": "cleanup-claude-code-paste.html",
+    "slug": "cleanup-claude-code-paste",
+    "title": "Cleanup Claude Code Paste",
+    "description": "Clean up Claude Code terminal output by removing the ❯ prompt character, fixing whitespace from line wrapping, and joining broken lines into readable paragraphs. Paste your terminal text into the input field and the cleaned output will appear automatically, ready to copy to your clipboard.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/cleanup-claude-code-paste"
+  },
+  {
+    "filename": "clipboard-backup.html",
+    "slug": "clipboard-backup",
+    "title": "Clipboard Backup",
+    "description": "Save and manage clipboard content across multiple formats including text, HTML, RTF, and images with this clipboard backup tool. Paste any content from your clipboard to automatically create a backup that can be restored later or downloaded in its original format. All backups are stored locally in your browser using IndexedDB, giving you persistent access to your clipboard history without any external uploads or server storage.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/clipboard-backup"
+  },
+  {
+    "filename": "clipboard-viewer.html",
+    "slug": "clipboard-viewer",
+    "title": "Clipboard Format Viewer",
+    "description": "Inspect and analyze clipboard data by pasting content into this viewer to see all available formats and their corresponding values. The tool displays text, HTML, images, and file information in an organized format, with special handling for image previews and multi-file pastes. This is useful for debugging clipboard operations and understanding what data formats are available when copying and pasting content across applications.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/clipboard-viewer"
+  },
+  {
+    "filename": "codex-timeline.html",
+    "slug": "codex-timeline",
+    "title": "Codex Timeline Viewer",
+    "description": "View Mozilla Codex rollout timeline events from `.jsonl` files with an interactive interface that supports filtering, searching, and detailed event inspection. Load files via drag-and-drop, paste, or URL fetch, then explore events organized chronologically with customizable timezone display and comprehensive event details including formatted content, tool calls, and reasoning blocks.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/codex-timeline"
+  },
+  {
+    "filename": "compare-pdfs.html",
+    "slug": "compare-pdfs",
+    "title": "Compare PDFs",
+    "description": "Compare two PDF documents side-by-side to identify differences between them. Upload or drag and drop two PDF files to view their pages rendered as images, with a third panel highlighting any pixel-level differences in red. This tool is useful for detecting changes between document versions, comparing drafts, or verifying document modifications.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/compare-pdfs"
+  },
+  {
+    "filename": "code-with-claude-2025.html",
+    "slug": "code-with-claude-2025",
+    "title": "Conference Schedule - ICS File",
+    "description": "Download and view the complete conference schedule for May 22, 2025, in iCalendar format. This page provides access to all 25 events from the San Francisco conference, including keynotes, technical sessions, workshops, and office hours, which can be imported directly into your calendar application. A live preview of the ICS file contents is displayed below the download button for reference.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/code-with-claude-2025"
+  },
+  {
+    "filename": "html-validation-demo.html",
+    "slug": "html-validation-demo",
+    "title": "Contact form",
+    "description": "Submit contact information through this responsive form that provides real-time validation using native HTML5 attributes and CSS-only feedback. The form validates required fields including name, email, and message content, displaying checkmarks for valid inputs and error messages for invalid entries without requiring any JavaScript. The clean, modern design features a card layout with smooth transitions and a collapsible source code viewer for examining the underlying HTML and CSS implementation.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/html-validation-demo"
+  },
+  {
+    "filename": "github-issue-to-markdown.html",
+    "slug": "github-issue-to-markdown",
+    "title": "Convert GitHub issue to markdown",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/github-issue-to-markdown"
+  },
+  {
+    "filename": "cooking-timer.html",
+    "slug": "cooking-timer",
+    "title": "Cooking Timer",
+    "description": "# Cooking Timer Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/cooking-timer"
+  },
+  {
+    "filename": "cors-fetch.html",
+    "slug": "cors-fetch",
+    "title": "CORS Fetch Tester",
+    "description": "Test HTTP requests directly from your browser and observe which response headers and body content are accessible under CORS (Cross-Origin Resource Sharing) restrictions. This tool lets you construct requests with custom methods, headers, and body content, import requests from curl commands, and format JSON responses for easier inspection. The application preserves your request configuration in the URL fragment, allowing you to share and bookmark specific test cases.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/cors-fetch"
+  },
+  {
+    "filename": "grid-lanes-polyfill.html",
+    "slug": "grid-lanes-polyfill",
+    "title": "CSS Grid Lanes Polyfill Demo",
+    "description": "# CSS Grid Lanes Polyfill Demo",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/grid-lanes-polyfill"
+  },
+  {
+    "filename": "css-text-wrapping.html",
+    "slug": "css-text-wrapping",
+    "title": "CSS Text Wrapping Properties Guide",
+    "description": "Learn how CSS text wrapping properties control how text flows within containers, including word-wrap, word-break, white-space, text-overflow, hyphens, line-break, and text-wrap. This guide provides interactive demonstrations of each property's behavior, detailed explanations of their values, and current browser compatibility information to help you choose the right approach for your text layout needs.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/css-text-wrapping"
+  },
+  {
+    "filename": "csv-marker-map.html",
+    "slug": "csv-marker-map",
+    "title": "CSV marker map - use ?csv=URL to CSV to populate",
+    "description": "View CSV data as markers on an interactive map using the `?csv=URL` parameter to specify a CSV file containing latitude and longitude columns. The map supports additional customization through query parameters including `center` to set the initial location, `zoom` for zoom level, `color` to change marker color, and `marker` to add individual points. Map position and zoom level are automatically saved to the URL bar as you navigate, allowing you to share your current view with others.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/csv-marker-map"
+  },
+  {
+    "filename": "datasette-io-preview.html",
+    "slug": "datasette-io-preview",
+    "title": "datasette.io news preview",
+    "description": "Preview and validate datasette.io news entries in YAML format with real-time rendering and markdown linting. The editor loads the current news.yaml file from GitHub and provides immediate feedback on formatting errors, link validation, and markdown syntax issues while displaying a styled preview of how entries will appear on the live site. Use the error badge to track validation issues and fix them directly in the editor pane.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/datasette-io-preview"
+  },
+  {
+    "filename": "date-calculator.html",
+    "slug": "date-calculator",
+    "title": "Date Calculator",
+    "description": "Calculate the time between two dates with detailed breakdowns and visual representations. This tool displays the total number of days, weeks, business days, and weekend days spanning your selected date range, along with a visual timeline showing where the dates fall relative to today. Use the calculation method options to focus on specific day types such as business days or weekends only.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/date-calculator"
+  },
+  {
+    "filename": "deep-research-viewer.html",
+    "slug": "deep-research-viewer",
+    "title": "Deep Research Session Viewer",
+    "description": "# Deep Research Session Viewer Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/deep-research-viewer"
+  },
+  {
+    "filename": "devon-lanes.html",
+    "slug": "devon-lanes",
+    "title": "Devon Lane Driving Simulator",
+    "description": "Navigate the treacherous single-track lanes of rural Devon in this interactive driving simulator, where you must manage your sanity while encountering cyclists, tractors, caravans, and other obstacles. Each encounter presents a unique challenge requiring a dice roll to succeed, with your choices affecting both your progress and mental state as you attempt to travel increasingly longer distances. The game combines humor, strategy, and unpredictable encounters to test whether you can survive the quirky chaos of England's countryside roads.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/devon-lanes"
+  },
+  {
+    "filename": "webkitdirectory.html",
+    "slug": "webkitdirectory",
+    "title": "Directory Explorer Demo",
+    "description": "Explore the contents of a local directory in your browser with an interactive file tree viewer and search functionality. This tool demonstrates the capabilities of the `webkitdirectory` input attribute to access folder structures and analyze file distribution. Once a directory is selected, view detailed statistics about file counts, total size, and file type breakdown, with options to filter by name and file extension.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/webkitdirectory"
+  },
+  {
+    "filename": "dns.html",
+    "slug": "dns",
+    "title": "DNS Lookup",
+    "description": "# DNS Lookup Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/dns"
+  },
+  {
+    "filename": "dot.html",
+    "slug": "dot",
+    "title": "DOT File Renderer",
+    "description": "Render DOT graph files into visual diagrams directly in your browser. Paste your DOT syntax into the textarea and the graph will automatically render as an SVG visualization, with live updates as you edit. Share your graphs by copying the URL, which encodes your DOT content in the fragment identifier.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/dot"
+  },
+  {
+    "filename": "image-to-jpeg.html",
+    "slug": "image-to-jpeg",
+    "title": "Drag and Drop Image Optimizer",
+    "description": "Compress and optimize image files by uploading them to this web-based tool that applies adjustable JPEG quality settings to reduce file size. The interface allows users to compare the original and optimized versions side-by-side by toggling between views or pressing and holding the image, while providing real-time compression statistics and the ability to download the optimized file or copy its data URI for embedding in code.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/image-to-jpeg"
+  },
+  {
+    "filename": "blackened-cauliflower-and-turkish-style-stew.html",
+    "slug": "blackened-cauliflower-and-turkish-style-stew",
+    "title": "Dual Recipe Cooking Timer",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/blackened-cauliflower-and-turkish-style-stew"
+  },
+  {
+    "filename": "emoji-identifier.html",
+    "slug": "emoji-identifier",
+    "title": "Emoji Identifier",
+    "description": "Extract and identify all emojis from text by pasting or typing into the input field, and instantly view their names and Unicode codepoint values. The tool uses a comprehensive emoji detection regex pattern combined with a Unicode emoji dataset to recognize a wide variety of emoji characters, including skin tone variants and zero-width joiner sequences. Results are displayed in real-time, showing each unique emoji found along with its standardized name and corresponding Unicode representation.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/emoji-identifier"
+  },
+  {
+    "filename": "encrypt.html",
+    "slug": "encrypt",
+    "title": "Encrypt / decrypt message",
+    "description": "Encrypt and decrypt messages using a passphrase with this web application that leverages modern browser cryptography APIs. The tool generates a secure shareable link containing an encrypted message that can only be decrypted with the correct passphrase, making it useful for sending sensitive information. All encryption and decryption operations occur entirely in the browser, ensuring your data never leaves your device.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/encrypt"
+  },
+  {
+    "filename": "event-planner.html",
+    "slug": "event-planner",
+    "title": "Event Planner",
+    "description": "Plan events with timezone-aware scheduling and countdown tracking. This application allows you to input event details including title, description, location, date, and time across different US timezones, then automatically calculates the time remaining until the event and generates a shareable Google Calendar link. The tool displays all event information in a formatted summary and provides a convenient way to add the event directly to your Google Calendar account.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/event-planner"
+  },
+  {
+    "filename": "exif.html",
+    "slug": "exif",
+    "title": "EXIF Data Viewer",
+    "description": "Extract EXIF metadata and GPS coordinates from uploaded images using this viewer. Simply upload or drag-and-drop an image file to instantly display all embedded EXIF data, including GPS latitude and longitude if available. The tool supports common image formats such as JPEG, PNG, and HEIC.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/exif"
+  },
+  {
+    "filename": "extract-urls.html",
+    "slug": "extract-urls",
+    "title": "Extract URLs",
+    "description": "Extract URLs from copied web page content by pasting HTML into the input area, which automatically identifies and displays all hyperlinks found in the pasted material. The tool filters for valid HTTP links and provides a consolidated list in the output textarea, making it easy to copy all extracted URLs to your clipboard with a single button click.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/extract-urls"
+  },
+  {
+    "filename": "ffmpeg-crop.html",
+    "slug": "ffmpeg-crop",
+    "title": "FFmpeg video crop",
+    "description": "Generate FFmpeg crop commands by uploading a video file and interactively defining a crop area using a draggable overlay. The tool provides both standard and iPhone-compatible FFmpeg command formats that automatically update as you adjust the crop box dimensions and position. This eliminates the need to manually calculate crop parameters for video editing workflows.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/ffmpeg-crop"
+  },
+  {
+    "filename": "keyboard-filters.html",
+    "slug": "keyboard-filters",
+    "title": "Filter Badge Component",
+    "description": "# Filter Badge Component Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/keyboard-filters"
+  },
+  {
+    "filename": "gemini-flash-tts.html",
+    "slug": "gemini-flash-tts",
+    "title": "Gemini 3.1 Flash TTS",
+    "description": "Convert text to natural-sounding speech using Google's Gemini 3.1 Flash TTS model with support for both single-speaker and multi-speaker conversation modes. The tool allows you to customize voice selection, apply directorial tags like `[whisper]` and `[short pause]` for dynamic delivery, and download the generated audio as a WAV file. Requires a valid Gemini API key to function.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gemini-flash-tts"
+  },
+  {
+    "filename": "gemini-bbox.html",
+    "slug": "gemini-bbox",
+    "title": "Gemini API Image Bounding Box Visualization",
+    "description": "Analyze images using the Google Gemini API and visualize detected objects as bounding boxes or points overlaid on the original image with coordinate grid lines. The tool supports multiple Gemini model versions and can extract either bounding box coordinates in normalized format or point locations with labels, displaying the results alongside a detailed visualization canvas. Store your API key locally for convenient access across multiple sessions.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gemini-bbox"
+  },
+  {
+    "filename": "gemini-mask.html",
+    "slug": "gemini-mask",
+    "title": "Gemini API Image Mask Visualization",
+    "description": "Use the Gemini API to analyze images and generate segmentation masks with visual overlays. Upload an image and provide a prompt describing what you want to segment, then the application displays bounding boxes and mask visualizations directly on the image canvas. Token usage metrics are provided for each API call, and you can choose from various Gemini model versions including thinking and non-thinking variants.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gemini-mask"
+  },
+  {
+    "filename": "gemini-chat.html",
+    "slug": "gemini-chat",
+    "title": "Gemini Chat App",
+    "description": "Chat with Google's Gemini AI models directly in your browser using this interactive chat application. Simply enter your Gemini API key (stored locally for convenience) and select from multiple available models including Gemini 2.5 Flash, Pro, and various other versions to power your conversations. The app displays real-time streaming responses, tracks API usage metrics, and measures response duration to help you monitor your interactions.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gemini-chat"
+  },
+  {
+    "filename": "gemini-prompt.html",
+    "slug": "gemini-prompt",
+    "title": "Gemini Prompt",
+    "description": "Generate responses from Google's Gemini API with support for system prompts, model selection, and streaming output. The interface stores your API key securely in local storage and maintains a history of system prompts for quick reuse. Markdown formatting is automatically rendered in the output area, and you can copy responses to your clipboard with a single click.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gemini-prompt"
+  },
+  {
+    "filename": "gif-dissector.html",
+    "slug": "gif-dissector",
+    "title": "GIF Dissector",
+    "description": "Parse and visualize animated GIF files by extracting individual frames, timing data, color palettes, and detailed metadata. Upload a GIF file to instantly decompose it into its constituent frames with precise delay measurements, disposal methods, transparency information, and global color table analysis. The tool renders composited frames to show exactly how the animation appears, while providing comprehensive technical details about the image structure and properties.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gif-dissector"
+  },
+  {
+    "filename": "gif-optimizer.html",
+    "slug": "gif-optimizer",
+    "title": "GIF Optimizer (gifsicle WASM)",
+    "description": "Optimize animated GIF files using gifsicle compiled to WebAssembly, with all processing occurring directly in your browser without server uploads. The application offers preset optimization profiles ranging from lossless compression to aggressive lossy reduction, along with manual control over parameters like color palette size, scaling, and dithering methods. Each optimization generates a preview and displays the resulting file size reduction, allowing you to compare multiple compression strategies before downloading your preferred version.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gif-optimizer"
+  },
+  {
+    "filename": "gpt-4o-audio-player.html",
+    "slug": "gpt-4o-audio-player",
+    "title": "Gist Audio Player",
+    "description": "Play audio responses generated by OpenAI's GPT-4 with audio preview model by providing a GitHub Gist URL containing the API response JSON. The player extracts base64-encoded WAV audio data from the Gist, converts it to playable format, and displays the associated transcript. You can listen to the audio directly in the browser or download it as a WAV file.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gpt-4o-audio-player"
+  },
+  {
+    "filename": "github-account.html",
+    "slug": "github-account",
+    "title": "GitHub Account Info Lookup",
+    "description": "Look up GitHub user account information by entering a username to retrieve the numeric Account ID and account creation date through the public GitHub API. The tool displays the user's profile link, avatar, and formatted timestamps, along with request latency information. Unauthenticated requests are subject to GitHub's rate limits, which may block further lookups after a certain number of queries.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/github-account"
+  },
+  {
+    "filename": "github-api-write.html",
+    "slug": "github-api-write",
+    "title": "GitHub API File/Image Writer",
+    "description": "Upload files and images to GitHub repositories using the GitHub API. This tool accepts either text content or image files and commits them to a specified repository path with proper authentication via personal access tokens. The interface automatically adapts to show relevant input fields based on whether you're uploading text or an image file.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/github-api-write"
+  },
+  {
+    "filename": "github-graphiql.html",
+    "slug": "github-graphiql",
+    "title": "GitHub GraphQL Explorer",
+    "description": "Explore GitHub's GraphQL API using an interactive query interface that requires authentication via a personal access token. Enter your GitHub token to connect and start writing, executing, and testing GraphQL queries against GitHub's data in real-time. The explorer provides syntax highlighting, query validation, and response inspection capabilities within an embedded GraphiQL environment.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/github-graphiql"
+  },
+  {
+    "filename": "github-ratelimit.html",
+    "slug": "github-ratelimit",
+    "title": "GitHub Rate Limit Checker",
+    "description": "Monitor your GitHub API usage and remaining rate limits with this authentication-based checker. After authenticating with your GitHub account, the tool displays detailed information about your API quotas across different resource types, including remaining calls, reset times, and visual progress indicators. The interface shows critical warnings when your limits are running low, helping you manage your API consumption effectively.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/github-ratelimit"
+  },
+  {
+    "filename": "github-repo-size.html",
+    "slug": "github-repo-size",
+    "title": "GitHub Repo Size",
+    "description": "Check the size of any GitHub repository by entering the owner and repository name or pasting a GitHub URL. The tool fetches repository data from the GitHub API and displays the total size in kilobytes, megabytes, or gigabytes depending on the repository's scale. Results are automatically saved to the browser URL, allowing you to share or revisit repository size checks.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/github-repo-size"
+  },
+  {
+    "filename": "gradient-card.html",
+    "slug": "gradient-card",
+    "title": "Gradient image generator",
+    "description": "Generate customizable gradient images with multiple pattern overlays and effects. This tool provides controls for linear, radial, and conic gradients with adjustable colors, along with options for layering various patterns including noise, geometric shapes, and textures. Additional features include film grain, vignetting, and blend mode controls to fine-tune the visual appearance, with the ability to export the final result as a PNG image or save and restore settings as JSON.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gradient-card"
+  },
+  {
+    "filename": "hn-comments-for-user.html",
+    "slug": "hn-comments-for-user",
+    "title": "Hacker News comments for a user",
+    "description": "View Hacker News comments for any user by entering their handle and fetching up to 1,000 recent comments in a single request. The tool displays each comment with its date, story title, direct links to both the comment and discussion thread, and the full comment text, which can be easily copied to your clipboard. This makes it convenient to archive, analyze, or review a user's comment history on Hacker News.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/hn-comments-for-user"
+  },
+  {
+    "filename": "hacker-news-histogram.html",
+    "slug": "hacker-news-histogram",
+    "title": "Hacker News Multi-Term Histogram",
+    "description": "Analyze Hacker News stories by searching for multiple terms across a custom time range and visualize the results as an interactive histogram. The tool fetches monthly hit counts from the Hacker News API for each search term, displaying data in a color-coded bar chart, sortable table, and exportable JSON format. Click any bar to view the actual stories matching that term within that month's date range.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/hacker-news-histogram"
+  },
+  {
+    "filename": "hacker-news-thread-export.html",
+    "slug": "hacker-news-thread-export",
+    "title": "Hacker News thread export",
+    "description": "Export Hacker News discussion threads in a formatted, hierarchical structure by providing a post ID or direct link to the thread. The tool fetches all comments from the specified post and organizes them with numbered paths that show the conversation structure, making it easy to read and copy the entire discussion for archival or sharing purposes.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/hacker-news-thread-export"
+  },
+  {
+    "filename": "hacker-news-filtered.html",
+    "slug": "hacker-news-filtered",
+    "title": "Hacker News, filtered",
+    "description": "Browse the latest Hacker News stories with customizable content filtering to exclude topics of your choice. Enter comma-separated terms to filter out posts matching those keywords across titles, URLs, and descriptions, and refresh the feed to load the newest stories. Your filter preferences are automatically saved in your browser for future visits.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/hacker-news-filtered"
+  },
+  {
+    "filename": "haiku.html",
+    "slug": "haiku",
+    "title": "Haiku",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/haiku"
+  },
+  {
+    "filename": "escape-entities.html",
+    "slug": "escape-entities",
+    "title": "HTML Entity Escaper",
+    "description": "Convert between special characters and their HTML entity representations with this bidirectional encoding tool. Select between Escape mode to convert characters like `<`, `>`, `&`, and quotes into their corresponding HTML entities, or Unescape mode to decode HTML entities back into readable characters. The tool supports named entities, decimal numeric references, and hexadecimal numeric references, with real-time conversion displayed in the output field.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/escape-entities"
+  },
+  {
+    "filename": "nav-for-headings.html",
+    "slug": "nav-for-headings",
+    "title": "HTML Header Processor",
+    "description": "Process HTML content to automatically generate unique IDs for all header elements and create a table of contents with anchor links. This tool is useful for adding navigation functionality to static HTML pages or preparing content for documentation systems that require header identification. Simply paste your HTML and provide the page URL, then the processor will output the modified HTML and a formatted list of clickable header links.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/nav-for-headings"
+  },
+  {
+    "filename": "html-preview.html",
+    "slug": "html-preview",
+    "title": "HTML Live Preview",
+    "description": "Write HTML code directly in the editor pane and see the rendered output update in real-time in the preview pane. The editor supports live preview with debounced updates to prevent excessive rendering, and includes a copy button to save your HTML code to the clipboard. On mobile devices, toggle between the editor and preview views using the dedicated button in the toolbar.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/html-preview"
+  },
+  {
+    "filename": "huggingface-storage.html",
+    "slug": "huggingface-storage",
+    "title": "Hugging Face Model Storage Checker",
+    "description": "Check the storage size of Hugging Face machine learning models by entering a model URL or repository path. The tool queries the Hugging Face API to retrieve the total storage used by the specified model and displays the result in a human-readable format (MB or GB). Models can be looked up using either their full Hugging Face URL or their model identifier in the format `username/model-name`.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/huggingface-storage"
+  },
+  {
+    "filename": "visualizer.html",
+    "slug": "visualizer",
+    "title": "Hyperviz",
+    "description": "Create real-time audio-reactive visualizations with eight distinct modes including plasma, particles, tunnel effects, kaleidoscope patterns, Matrix rain, terrain, fire, and starfield animations. The visualizer captures frequency data from your microphone and responds dynamically to bass, mid, and high frequencies, with beat detection triggering visual flashes and intensity changes. Sequence mode automatically cycles through all visualization styles with smooth transitions, while fullscreen capability allows for immersive display on any screen.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/visualizer"
+  },
+  {
+    "filename": "iframe-sandbox.html",
+    "slug": "iframe-sandbox",
+    "title": "iframe sandbox",
+    "description": "Test and explore HTML, CSS, and JavaScript code in a sandboxed iframe environment with configurable security restrictions. The left panel provides a code editor for writing HTML content, while the right panel displays a live preview with customizable sandbox attributes that control what the iframe can access and execute. Use the checkboxes to enable or disable specific permissions like scripts, forms, popups, and same-origin access to understand how sandbox restrictions affect web content behavior.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/iframe-sandbox"
+  },
+  {
+    "filename": "image-resize-quality.html",
+    "slug": "image-resize-quality",
+    "title": "Image resize, crop, and quality comparison",
+    "description": "Compare images at different sizes and quality levels by uploading a photo, defining a crop area, and generating multiple preview versions with varying dimensions and compression settings. The tool displays file sizes for each variant and allows interactive toggling between normal and full-width viewing modes, as well as direct downloads. Transparency detection automatically reveals a background color picker when needed for images with alpha channels.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/image-resize-quality"
+  },
+  {
+    "filename": "image-to-svg.html",
+    "slug": "image-to-svg",
+    "title": "Image to SVG",
+    "description": "Convert raster images to scalable vector graphics using automated tracing technology. Upload a JPG or PNG image by dragging it onto the drop zone or clicking to browse, and the application will generate an SVG representation that can be viewed and copied. The conversion process uses imagetracerjs to intelligently trace image edges and create vector paths suitable for scaling to any size without quality loss.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/image-to-svg"
+  },
+  {
+    "filename": "jina-embeddings-image-token-calculator.html",
+    "slug": "jina-embeddings-image-token-calculator",
+    "title": "Image Token Calculator",
+    "description": "Calculate the token cost for images used in API requests by uploading or dragging an image file into the tool. The calculator analyzes the image dimensions and divides them into 224-pixel tiles, multiplying the total tile count by 1,000 to determine the token expense. This helps estimate costs when working with vision-based APIs that charge per image token.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/jina-embeddings-image-token-calculator"
+  },
+  {
+    "filename": "click-grid-to-expand.html",
+    "slug": "click-grid-to-expand",
+    "title": "Improved Interactive CSS Grid Layout with Symmetric Animation",
+    "description": "Explore an interactive CSS grid layout that demonstrates dynamic element expansion with smooth animations. Click the green cell labeled \"1x2\" to trigger a symmetric animation that expands the element to fill the entire grid container, then click again to animate it back to its original position. The layout combines CSS Grid positioning with JavaScript event handling to create a polished visual effect that smoothly transitions between states.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/click-grid-to-expand"
+  },
+  {
+    "filename": "incomplete-json-printer.html",
+    "slug": "incomplete-json-printer",
+    "title": "Incomplete JSON Pretty Printer",
+    "description": "Format and visualize incomplete or truncated JSON data with automatic live formatting as you type. This tool handles malformed JSON structures by applying consistent indentation and proper spacing, making it easier to read and understand partial JSON snippets. The formatted output can be copied to the clipboard with a single click, and example data is available to test the functionality.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/incomplete-json-printer"
+  },
+  {
+    "filename": "flexbox-playground.html",
+    "slug": "flexbox-playground",
+    "title": "Interactive CSS Flexbox Playground",
+    "description": "Experiment with CSS Flexbox properties in real-time using this interactive playground. Adjust container properties like flex-direction, justify-content, and align-items while watching the layout change instantly, then select individual items to customize their flex-grow, flex-shrink, flex-basis, and alignment settings. The dynamically generated CSS code output shows the exact syntax needed to recreate your layout, making it an effective learning tool for mastering flexbox concepts.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/flexbox-playground"
+  },
+  {
+    "filename": "footnotes-experiment.html",
+    "slug": "footnotes-experiment",
+    "title": "Interactive Footnotes",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/footnotes-experiment"
+  },
+  {
+    "filename": "is-it-a-bird.html",
+    "slug": "is-it-a-bird",
+    "title": "Is it a bird?",
+    "description": "Determine whether images contain birds using OpenAI's CLIP model running directly in your browser through Transformers.js. Upload images by dragging and dropping, pasting from your clipboard, or selecting files, or use your device's camera for real-time analysis. The tool processes all images locally with no data sent to external servers, and includes a webcam mode with pinch-to-zoom functionality for mobile devices.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/is-it-a-bird"
+  },
+  {
+    "filename": "jina-reader.html",
+    "slug": "jina-reader",
+    "title": "Jina Reader",
+    "description": "Convert web pages to structured content using the Jina Reader API, with support for multiple output formats including markdown, HTML, and text. The interface allows you to fetch and preview page content while optionally running AI-powered analysis through Claude to generate summaries, extract quotes, and identify key ideas from the retrieved material.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/jina-reader"
+  },
+  {
+    "filename": "json-diff.html",
+    "slug": "json-diff",
+    "title": "JSON Diff Tool",
+    "description": "Compare JSON documents side-by-side to identify additions, removals, and modifications between two versions. The tool displays differences with color-coded highlighting and provides character-level detail for string changes, making it easy to spot exactly what has changed. Preloaded examples are available to explore common use cases like configuration updates, user profile changes, and API response comparisons.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/json-diff"
+  },
+  {
+    "filename": "json-schema-builder.html",
+    "slug": "json-schema-builder",
+    "title": "JSON Schema Builder",
+    "description": "Create JSON schemas interactively with this builder tool that allows you to define properties, set data types, and configure nested objects through an intuitive form interface. The generated schema is displayed in real-time and can be copied to your clipboard for use in your applications. Your schema is automatically saved in the URL, making it easy to share or revisit your work later.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/json-schema-builder"
+  },
+  {
+    "filename": "json-string-extractor.html",
+    "slug": "json-string-extractor",
+    "title": "JSON String Extractor",
+    "description": "Extract all strings from JSON data that exceed 20 characters in length or contain line breaks. This tool is useful for identifying longer text content within complex JSON structures for review, localization, or documentation purposes. Simply paste JSON into the textarea to automatically display matching strings along with their object paths, and use the copy button to quickly transfer any string to your clipboard.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/json-string-extractor"
+  },
+  {
+    "filename": "json-to-markdown-transcript.html",
+    "slug": "json-to-markdown-transcript",
+    "title": "JSON to Markdown Converter",
+    "description": "Convert JSON transcripts from audio into formatted Markdown with speaker names and timestamps. This tool automatically processes JSON data containing speaker names, text, and timestamp information, formatting them into readable Markdown output that can be easily copied and pasted elsewhere. The tool includes instructions for generating the required JSON format using the LLM command-line tool with audio files.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/json-to-markdown-transcript"
+  },
+  {
+    "filename": "json-to-yaml.html",
+    "slug": "json-to-yaml",
+    "title": "JSON to YAML Converter",
+    "description": "Convert JSON data into multiple YAML formats with a single paste. The tool generates three output variations—block style for readability, flow style for compactness, and quoted strings style for explicit formatting—allowing you to choose the best format for your needs. Each output can be copied to your clipboard with a single click.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/json-to-yaml"
+  },
+  {
+    "filename": "justhtml.html",
+    "slug": "justhtml",
+    "title": "JustHTML Playground - HTML5 Parser",
+    "description": "Test the JustHTML Python HTML5 parser directly in your browser with this interactive playground. Parse, query, and manipulate HTML using CSS selectors, pretty-print documents, extract text content, and convert HTML to Markdown—all running client-side with Pyodide. The playground supports multiple analysis modes including tree structure visualization and streaming event inspection for comprehensive HTML document exploration.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/justhtml"
+  },
+  {
+    "filename": "keyboard-debug.html",
+    "slug": "keyboard-debug",
+    "title": "Keyboard Debugger",
+    "description": "Monitor keyboard input in real-time with this interactive keyboard debugger that displays pressed keys and their corresponding key codes. Press any keys on your keyboard to see them appear with visual feedback, including support for simultaneous multi-key presses and special key representations. This tool is useful for testing keyboard functionality, debugging input handling, and understanding key event properties like key name, code, and keyCode values.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/keyboard-debug"
+  },
+  {
+    "filename": "arena-animated.html",
+    "slug": "arena-animated",
+    "title": "Language Model Elo Ratings",
+    "description": "Compare Elo ratings across different language models and dates using this interactive animated bar chart. Load your own JSON data with model names, dates, and Elo scores, then watch the rankings evolve over time with customizable animation speed. The visualization displays the top 20 models at each time point, making it easy to track performance trends and competitive dynamics in the AI landscape.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/arena-animated"
+  },
+  {
+    "filename": "lightning-timer.html",
+    "slug": "lightning-timer",
+    "title": "Lightning Timer",
+    "description": "Track time with Lightning Timer, a full-screen countdown application that displays elapsed seconds in large, easy-to-read format. Click the timer display to start, pause, or reset the countdown, and access the settings icon to configure the total duration and optional warning threshold that triggers a visual color change. The timer supports URL-based configuration for quick setup and displays the remaining time in both the page and browser title bar.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/lightning-timer"
+  },
+  {
+    "filename": "link-extractor.html",
+    "slug": "link-extractor",
+    "title": "Link Extractor",
+    "description": "Extract hyperlinks from pasted web content and export them in multiple formats including HTML, Markdown, and plain text. The tool automatically detects and removes duplicate links while displaying each link's title and URL for easy verification. Copy extracted links in your preferred format with a single click.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/link-extractor"
+  },
+  {
+    "filename": "link-temp.html",
+    "slug": "link-temp",
+    "title": "link-temp",
+    "description": "View Mozilla Bugzilla bug reports directly from your terminal using this LLM plugin for Google's Gemini API. The plugin enables seamless integration between your command-line workflow and Bugzilla's bug tracking system, allowing you to query and retrieve bug information without leaving your terminal environment. This tool is particularly useful for developers who want to incorporate bug data into their LLM-powered workflows and automation scripts.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/link-temp"
+  },
+  {
+    "filename": "aria-live-regions.html",
+    "slug": "aria-live-regions",
+    "title": "Live region notification demo",
+    "description": "Explore live region notifications with this interactive accessibility demo that allows you to test how screen readers announce dynamic content updates. The page provides instructions for testing with VoiceOver on macOS and iOS, plus interactive controls to trigger notifications with different aria-live settings (assertive or polite) to observe how screen readers prioritize and announce content changes.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/aria-live-regions"
+  },
+  {
+    "filename": "llm-lib.html",
+    "slug": "llm-lib",
+    "title": "llm-lib demo",
+    "description": "This is an interactive demonstration of a unified JavaScript library that provides a consistent interface for working with multiple large language model providers. The tool allows users to seamlessly switch between OpenAI, Anthropic Claude, and Google Gemini while managing API keys and configuring system prompts. Both streaming and non-streaming response modes are supported, with real-time status updates and syntax-highlighted code examples showing how to integrate the library into projects.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/llm-lib"
+  },
+  {
+    "filename": "lobsters-bookmarklet.html",
+    "slug": "lobsters-bookmarklet",
+    "title": "Lobsters Latest Comments Bookmarklet",
+    "description": "Browse Lobste.rs comment threads with an enhanced \"Latest\" tab that displays all comments in chronological order with newest first, making it easier to catch up on recent discussion activity. The bookmarklet adds reply-to links showing parent comment relationships and includes a \"Copy Thread\" feature to export the entire discussion as numbered plain text. Installation is straightforward across desktop browsers and mobile Safari by dragging the bookmarklet to your bookmarks bar or copying the code manually on mobile devices.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/lobsters-bookmarklet"
+  },
+  {
+    "filename": "transparent-png.html",
+    "slug": "transparent-png",
+    "title": "Make Colors Transparent in PNG",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/transparent-png"
+  },
+  {
+    "filename": "openfreemap-demo.html",
+    "slug": "openfreemap-demo",
+    "title": "MapLibre GL + OpenFreeMap demo",
+    "description": "Explore an interactive map of San Francisco rendered with MapLibre GL and OpenFreeMap tiles, displaying 1000 randomly distributed markers across the city. The demo showcases three different approaches for rendering large numbers of points—scaled markers, custom HTML elements, and GeoJSON circle layers—with the map automatically adjusted to fit all markers in view. Users can interact with the tilted 3D map to navigate and explore the marker distribution across the San Francisco area.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/openfreemap-demo"
+  },
+  {
+    "filename": "markdown-math.html",
+    "slug": "markdown-math",
+    "title": "Markdown and Math Live Renderer",
+    "description": "Render Markdown text with integrated LaTeX mathematical equations in real-time as you type. This tool converts your input into formatted HTML output while simultaneously displaying a live preview with properly rendered math expressions using KaTeX. You can view the generated HTML code and copy it to your clipboard for use in other projects.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/markdown-math"
+  },
+  {
+    "filename": "markdown-copy-component.html",
+    "slug": "markdown-copy-component",
+    "title": "markdown-copy component",
+    "description": "The `<markdown-copy>` component renders markdown content with built-in controls for viewing the rendered output and copying or viewing the source code. It provides an interactive interface with a menu button that allows users to toggle between the formatted markdown display and the raw markdown source, as well as quickly copy the markdown text to the clipboard. The component automatically handles indentation normalization and applies clean, readable styling to common markdown elements like headings, code blocks, blockquotes, and tables.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/markdown-copy-component"
+  },
+  {
+    "filename": "mask-visualizer.html",
+    "slug": "mask-visualizer",
+    "title": "Mask Visualizer",
+    "description": "Visualize bounding boxes and PNG masks from JSON data with support for multiple coordinate system origins. This tool accepts JSON input containing box coordinates and base64-encoded mask images, then displays them overlaid on an interactive canvas with real-time coordinate transformation. The visualization includes detailed information about each item's original and transformed coordinates based on the selected origin point.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/mask-visualizer"
+  },
+  {
+    "filename": "mdn-timelines.html",
+    "slug": "mdn-timelines",
+    "title": "mdn-timelines",
+    "description": "View Mozilla's browser compatibility data to track when web APIs were first supported across different browsers. Search for any API by name to see a chronological timeline of support additions, including release dates and version numbers for each browser. The interface also displays relevant MDN documentation links, specification URLs, and status indicators to help developers understand the maturity and adoption timeline of web platform features.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/mdn-timelines"
+  },
+  {
+    "filename": "manyana.html",
+    "slug": "manyana",
+    "title": "Merge State Visualizer",
+    "description": "# CRDT Merge State Visualizer",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/manyana"
+  },
+  {
+    "filename": "micropython.html",
+    "slug": "micropython",
+    "title": "MicroPython Code Executor",
+    "description": "Execute Python code in a sandboxed MicroPython WebAssembly environment with output displayed in real-time. Code is automatically saved to the URL for convenient sharing and persistence, and the environment supports JavaScript interoperability including the `fetch()` API for making HTTP requests. Built-in examples demonstrate common programming patterns from basic operations to working with APIs.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/micropython"
+  },
+  {
+    "filename": "microquickjs.html",
+    "slug": "microquickjs",
+    "title": "MicroQuickJS Code Executor",
+    "description": "Execute JavaScript code in a lightweight MicroQuickJS sandbox environment running via WebAssembly, with results displayed directly on the page. The sandbox supports ES5-like JavaScript features and automatically saves your code in the URL for easy sharing and recovery. Choose between optimized and original WebAssembly versions, try built-in examples, and use Ctrl+Enter to quickly run your code.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/microquickjs"
+  },
+  {
+    "filename": "minesweeper.html",
+    "slug": "minesweeper",
+    "title": "Minesweeper",
+    "description": "Play a classic Minesweeper game directly in your browser with support for three difficulty levels: Easy, Medium, and Hard. Use left-click to reveal cells and right-click to place flags, or toggle between reveal and flag modes on mobile with long-press support. The game features a timer to track your speed, mine counter to monitor remaining flags, and immediate visual feedback when you win or hit a mine.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/minesweeper"
+  },
+  {
+    "filename": "mobile-tables.html",
+    "slug": "mobile-tables",
+    "title": "Mobile Data Tables: Responsive Patterns Demo",
+    "description": "# Mobile Data Tables: Responsive Patterns Demo",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/mobile-tables"
+  },
+  {
+    "filename": "mp3-inspector.html",
+    "slug": "mp3-inspector",
+    "title": "MP3 Inspector",
+    "description": "Extract ID3 metadata and file information from MP3 audio files using this browser-based tool. Upload an MP3 file by dragging it onto the drop zone or selecting it through the file picker, and the inspector will parse and display all available tags including title, artist, album art, technical encoding details, and embedded URLs. The tool organizes metadata into categorized sections and provides a raw JSON view for advanced inspection of the complete tag data.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/mp3-inspector"
+  },
+  {
+    "filename": "broadcast-channel-chat.html",
+    "slug": "broadcast-channel-chat",
+    "title": "Multi-Tab Sync Chat",
+    "description": "Send chat messages that synchronize instantly across multiple browser tabs using the Broadcast Channel API. Each tab displays messages sent from other tabs with a sync indicator, allowing real-time communication without requiring a backend server. Open multiple tabs of this page to see messages propagate automatically across all instances.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/broadcast-channel-chat"
+  },
+  {
+    "filename": "text-wrap-balance-nav.html",
+    "slug": "text-wrap-balance-nav",
+    "title": "Navigation Bar with Text-Wrap Balance",
+    "description": "Explore how the CSS `text-wrap: balance` property affects navigation layout and text distribution across multiple lines. This interactive demonstration allows you to toggle the text-wrap balance feature on and off while adjusting the number of visible navigation items to see how the browser distributes text more evenly across lines. Use the slider and checkbox controls to observe the differences in how links wrap and align within the constrained navigation container.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/text-wrap-balance-nav"
+  },
+  {
+    "filename": "nicar-2026.html",
+    "slug": "nicar-2026",
+    "title": "NICAR 2026 Schedule",
+    "description": "Browse the NICAR 2026 conference schedule with powerful search and filtering capabilities. This interactive schedule viewer lets you explore sessions across multiple days, filter by session type, track, and skill level, and save your favorite sessions for quick access. The schedule works offline using cached data and automatically syncs updates when you're back online.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/nicar-2026"
+  },
+  {
+    "filename": "notes-to-markdown.html",
+    "slug": "notes-to-markdown",
+    "title": "Notes to Markdown",
+    "description": "Convert Apple Notes content to Markdown and HTML formats while preserving hyperlinks and formatting. Paste your notes into the text area to automatically generate both Markdown and HTML outputs, with a live preview of the rendered content. The tool parses RTF data from Apple Notes and provides copy buttons for easy transfer of the converted content.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/notes-to-markdown"
+  },
+  {
+    "filename": "numpy-pyodide-lab.html",
+    "slug": "numpy-pyodide-lab",
+    "title": "NumPy Vectors & Matrices — Pyodide Lab",
+    "description": "Execute NumPy vector and matrix operations directly in your browser using an interactive lab powered by Pyodide. Work through five hands-on exercises covering elementwise operations, dot products, matrix multiplication, broadcasting, and indexing, then experiment freely in the playground sandbox with instant Python output.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/numpy-pyodide-lab"
+  },
+  {
+    "filename": "ocr.html",
+    "slug": "ocr",
+    "title": "OCR PDFs and images directly in your browser",
+    "description": "Extract text from PDF documents and images using optical character recognition (OCR) directly in your browser. The tool leverages Tesseract.js for text recognition and PDF.js to handle multi-page PDF files, supporting multiple languages and file formats including JPEG, PNG, and GIF. All processing occurs locally in your browser with no files being transmitted to external servers.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/ocr"
+  },
+  {
+    "filename": "omit-needless-words.html",
+    "slug": "omit-needless-words",
+    "title": "Omit needless words",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/omit-needless-words"
+  },
+  {
+    "filename": "open-sauce-2025.html",
+    "slug": "open-sauce-2025",
+    "title": "Open Sauce 2025 Schedule",
+    "description": "Browse the Open Sauce 2025 conference schedule with sessions organized by day, including speaker information, session duration, location, and detailed descriptions. Users can search for specific sessions across all three conference days (July 18-20, 2025) and download the entire schedule as an ICS calendar file for integration with their calendar applications. The interface displays current and upcoming sessions in Pacific Time to help attendees plan their conference experience.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/open-sauce-2025"
+  },
+  {
+    "filename": "openai-audio.html",
+    "slug": "openai-audio",
+    "title": "OpenAI Audio",
+    "description": "Record audio through your microphone and send it to OpenAI's GPT-4o audio model along with a text prompt to receive AI-generated responses. The tool converts your recorded audio to WAV format, calculates token usage and associated costs for both text and audio inputs, and displays the API response in both formatted and raw JSON views. Your API key is securely stored locally in your browser, and you can download the recorded audio file for later use.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/openai-audio"
+  },
+  {
+    "filename": "prompt-caching.html",
+    "slug": "prompt-caching",
+    "title": "OpenAI Prompt Caching Playground",
+    "description": "Explore OpenAI's prompt caching feature by testing different prompt structures and observing cache hit rates across multiple requests. This interactive playground lets you compose system instructions, document context, and user questions, then send them to the Chat Completions or Responses API to track how cached tokens reduce costs and improve performance. Load pre-built scenarios to compare caching behavior—such as sending identical instructions with different questions to see cache hits, or swapping documents while keeping instructions static to measure prefix reuse.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/prompt-caching"
+  },
+  {
+    "filename": "openai-webrtc.html",
+    "slug": "openai-webrtc",
+    "title": "OpenAI WebRTC Audio Session",
+    "description": "Establish real-time audio conversations with OpenAI's GPT-4o model using WebRTC technology. This interface allows you to select from multiple voice options and monitors detailed token usage and costs for each interaction and across your entire session. All API tokens are stored locally in your browser for convenience.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/openai-webrtc"
+  },
+  {
+    "filename": "zip-wheel-explorer.html",
+    "slug": "zip-wheel-explorer",
+    "title": "Package File Browser",
+    "description": "Browse and view the contents of Python package files (.whl and .zip archives) directly in your browser by entering a PyPI package name or a direct file URL. The tool automatically downloads the package, extracts all files, and displays them in an interactive list with syntax highlighting and line-by-line navigation. You can link directly to specific files and lines using URL fragments for easy sharing.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/zip-wheel-explorer"
+  },
+  {
+    "filename": "passkeys.html",
+    "slug": "passkeys",
+    "title": "Passkey Demo | tools.simonwillison.net",
+    "description": "Experiment with passkey registration and authentication using the WebAuthn API in your browser. This demo allows you to create passkey credentials, authenticate with them, and inspect the underlying protocol responses and data. Stored credentials are maintained locally in your browser's storage, making this a fully client-side implementation for learning how modern passwordless authentication works.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/passkeys"
+  },
+  {
+    "filename": "view-pdf.html",
+    "slug": "view-pdf",
+    "title": "PDF Viewer",
+    "description": "View PDF files from any CORS-enabled URL with this interactive PDF viewer application. The viewer supports navigation between pages, adjustable zoom levels including auto-scaling, and maintains your viewing state through URL parameters. High-DPI display support ensures sharp text rendering across all devices, and the responsive design adapts seamlessly to mobile screens.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/view-pdf"
+  },
+  {
+    "filename": "sqlite-wasm.html",
+    "slug": "sqlite-wasm",
+    "title": "Pelican Sightings Query Tool",
+    "description": "Query pelican sighting records from Half Moon Bay using SQL commands against an in-browser SQLite database. The tool loads sample data containing observations of various pelican species across local beaches with dates, locations, and counts. Enter any valid SQL query in the textarea and execute it to retrieve and view the results in a formatted table.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/sqlite-wasm"
+  },
+  {
+    "filename": "percentage-recalculator.html",
+    "slug": "percentage-recalculator",
+    "title": "Percentage Recalculator",
+    "description": "Calculate and normalize multiple percentages to sum to 100%, with the option to exclude specific values from the recalculation. Enter up to four percentage values and check the \"Ignore this\" box next to any percentages you want to exclude; the tool will automatically recalculate the remaining percentages proportionally so they add up to 100%.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/percentage-recalculator"
+  },
+  {
+    "filename": "pge-outages-hmb.html",
+    "slug": "pge-outages-hmb",
+    "title": "PG&E Outage Map - Half Moon Bay Area",
+    "description": "Track power outages affecting the Half Moon Bay area with this interactive map displaying real-time PG&E outage data within a 15-mile radius. The application visualizes outage locations as point markers and affected areas as polygons, while displaying key statistics including the number of outages, impacted customers, and affected regions. Custom markers can be added by providing a URL parameter, and the map automatically refreshes every five minutes to ensure current outage information.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/pge-outages-hmb"
+  },
+  {
+    "filename": "image-print.html",
+    "slug": "image-print",
+    "title": "Photo print layout",
+    "description": "Create custom photo print layouts for A4 pages with adjustable grid configurations, image fitting options, and portrait or landscape orientations. Users can add photos by uploading files or dragging and dropping them directly onto the page, then remove individual photos or clear the entire layout before printing. The preview displays actual print dimensions, allowing precise control over how photos will appear on the final printed output.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/image-print"
+  },
+  {
+    "filename": "php-deserializer.html",
+    "slug": "php-deserializer",
+    "title": "PHP deserializer",
+    "description": "Convert serialized PHP data to JSON format for easy viewing and manipulation. Paste your PHP serialized string into the input field to automatically parse and display the equivalent JSON output. Use the copy button to quickly transfer the JSON to your clipboard.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/php-deserializer"
+  },
+  {
+    "filename": "pipfile.html",
+    "slug": "pipfile",
+    "title": "Pipfile.lock Dependency Parser",
+    "description": "Parse Pipfile.lock files to extract Python package dependencies and convert them into multiple formats for easy management and sharing. The tool automatically extracts package names and versions from the lock file and displays them in both Pipfile and requirements.txt formats, with one-click copying functionality for each output format.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/pipfile"
+  },
+  {
+    "filename": "pomodoro.html",
+    "slug": "pomodoro",
+    "title": "Pomodoro Timer",
+    "description": "Track productivity sessions with this Pomodoro timer application that manages timed work intervals with customizable durations. Set a goal for each session, choose from preset time intervals ranging from 5 to 60 minutes, and pause or resume as needed while the timer counts down. All session data including start times, end times, and pause history is automatically saved and displayed in a detailed log table, with the ability to export the data as JSON for further analysis or record-keeping.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/pomodoro"
+  },
+  {
+    "filename": "pretext-explainer.html",
+    "slug": "pretext-explainer",
+    "title": "Pretext — Under the Hood",
+    "description": "Explore how pure-JavaScript text measurement and line breaking work through an interactive visualization of the Pretext library's pipeline. This tool demonstrates each stage from raw text input through whitespace normalization, word segmentation, canvas-based width measurement, and arithmetic-based line breaking, with live verification against actual DOM rendering. Drag sliders, switch fonts, and test different text samples to see how the engine handles emojis, CJK characters, Arabic text, and complex punctuation rules — all computed without touching the DOM.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/pretext-explainer"
+  },
+  {
+    "filename": "progress.html",
+    "slug": "progress",
+    "title": "progress",
+    "description": "Track the progress of the current U.S. presidential term with real-time statistics and a visual progress bar. The page displays elapsed and remaining days, percentage completion, and specific metrics related to the midterm election cycle scheduled for November 3, 2026. Information updates automatically to provide current data on the four-year term that began on January 20, 2025.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/progress"
+  },
+  {
+    "filename": "svg-progressive-render.html",
+    "slug": "svg-progressive-render",
+    "title": "Progressively render SVG",
+    "description": "View SVG content being progressively rendered character by character over a specified duration. Paste an SVG file into the input field, set the animation duration in seconds, and click Render to watch the image draw itself incrementally while the live editor displays the growing SVG code. The tool automatically completes partial SVG markup to ensure valid rendering at each animation step.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/svg-progressive-render"
+  },
+  {
+    "filename": "openai-audio-output.html",
+    "slug": "openai-audio-output",
+    "title": "Prompt GPT-4o audio",
+    "description": "Interact with OpenAI's GPT-4o audio models to generate spoken responses to your prompts with customizable system instructions and voice selection. The application processes your input through the OpenAI API, retrieves the generated audio and transcript, and provides playback controls along with the full API response data. You can save responses as GitHub Gists and download the audio files for offline use.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/openai-audio-output"
+  },
+  {
+    "filename": "prompts-js.html",
+    "slug": "prompts-js",
+    "title": "Prompts.js",
+    "description": "Prompts.js is a lightweight JavaScript library that provides modal dialog functionality for creating alert, confirm, and prompt interactions in web applications. The library enables developers to display user-facing dialogs with async/await syntax, making it easy to handle user responses in a clean, readable manner. This demo page allows you to test the three core dialog types and view the results of user interactions.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/prompts-js"
+  },
+  {
+    "filename": "pyodide-bar-chart.html",
+    "slug": "pyodide-bar-chart",
+    "title": "Pyodide Bar Chart Demo (pandas + matplotlib)",
+    "description": "Execute Python code directly in your browser with Pyodide, a WebAssembly-based Python runtime. This demo loads pandas, numpy, and matplotlib in the client to generate a bar chart from sample data and display it as a rendered image—no server required. The first run may take a few seconds as the necessary libraries are downloaded from CDN, but subsequent executions run instantly from your browser's cache.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/pyodide-bar-chart"
+  },
+  {
+    "filename": "pyodide-repl.html",
+    "slug": "pyodide-repl",
+    "title": "Pyodide REPL",
+    "description": "Execute Python code directly in your web browser using Pyodide, a port of CPython to WebAssembly. This REPL provides an interactive Python environment with support for multiple Pyodide versions, single-line and multi-line input modes, and command history navigation. The interface is optimized for both desktop and mobile devices, with a dark theme and responsive layout that prevents content from being hidden behind on-screen keyboards.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/pyodide-repl"
+  },
+  {
+    "filename": "pypi-changelog.html",
+    "slug": "pypi-changelog",
+    "title": "PyPI Package Changelog",
+    "description": "# PyPI Package Changelog Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/pypi-changelog"
+  },
+  {
+    "filename": "python-comment-stripper.html",
+    "slug": "python-comment-stripper",
+    "title": "Python Comment Stripper",
+    "description": "Remove all comments from Python source code while preserving strings, docstrings, and code structure using the `tokenize` module running on Pyodide. Paste your Python code into the input panel, and the tool automatically strips comments in real-time, with the ability to copy the cleaned output to your clipboard. The application runs entirely in the browser without requiring a local Python installation.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/python-comment-stripper"
+  },
+  {
+    "filename": "python-vulnerability-lookup.html",
+    "slug": "python-vulnerability-lookup",
+    "title": "Python Vulnerability Lookup",
+    "description": "Search Python packages for known security vulnerabilities by pasting a `pyproject.toml` or `requirements.txt` file, or by loading dependencies directly from a GitHub repository. The tool queries the OSV.dev vulnerability database and displays detailed information about any identified vulnerabilities, including severity levels, affected version ranges, and links to full disclosure reports.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/python-vulnerability-lookup"
+  },
+  {
+    "filename": "qr.html",
+    "slug": "qr",
+    "title": "QR Code Decoder",
+    "description": "Decode QR codes from images or your device's camera with this interactive web application. Upload an image by dragging and dropping, clicking to select a file, or pasting from your clipboard, and the decoder will extract the encoded data instantly. Switch to webcam mode for real-time scanning with support for multiple cameras and pinch-to-zoom functionality on touch devices.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/qr"
+  },
+  {
+    "filename": "query-string-stripper.html",
+    "slug": "query-string-stripper",
+    "title": "Query String Stripper",
+    "description": "Remove query parameters and tracking data from URLs with this Query String Stripper tool. Paste any URL to instantly extract the base address by stripping away everything after the question mark, then copy the cleaned result to your clipboard with a single click. This utility is helpful for sharing clean URLs, removing analytics parameters, or simplifying web addresses for documentation purposes.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/query-string-stripper"
+  },
+  {
+    "filename": "quickjs.html",
+    "slug": "quickjs",
+    "title": "QuickJS Code Executor",
+    "description": "Execute JavaScript code in a sandboxed QuickJS WebAssembly environment with a built-in synchronous `fetch()` function for retrieving remote content. Code is automatically encoded in the URL hash, allowing you to easily share executable snippets with others. The interface provides a collection of ready-to-run examples covering common programming tasks and JavaScript features, making it useful for learning, testing, and demonstrating code behavior.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/quickjs"
+  },
+  {
+    "filename": "reading-time.html",
+    "slug": "reading-time",
+    "title": "Reading Time Estimator",
+    "description": "Calculate reading time estimates for any text by pasting or typing content into the input area. The tool displays real-time statistics including word count, character count, and estimated reading duration based on an average reading speed of 230 words per minute. The reading time adjusts dynamically, showing minutes for shorter texts and hours plus minutes for longer content.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/reading-time"
+  },
+  {
+    "filename": "red-extractor.html",
+    "slug": "red-extractor",
+    "title": "Red Annotation Extractor",
+    "description": "# Red Annotation Extractor Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/red-extractor"
+  },
+  {
+    "filename": "render-claude-citations.html",
+    "slug": "render-claude-citations",
+    "title": "Render Claude Citations",
+    "description": "Render Claude API responses with proper citation formatting by pasting JSON output into this tool. The tool parses the response structure and displays text content alongside blockquote-formatted citations, making it easy to review how Claude has sourced and attributed information. An embedded iframe renderer safely displays the formatted output with styling that highlights cited passages.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/render-claude-citations"
+  },
+  {
+    "filename": "gemini-image-json.html",
+    "slug": "gemini-image-json",
+    "title": "Render JSON from Gemini Image Generation",
+    "description": "Parse and visualize JSON responses from the Google Gemini image generation API, extracting and displaying generated images, text content, and usage metadata in a formatted layout. The tool supports direct JSON input through paste or by loading example datasets, making it useful for testing and inspecting Gemini API outputs including model version information and token usage statistics.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/gemini-image-json"
+  },
+  {
+    "filename": "render-markdown.html",
+    "slug": "render-markdown",
+    "title": "Render Markdown",
+    "description": "Convert Markdown text to HTML using GitHub's official Markdown API, with options to render standard Markdown or GitHub Flavored Markdown (GFM). The tool displays a live preview of the rendered content, automatically generates a table of contents for headings, and provides the raw HTML output for copying, while also offering cleanup options to remove GitHub-specific formatting artifacts.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/render-markdown"
+  },
+  {
+    "filename": "paste-html-subset.html",
+    "slug": "paste-html-subset",
+    "title": "Rich Paste to HTML Subset",
+    "description": "Convert rich text content from clipboard into clean, filtered HTML containing only semantic elements like paragraphs, headings, lists, links, and text formatting. Paste formatted content into the editable area to automatically extract and sanitize the HTML, removing unsupported tags and attributes while preserving the document structure and links. The cleaned HTML is displayed in a code editor and rendered in a live preview, with options to copy the code or clear all content.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/paste-html-subset"
+  },
+  {
+    "filename": "paste-rich-text.html",
+    "slug": "paste-rich-text",
+    "title": "Rich Text HTML Extractor",
+    "description": "Extract HTML code from formatted text by pasting rich content into this tool, which automatically captures and displays the underlying HTML markup. The tool provides both the raw HTML code for editing and a live preview of how the formatted content renders. Use the copy button to quickly transfer the extracted HTML to your clipboard, or clear the interface to process new content.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/paste-rich-text"
+  },
+  {
+    "filename": "rich-text-to-markdown.html",
+    "slug": "rich-text-to-markdown",
+    "title": "Rich Text to Markdown",
+    "description": "Convert rich text formats into properly formatted Markdown by pasting content into the text area. The tool automatically detects and converts formatting such as bold, italic, links, code blocks, headings, and lists while removing unnecessary leading spaces from each line. Supports rich text from multiple sources including RTF, HTML, and plain text formats.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/rich-text-to-markdown"
+  },
+  {
+    "filename": "rtf-to-html.html",
+    "slug": "rtf-to-html",
+    "title": "RTF to HTML Converter",
+    "description": "Convert Rich Text Format (RTF) documents to HTML with preserved formatting, colors, and styling. Paste RTF content from your clipboard to automatically extract the color table and convert text formatting including bold styling, text colors, and background colors into inline HTML styles. The converter displays the raw RTF data, generated HTML code, and a live preview of the formatted output all in one interface.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/rtf-to-html"
+  },
+  {
+    "filename": "schema-dsl.html",
+    "slug": "schema-dsl",
+    "title": "Schema DSL to JSON Converter",
+    "description": "Convert a compact schema definition language into JSON schema format in real-time. This tool accepts a concise DSL where you specify field names, types (str, int, float, bool), and optional descriptions, then automatically generates the corresponding JSON schema. The converter supports both object schemas and array item schemas through the \"Array items schema\" option.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/schema-dsl"
+  },
+  {
+    "filename": "iframe-resize.html",
+    "slug": "iframe-resize",
+    "title": "Seamless Sandboxed Iframe Prototype",
+    "description": "Embed untrusted content safely within a webpage using a sandboxed iframe that automatically adjusts its height without allowing cross-origin access. The prototype uses `postMessage` to communicate height changes between the sandboxed iframe and parent page, enabling seamless content display while maintaining security restrictions. Various content examples demonstrate how the sandbox handles dynamic content, images, and attempts at malicious behavior.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/iframe-resize"
+  },
+  {
+    "filename": "side-panel-dialog.html",
+    "slug": "side-panel-dialog",
+    "title": "Side Panel Modal with Dialog Element",
+    "description": "Explore a product catalog with interactive item details displayed in a smooth side panel modal. Click any product card to view comprehensive information including category, price, and description, with the option to toggle between modal and non-modal dialog behavior. The interface includes a feedback form within the side panel, allowing users to submit comments about products with a seamless animated experience.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/side-panel-dialog"
+  },
+  {
+    "filename": "analytics.html",
+    "slug": "analytics",
+    "title": "Site Analytics",
+    "description": "# Site Analytics Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/analytics"
+  },
+  {
+    "filename": "sloccount.html",
+    "slug": "sloccount",
+    "title": "SLOCCount - Count Lines of Code",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/sloccount"
+  },
+  {
+    "filename": "social-media-cropper.html",
+    "slug": "social-media-cropper",
+    "title": "Social Media Card Cropper",
+    "description": "Crop and customize images for social media platforms with precise control over composition and framing. This tool supports multiple popular aspect ratios including Twitter/LinkedIn (2:1), Facebook (1.91:1), Substack (1.4:1), and Instagram (1:1), with an intelligent background color detection system that automatically matches the image's edge tones. The interface offers both mouse and touch-friendly controls, including press-and-hold zoom buttons, pinch-to-zoom on mobile devices, and toggleable drag modes to move either the image or the crop box.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/social-media-cropper"
+  },
+  {
+    "filename": "software-heritage-repo.html",
+    "slug": "software-heritage-repo",
+    "title": "Software Heritage Repository Retriever",
+    "description": "Download archived Git repositories from Software Heritage, the universal archive of software source code. This tool queries the Software Heritage GraphQL API to locate repositories and creates downloadable bare Git archives through the vault service. Enter a repository URL to retrieve the latest snapshot and access detailed archive information including the Software Heritage identifier (SWHID) for future reference.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/software-heritage-repo"
+  },
+  {
+    "filename": "sort-algorithms.html",
+    "slug": "sort-algorithms",
+    "title": "Sorting algorithms",
+    "description": "Explore and compare different sorting algorithms through interactive animated visualizations that display how each algorithm organizes data in real-time. The tool allows you to adjust dataset size and animation speed, run individual algorithms step-by-step or continuously, and race multiple algorithms simultaneously to see which performs best. Each algorithm includes detailed complexity analysis and visual indicators for comparisons, swaps, and sorted elements.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/sort-algorithms"
+  },
+  {
+    "filename": "species-observation-map.html",
+    "slug": "species-observation-map",
+    "title": "Species observation map",
+    "description": "# Documentation",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/species-observation-map"
+  },
+  {
+    "filename": "speech-synthesis.html",
+    "slug": "speech-synthesis",
+    "title": "Speech Synthesis Tester",
+    "description": "Test the Web Speech API's speech synthesis capabilities by entering text and configuring voice parameters such as rate, pitch, and volume. The application provides a selection of available system voices and displays real-time status updates as text is being spoken. Users can adjust synthesis settings and stop playback at any time using the intuitive control interface.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/speech-synthesis"
+  },
+  {
+    "filename": "sql-pretty-printer.html",
+    "slug": "sql-pretty-printer",
+    "title": "SQL Pretty Printer",
+    "description": "Format and beautify SQL queries with customizable styling options. This tool supports multiple SQL dialects including SQLite, PostgreSQL, and MySQL, allowing you to control indentation width, keyword capitalization, and indentation style. The formatted output can be easily copied to your clipboard with a single click.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/sql-pretty-printer"
+  },
+  {
+    "filename": "sqlite-ast.html",
+    "slug": "sqlite-ast",
+    "title": "SQLite AST",
+    "description": "Parse SQLite SELECT queries into abstract syntax trees and view the results in JSON and Python representations. This tool uses the sqlite-ast library running in your browser via Pyodide to analyze SQL syntax and display both the dictionary-based parse tree and a rich pretty-printed representation. It supports complex queries including compound selects, common table expressions, and window functions, and can display partial parse results when encountering syntax errors.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/sqlite-ast"
+  },
+  {
+    "filename": "sqlite-bytecode-explorer.html",
+    "slug": "sqlite-bytecode-explorer",
+    "title": "SQLite Bytecode Explorer",
+    "description": "Explore SQLite's Virtual Database Engine (VDBE) by analyzing the bytecode that SQLite generates when compiling SQL queries. This tool runs the `EXPLAIN` command on your SQL statements and annotates each instruction with detailed explanations of what it does, from cursor management and table scans to index lookups and aggregate functions. Use it to understand query execution strategies, identify optimization opportunities, and learn how SQLite's register-based virtual machine transforms SQL into low-level operations.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/sqlite-bytecode-explorer"
+  },
+  {
+    "filename": "sqlite-qrf.html",
+    "slug": "sqlite-qrf",
+    "title": "SQLite Query Result Formatter Demo",
+    "description": "Format SQLite query results in 20 different styles including box-drawing tables, CSV, JSON, HTML, Markdown, and more using this interactive WebAssembly-based demonstration. Adjust formatting options like column headers, screen width, NULL display values, and border styles in real-time to see how your SQL queries render across all available output modes. The demo database includes sample tables for employees, products, and orders with pre-built example queries showcasing each formatting style.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/sqlite-qrf"
+  },
+  {
+    "filename": "svg-sandbox.html",
+    "slug": "svg-sandbox",
+    "title": "SVG Base64 Embedding Demo",
+    "description": "Embed SVG images directly into HTML using base64 data URIs, which eliminates the need for separate image files and reduces HTTP requests. This demo showcases three different SVG examples encoded in base64 format and displayed through standard image tags, with included JavaScript that safely decodes and displays the underlying SVG source code. When SVGs are embedded this way as images, any potentially unsafe JavaScript or interactive elements within them are automatically ignored by the browser, providing a secure method for inline image delivery.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/svg-sandbox"
+  },
+  {
+    "filename": "svg-render.html",
+    "slug": "svg-render",
+    "title": "SVG to JPEG/PNG",
+    "description": "Convert SVG images to JPEG or PNG format with customizable dimensions, padding, and background colors. The tool allows you to paste SVG code directly, upload SVG files via drag-and-drop, or load SVG images from URLs, then instantly previews the converted result and provides download and base64 embedding options. URL hashes preserve your work for easy sharing and recovery.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/svg-render"
+  },
+  {
+    "filename": "swagger-subset.html",
+    "slug": "swagger-subset",
+    "title": "Swagger Subset",
+    "description": "Extract a subset of Swagger/OpenAPI definitions by selecting specific API endpoints and their dependencies. This tool parses a Swagger JSON document, displays all available paths and methods in an interactive checklist, and generates a filtered JSON output containing only the selected endpoints along with any referenced schema definitions they require. The generated subset can be copied to the clipboard for use in other applications or documentation.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/swagger-subset"
+  },
+  {
+    "filename": "syntaqlite.html",
+    "slug": "syntaqlite",
+    "title": "Syntaqlite Playground",
+    "description": "# Syntaqlite Playground",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/syntaqlite"
+  },
+  {
+    "filename": "tacopy-playground.html",
+    "slug": "tacopy-playground",
+    "title": "Tacopy Playground - Tail-Call Optimization for Python",
+    "description": "Explore how tail-recursive Python functions are transformed into optimized iterative code using the Tacopy library. Enter your recursive function in the input panel to see the automatically generated transformed version, which eliminates stack overflow risks and improves performance by converting tail calls into loops. Try the built-in examples to understand how different recursive patterns are optimized.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/tacopy-playground"
+  },
+  {
+    "filename": "terminal-to-html.html",
+    "slug": "terminal-to-html",
+    "title": "Terminal to HTML",
+    "description": "Convert terminal output into shareable HTML documents with support for colored text formatting. Paste terminal output in RTF, HTML, or plain text format, and the tool instantly generates clean HTML code ready for preview or export. Save your conversions as GitHub Gists for easy sharing and collaboration.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/terminal-to-html"
+  },
+  {
+    "filename": "text-diff.html",
+    "slug": "text-diff",
+    "title": "Text Diff Tool",
+    "description": "Compare two blocks of text to identify character-level differences between them. This tool uses a dynamic programming algorithm to compute the longest common subsequence and highlights removed text in red and added text in green for easy visualization of changes. The results are displayed character-by-character in a dedicated output section that clearly indicates what was deleted from the original text and what was inserted in the modified version.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/text-diff"
+  },
+  {
+    "filename": "text-indentation.html",
+    "slug": "text-indentation",
+    "title": "Text Indentation Tool",
+    "description": "Adjust indentation levels in your text with this tool that offers multiple formatting options. Add or remove spaces from the beginning of each line, strip all leading whitespace, eliminate trailing spaces, and apply or remove quote markers (>) for formatted text. Copy the processed result directly to your clipboard with a single click.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/text-indentation"
+  },
+  {
+    "filename": "new-yorker-style.html",
+    "slug": "new-yorker-style",
+    "title": "The New Yorker Style Converter",
+    "description": "Convert text to match The New Yorker's distinctive typographic style, featuring proper diaereses (such as \"coöperate\" and \"naïve\"), curly quotation marks, em dashes, and ellipses. Paste your text into the input field and watch the refined version appear instantly in the output area, which can be copied to your clipboard with a single click.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/new-yorker-style"
+  },
+  {
+    "filename": "octave-explainer.html",
+    "slug": "octave-explainer",
+    "title": "The Octave — A Sound Relationship",
+    "description": "Explore the mathematical and sonic relationship between frequencies through interactive demonstrations and a playable piano keyboard. This educational tool visualizes how an octave represents a 2:1 frequency ratio, allowing you to hear the harmonic connection between notes that sound identical yet exist at different pitches. Experiment with various base frequencies using the slider to understand how this fundamental musical principle scales across the entire spectrum.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/octave-explainer"
+  },
+  {
+    "filename": "tiff-orientation.html",
+    "slug": "tiff-orientation",
+    "title": "TIFF Orientation Reader",
+    "description": "Read TIFF orientation metadata from JPEG images by uploading or dragging files into the drop zone. The tool parses the EXIF data embedded in the image file to extract the orientation tag, which indicates how the image should be displayed (normal, rotated 90° clockwise, rotated 180°, or rotated 270° clockwise). Debug information shows the file analysis process, including EXIF location, endianness detection, and TIFF header validation.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/tiff-orientation"
+  },
+  {
+    "filename": "unix-timestamp.html",
+    "slug": "unix-timestamp",
+    "title": "Timestamp Converter",
+    "description": "Convert Unix timestamps to human-readable dates and times with this tool. Enter a Unix timestamp (in seconds or milliseconds) to instantly view the corresponding date and time in both UTC and your local timezone. The converter automatically handles both 10-digit and 13-digit timestamps, making it easy to work with timestamps from various sources and systems.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/unix-timestamp"
+  },
+  {
+    "filename": "timezones.html",
+    "slug": "timezones",
+    "title": "Timezone Meeting Planner",
+    "description": "Plan meetings across multiple time zones by selecting two locations and viewing their local times side-by-side. The comparison table displays 48 consecutive hours of UTC times with corresponding local times for each timezone, making it easy to identify overlapping working hours. Your timezone selections are automatically saved in the URL for convenient sharing and bookmarking.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/timezones"
+  },
+  {
+    "filename": "claude-token-counter.html",
+    "slug": "claude-token-counter",
+    "title": "Token Counter",
+    "description": "Count tokens in text and images across multiple Claude models using Anthropic's token counting API. This tool allows you to compare token usage between different Claude models, helping you optimize costs and understand how system prompts and attachments affect token counts. Simply enter your content, select which models to compare, and the tool will display token counts alongside multipliers showing relative usage.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/claude-token-counter"
+  },
+  {
+    "filename": "token-usage.html",
+    "slug": "token-usage",
+    "title": "Token Usage Calculator",
+    "description": "Calculate token usage across your Claude and other LLM API calls by pasting YAML output from the LLM tool's `llm logs -su` command. The calculator automatically groups token consumption by model and displays total input and output tokens for each. This helps you track and analyze API usage patterns across multiple conversations and model versions.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/token-usage"
+  },
+  {
+    "filename": "transfer-time.html",
+    "slug": "transfer-time",
+    "title": "Transfer time calculator",
+    "description": "Calculate file transfer duration by entering the file size and transfer speed with their respective units. The calculator automatically converts between different measurement units (GB, MB, TB for file size; Mbps, MB/s, KB/s for speed) and displays the estimated transfer time in an easily readable format. Results include a detailed breakdown showing days, hours, minutes, and seconds alongside the calculation parameters.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/transfer-time"
+  },
+  {
+    "filename": "turbo-pascal-deconstructed.html",
+    "slug": "turbo-pascal-deconstructed",
+    "title": "TURBO.COM — 39,731 Bytes Deconstructed",
+    "description": "Explore an interactive breakdown of Turbo Pascal 3.02A's 39,731-byte executable, mapping each function from the header and display system through the parser and symbol table. Navigate the binary segments with an overhead visualization and detailed hex dumps with annotated disassembly, revealing how a complete compiler, editor, and runtime fit within the constraints of 1986 DOS memory while routing all file I/O through a single INT 21h dispatcher gateway.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/turbo-pascal-deconstructed"
+  },
+  {
+    "filename": "unicode-binary-search.html",
+    "slug": "unicode-binary-search",
+    "title": "Unicode Explorer — Binary Search Over HTTP",
+    "description": "View Unicode characters and their properties through an interactive binary search algorithm that makes real HTTP Range requests to fetch individual records from a binary database. Enter a character or Unicode codepoint to see each step of the search visualized in a network log, including fetch times and comparisons. The tool supports both standard binary search and interpolation search, which estimates the target's position based on codepoint values rather than always splitting the middle, potentially reducing the number of network requests needed.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/unicode-binary-search"
+  },
+  {
+    "filename": "user-agent.html",
+    "slug": "user-agent",
+    "title": "User Agent",
+    "description": "Display your browser's user agent string, which contains information about your web browser, operating system, and device. This identifier is sent with every HTTP request your browser makes and helps websites understand how to optimize their content for your specific platform and browser version.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/user-agent"
+  },
+  {
+    "filename": "v86.html",
+    "slug": "v86",
+    "title": "v86 Linux Emulator",
+    "description": "Run Linux commands in your browser using x86 emulation powered by v86, a JavaScript/WebAssembly-based x86 emulator. This tool executes a minimal Buildroot Linux distribution directly in your browser, with typical boot times between 10-30 seconds depending on your device and connection speed. Enter commands in the input field to interact with the Linux shell and view output in the terminal window.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/v86"
+  },
+  {
+    "filename": "wikipedia-wikitext.html",
+    "slug": "wikipedia-wikitext",
+    "title": "Wikipedia Wikitext Fetcher",
+    "description": "Retrieve the raw wikitext source code from Wikipedia articles by searching for a page title or pasting a direct article URL. The tool features autocomplete suggestions while typing search queries and allows you to easily copy the fetched wikitext to your clipboard for further editing or analysis. URL parameters are preserved, enabling you to share links that automatically load specific Wikipedia articles.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/wikipedia-wikitext"
+  },
+  {
+    "filename": "word-counter.html",
+    "slug": "word-counter",
+    "title": "Word & Character Counter",
+    "description": "Track word and character counts across multiple writing sections with automatic saving to browser storage. Each section displays real-time statistics as you type, and content persists between sessions. Add or remove writing sections as needed to organize different pieces of text.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/word-counter"
+  },
+  {
+    "filename": "writing-style.html",
+    "slug": "writing-style",
+    "title": "Writing Style Analyzer",
+    "description": "Analyze your writing for common style issues by pasting text into this tool, which detects weasel words (such as \"very\" and \"quite\"), passive voice constructions, and duplicate consecutive words. The analyzer provides contextual snippets for each issue found, helping you identify areas where your writing could be more direct and concise. This tool is adapted from shell scripts by Matt Might and updates results in real-time as you type.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/writing-style"
+  },
+  {
+    "filename": "xml-validator.html",
+    "slug": "xml-validator",
+    "title": "XML Well-Formedness Validator",
+    "description": "Check XML documents for well-formedness by pasting content into the input area and clicking the validate button. The tool parses the XML and displays any syntax errors with precise line and column information, highlighting the problematic line in the code view below.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/xml-validator"
+  },
+  {
+    "filename": "yaml-explorer.html",
+    "slug": "yaml-explorer",
+    "title": "YAML Explorer",
+    "description": "Parse and visualize YAML files in an interactive tree format with collapsible sections for easy navigation of nested data structures. Enter YAML content directly or load from a URL, then explore the data by expanding and collapsing individual elements. The tool preserves your navigation state in the URL, allowing you to share links with specific sections already expanded.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/yaml-explorer"
+  },
+  {
+    "filename": "youtube-thumbnails.html",
+    "slug": "youtube-thumbnails",
+    "title": "YouTube Thumbnail Viewer",
+    "description": "View YouTube video thumbnails in multiple resolutions by entering a video URL or ID. This tool extracts and displays all available thumbnail formats from YouTube's image server, allowing you to preview different quality options and copy direct image links. Click on any thumbnail to expand it for a closer look, and use the copy button to save the image URL to your clipboard.",
+    "created": "2026-04-22T11:33:39+08:00",
+    "updated": "2026-04-22T11:33:39+08:00",
+    "url": "/youtube-thumbnails"
+  }
+]

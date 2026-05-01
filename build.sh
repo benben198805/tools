@@ -57,6 +57,10 @@ for file in *.html; do
   fi
 done
 
+# Build AI-friendly tools index
+echo "Building TOOLS_INDEX.md..."
+python build_tools_index.py
+
 # Build redirects last so they don't get indexed in tools.json
 echo "Building redirects from _redirects.json..."
 python build_redirects.py
