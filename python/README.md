@@ -448,6 +448,26 @@ Example usage:
 cat myfile.py | uv run https://tools.simonwillison.net/python/highlight.py re search
 ```
 
+## heic2jpg.py
+
+Convert HEIC/HEIF photos (commonly from iPhones) to compressed JPEG files. Uses Pillow and pillow-heif for the conversion, with adjustable quality and optional downscaling.
+
+```bash
+# Single file
+uv run python/heic2jpg.py photo.heic
+
+# With custom quality (1-100, default 50)
+uv run python/heic2jpg.py photo.heic -q 80
+
+# Batch convert a whole directory
+uv run python/heic2jpg.py ./photos/
+
+# Shrink dimensions by 20% for smaller files
+uv run python/heic2jpg.py photo.heic --scale 0.8 -q 40
+```
+
+Requires Python 3.8+; `Pillow` and `pillow-heif` are fetched automatically by `uv run`.
+
 ## debug_s3_access.py
 
 Use this with a URL to an object in an S3 bucket to try and debug why that object cannot be accessed via its public URL.
