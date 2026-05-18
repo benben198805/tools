@@ -907,6 +907,11 @@ uv run python/heic2jpg.py photo.heic --scale 0.8 -q 40`
   - Run: `uv run python/image_crop_compress.py ./photo.jpg -o ./out.jpg
 uv run python/image_crop_compress.py ./wide.png --compression-ratio 0.5 --max-dimension 2048`
 
+- **`png2webp.py`** — Convert PNG images to WebP files while preserving transparency.
+  - Run: `uv run python/png2webp.py image.png
+uv run python/png2webp.py image.png -o image-small.webp -q 70
+uv run python/png2webp.py ./screenshots -o ./webp --recursive --lossless`
+
 - **`json_extractor.py`** — Given a text file that includes JSON syntax but is not valid JSON - a Markdown README file for example - this tool finds all valid JSON objects within that text and returns the largest, or all of them if you specify `-a`.
   - Run: `uv run https://tools.simonwillison.net/python/json_extractor.py \
   README.md`

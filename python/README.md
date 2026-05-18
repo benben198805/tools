@@ -339,6 +339,18 @@ uv run python/image_crop_compress.py ./wide.png --compression-ratio 0.5 --max-di
 
 Default output is `<stem>_cropped.{jpg|png|webp}` beside the input. Pillow needs WebP support to read/write WebP.
 
+## png2webp.py
+
+Convert PNG images to WebP files while preserving transparency. Supports single-file conversion and batch conversion for directories, with optional recursive traversal, resizing, lossy quality control, and lossless WebP output.
+
+```bash
+uv run python/png2webp.py image.png
+uv run python/png2webp.py image.png -o image-small.webp -q 70
+uv run python/png2webp.py ./screenshots -o ./webp --recursive --lossless
+```
+
+Default output is `<stem>.webp` beside the input. Use `--overwrite` to replace existing output files.
+
 ## update_git_repos.py
 
 Recursively find Git work trees under a directory. **Every `git` invocation is printed** as ` $ cd <repo> && git ...` before it runs. Direct subdirectories of the root **without** a `.git` folder get a `Note: not a Git repository` line; paths with `.git` that fail `git rev-parse --is-inside-work-tree` are skipped with a short note.
